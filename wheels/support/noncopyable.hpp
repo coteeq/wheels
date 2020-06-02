@@ -8,4 +8,4 @@ struct NonCopyable {
   NonCopyable& operator=(const NonCopyable& that) = delete;
 };
 
-}  // namespace twist
+}  // namespace wheels

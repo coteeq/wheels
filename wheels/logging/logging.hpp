@@ -33,8 +33,8 @@ void LogMessageSimple(std::string message);
 
 #define LOG_IMPL(level, expr)                                    \
   do {                                                           \
-    if (twist::LevelAccepted(level)) {                           \
-      twist::LogMessage(HERE(), twist::StringBuilder() << expr); \
+    if (wheels::LevelAccepted(level)) {                           \
+      wheels::LogMessage(HERE(), wheels::StringBuilder() << expr); \
     }                                                            \
   } while (false);
 
@@ -44,6 +44,6 @@ void LogMessageSimple(std::string message);
 
 // Usage: LOG_SIMPLE("Key " << key << " not found")
 #define LOG_SIMPLE(expr) \
-  twist::LogMessageSimple(twist::StringBuilder() << expr);
+  wheels::LogMessageSimple(wheels::StringBuilder() << expr);
 
-}  // namespace twist
+}  // namespace wheels

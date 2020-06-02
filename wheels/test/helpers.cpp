@@ -19,4 +19,4 @@ std::string FormatStderrForErrorMessage(const std::string& stderr) {
   return std::string("\n") + stderr + "\n";
 }
 
-}  // namespace twist
+}  // namespace wheels

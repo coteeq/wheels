@@ -24,4 +24,4 @@ class StringBuilder {
   std::ostringstream out_;
 };
 
-}  // namespace twist
+}  // namespace wheels

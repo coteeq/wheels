@@ -23,4 +23,4 @@ bool TossFairCoin() {
   return RandomUInteger(1) == 0;
 }
 
-}  // namespace twist
+}  // namespace wheels

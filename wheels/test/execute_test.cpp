@@ -9,7 +9,7 @@
 
 #include <wheels/logging/logging.hpp>
 
-#if UNIX && TWIST_FORK_TESTS
+#if UNIX && WHEELS_FORK_TESTS
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -23,7 +23,7 @@
 class ForkedTestFailHandler : public ITestFailHandler {
  public:
   void Fail(ITestPtr test, const std::string& error) override {
-    TWIST_UNUSED(test);
+    WHEELS_UNUSED(test);
     wheels::FlushPendingLogMessages();
     std::cerr << error << std::endl << std::flush;
     std::abort();

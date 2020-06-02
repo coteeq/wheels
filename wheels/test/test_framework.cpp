@@ -212,7 +212,7 @@ TestList ListAllTests() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if TWIST_NO_TEST_TIME_LIMIT
+#if WHEELS_NO_TEST_TIME_LIMIT
 
 class TestTimeLimitWatcher::Impl {
  public:

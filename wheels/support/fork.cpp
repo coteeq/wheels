@@ -266,4 +266,4 @@ bool Result::KilledBySignal(int& signal) const {
 
 #endif
 
-}  // namespace twist
+}  // namespace wheels

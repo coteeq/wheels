@@ -55,4 +55,4 @@ class SyncOutput {
 SyncOutput& SyncCout();
 SyncOutput& SyncCerr();
 
-}  // namespace twist
+}  // namespace wheels

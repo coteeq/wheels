@@ -18,4 +18,4 @@ std::shared_lock<RWMutex> LockShared(RWMutex& rwmutex) {
   return std::shared_lock<RWMutex>{rwmutex};
 }
 
-}  // namespace twist
+}  // namespace wheels
