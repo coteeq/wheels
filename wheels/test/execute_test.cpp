@@ -14,17 +14,19 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <wheels/support/fork.hpp>
+
+namespace wheels {
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // Execute test in forked subprocess
-
-#include <wheels/support/fork.hpp>
 
 class ForkedTestFailHandler : public ITestFailHandler {
  public:
   void Fail(ITestPtr test, const std::string& error) override {
     WHEELS_UNUSED(test);
-    wheels::FlushPendingLogMessages();
+    FlushPendingLogMessages();
     std::cerr << error << std::endl << std::flush;
     std::abort();
   }
@@ -45,10 +47,10 @@ static void ExecuteTestInForkedProcess(ITestPtr test) {
     FailTestByException();
   }
 
-  wheels::FlushPendingLogMessages();
+  FlushPendingLogMessages();
 }
 
-class PrintStdoutConsumer : public wheels::IByteStreamConsumer {
+class PrintStdoutConsumer : public IByteStreamConsumer {
  public:
   void Consume(const char* buf, size_t length) override {
     std::cout.write(buf, length);
@@ -68,7 +70,7 @@ class PrintStdoutConsumer : public wheels::IByteStreamConsumer {
 static void ExecuteTestWithFork(ITestPtr test) {
   auto execute_test = [test]() { ExecuteTestInForkedProcess(test); };
 
-  auto result = wheels::ExecuteWithFork(
+  auto result = ExecuteWithFork(
       execute_test, std::make_unique<PrintStdoutConsumer>(), nullptr);
 
   // Process result
@@ -80,7 +82,7 @@ static void ExecuteTestWithFork(ITestPtr test) {
     if (exit_code != 0) {
       FAIL_TEST("Test subprocess terminated with non-zero exit code: "
                 << exit_code
-                << ", stderr: " << wheels::FormatStderrForErrorMessage(stderr));
+                << ", stderr: " << FormatStderrForErrorMessage(stderr));
     }
   }
 
@@ -91,13 +93,12 @@ static void ExecuteTestWithFork(ITestPtr test) {
     } else {
       FAIL_TEST("Test subprocess terminated by signal "
                 << signal
-                << ", stderr: " << wheels::FormatStderrForErrorMessage(stderr));
+                << ", stderr: " << FormatStderrForErrorMessage(stderr));
     }
   }
 
   if (!stderr.empty()) {
-    FAIL_TEST("Test produced stderr: "
-              << wheels::FormatStderrForErrorMessage(stderr));
+    FAIL_TEST("Test produced stderr: " << FormatStderrForErrorMessage(stderr));
   }
 
   // Test completed!
@@ -107,9 +108,13 @@ void ExecuteTest(ITestPtr test) {
   ExecuteTestWithFork(std::move(test));
 }
 
+}  // namespace wheels
+
 #else
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace wheels {
 
 // Execute test locally
 
@@ -120,5 +125,7 @@ static void ExecuteTestInCurrentProcess(ITestPtr test) {
 void ExecuteTest(ITestPtr test) {
   ExecuteTestInCurrentProcess(std::move(test));
 }
+
+}  // namespace wheels
 
 #endif

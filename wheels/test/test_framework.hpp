@@ -12,6 +12,8 @@
 #include <vector>
 #include <chrono>
 
+namespace wheels {
+
 ////////////////////////////////////////////////////////////////////////////////
 
 class AssertionError {
@@ -51,7 +53,7 @@ class AssertionError {
 
 std::ostream& operator<<(std::ostream& out, const AssertionError& error);
 
-#define ASSERTION_ERROR(cond) AssertionError(TO_STRING(cond), HERE())
+#define ASSERTION_ERROR(cond) ::wheels::AssertionError(TO_STRING(cond), HERE())
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -61,14 +63,14 @@ void FailTestByException();
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define ASSERT_TRUE(cond)                    \
-  if (!(cond)) {                             \
-    FailTestByAssert(ASSERTION_ERROR(cond)); \
+#define ASSERT_TRUE(cond)                              \
+  if (!(cond)) {                                       \
+    ::wheels::FailTestByAssert(ASSERTION_ERROR(cond)); \
   }
 
-#define ASSERT_TRUE_M(cond, message)                    \
-  if (!(cond)) {                                        \
-    FailTestByAssert(ASSERTION_ERROR(cond) << message); \
+#define ASSERT_TRUE_M(cond, message)                              \
+  if (!(cond)) {                                                  \
+    ::wheels::FailTestByAssert(ASSERTION_ERROR(cond) << message); \
   }
 
 #define ASSERT_FALSE(cond) ASSERT_TRUE(!(cond))
@@ -96,7 +98,7 @@ void FailTestByException();
                   "Thrown unexpected exception, expected '" #exception "'"); \
   }
 
-#define FAIL_TEST(error) FailTest(wheels::StringBuilder() << error)
+#define FAIL_TEST(error) FailTest(::wheels::StringBuilder() << error)
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -135,34 +137,36 @@ class TestTimeLimitWatcher {
 
 #define TEST_SUITE(name) TEST_SUITE_WITH_PRIORITY(name, 0)
 
-#define SIMPLE_TEST(name)                                                     \
-  void ExecuteTest##name();                                                   \
-  struct Test##name : public ITest {                                          \
-    std::string Name() const override {                                       \
-      return GetCurrentTestSuiteName() + ":" #name;                           \
-    }                                                                         \
-    std::string Describe() const override {                                   \
-      return wheels::StringBuilder() << "'" << #name << "' from test suite '" \
-                                     << GetCurrentTestSuiteName() << "'";     \
-    }                                                                         \
-    int Priority() const override {                                           \
-      return GetCurrentTestSuitePriority();                                   \
-    }                                                                         \
-    void Run() override {                                                     \
-      TestTimeLimitWatcher time_limit_watcher(std::chrono::seconds(10));      \
-      try {                                                                   \
-        ExecuteTest##name();                                                  \
-      } catch (...) {                                                         \
-        FailTestByException();                                                \
-      }                                                                       \
-    }                                                                         \
-  };                                                                          \
-  struct Test##name##Registrar {                                              \
-    Test##name##Registrar() {                                                 \
-      RegisterTest(std::make_shared<Test##name>());                           \
-    }                                                                         \
-  };                                                                          \
-  static Test##name##Registrar test_##name##_registrar_;                      \
+#define SIMPLE_TEST(name)                                     \
+  void ExecuteTest##name();                                   \
+  struct Test##name : public ::wheels::ITest {                \
+    std::string Name() const override {                       \
+      return GetCurrentTestSuiteName() + ":" #name;           \
+    }                                                         \
+    std::string Describe() const override {                   \
+      return ::wheels::StringBuilder()                        \
+             << "'" << #name << "' from test suite '"         \
+             << GetCurrentTestSuiteName() << "'";             \
+    }                                                         \
+    int Priority() const override {                           \
+      return GetCurrentTestSuitePriority();                   \
+    }                                                         \
+    void Run() override {                                     \
+      ::wheels::TestTimeLimitWatcher time_limit_watcher(      \
+          std::chrono::seconds(10));                          \
+      try {                                                   \
+        ExecuteTest##name();                                  \
+      } catch (...) {                                         \
+        ::wheels::FailTestByException();                      \
+      }                                                       \
+    }                                                         \
+  };                                                          \
+  struct Test##name##Registrar {                              \
+    Test##name##Registrar() {                                 \
+      ::wheels::RegisterTest(std::make_shared<Test##name>()); \
+    }                                                         \
+  };                                                          \
+  static Test##name##Registrar test_##name##_registrar_;      \
   void ExecuteTest##name()
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,42 +201,43 @@ class TestTimeLimitWatcher {
 
 #define TEST_DEFAULT_TIME_LIMIT() TEST_TIME_LIMIT_IN_SECS(60)
 
-#define REGISTER_TEST_CASES(name, ...)                                    \
-  namespace Test##name {                                                  \
-    class TestCase : public ITest {                                       \
-     public:                                                              \
-      TestCase(TestParameters parameters)                                 \
-          : parameters_(std::move(parameters)) {                          \
-      }                                                                   \
-                                                                          \
-      std::string Name() const override {                                 \
-        return #name;                                                     \
-      }                                                                   \
-      std::string Describe() const override {                             \
-        return StringBuilder()                                            \
-               << "'" << #name << "' with parameters " << parameters_;    \
-      }                                                                   \
-      void Run() override {                                               \
-        TestTimeLimitWatcher time_limit_watcher(parameters_.time_limit_); \
-        try {                                                             \
-          ::Test##name::ExecuteTest(parameters_);                         \
-        } catch (...) {                                                   \
-          FailTestByException();                                          \
-        }                                                                 \
-      }                                                                   \
-                                                                          \
-     private:                                                             \
-      TestParameters parameters_;                                         \
-    };                                                                    \
-                                                                          \
-    struct TestCasesRegistrar {                                           \
-      TestCasesRegistrar(const std::vector<TestParameters> cases) {       \
-        for (auto&& p : cases) {                                          \
-          RegisterTest(std::make_shared<TestCase>(p));                    \
-        }                                                                 \
-      }                                                                   \
-    };                                                                    \
-    static TestCasesRegistrar registrar(__VA_ARGS__);                     \
+#define REGISTER_TEST_CASES(name, ...)                                 \
+  namespace Test##name {                                               \
+    class TestCase : public ::wheels::ITest {                          \
+     public:                                                           \
+      TestCase(TestParameters parameters)                              \
+          : parameters_(std::move(parameters)) {                       \
+      }                                                                \
+                                                                       \
+      std::string Name() const override {                              \
+        return #name;                                                  \
+      }                                                                \
+      std::string Describe() const override {                          \
+        return ::wheels::StringBuilder()                               \
+               << "'" << #name << "' with parameters " << parameters_; \
+      }                                                                \
+      void Run() override {                                            \
+        ::wheels::TestTimeLimitWatcher time_limit_watcher(             \
+            parameters_.time_limit_);                                  \
+        try {                                                          \
+          ::Test##name::ExecuteTest(parameters_);                      \
+        } catch (...) {                                                \
+          ::wheels::FailTestByException();                             \
+        }                                                              \
+      }                                                                \
+                                                                       \
+     private:                                                          \
+      TestParameters parameters_;                                      \
+    };                                                                 \
+                                                                       \
+    struct TestCasesRegistrar {                                        \
+      TestCasesRegistrar(const std::vector<TestParameters> cases) {    \
+        for (auto&& p : cases) {                                       \
+          RegisterTest(std::make_shared<TestCase>(p));                 \
+        }                                                              \
+      }                                                                \
+    };                                                                 \
+    static TestCasesRegistrar registrar(__VA_ARGS__);                  \
   }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -242,10 +247,13 @@ void RunTests(const TestList& tests);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define RUN_ALL_TESTS()                                          \
-  int main(int argc, const char** argv) {                        \
-    auto filter = CreateTestFilter(argc, argv);                  \
-    auto tests = FilterTests(ListAllTests(), std::move(filter)); \
-    RunTests(tests);                                             \
-    return EXIT_SUCCESS;                                         \
+}  // namespace wheels
+
+#define RUN_ALL_TESTS()                                                 \
+  int main(int argc, const char** argv) {                               \
+    auto filter = wheels::CreateTestFilter(argc, argv);                 \
+    auto tests =                                                        \
+        wheels::FilterTests(wheels::ListAllTests(), std::move(filter)); \
+    wheels::RunTests(tests);                                            \
+    return EXIT_SUCCESS;                                                \
   }

@@ -4,6 +4,8 @@
 
 #include <vector>
 
+namespace wheels {
+
 std::string_view GetSuccessEmoji() {
   static const std::vector<std::string_view> kCandidates = {
       "(=^ェ^=)",
@@ -23,3 +25,5 @@ std::string_view GetFailEmoji() {
   };
   return wheels::PickRandom(kCandidates);
 }
+
+}  // namespace wheels

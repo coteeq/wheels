@@ -4,6 +4,8 @@
 
 #include <memory>
 
+namespace wheels {
+
 ////////////////////////////////////////////////////////////////////////////////
 
 class ITestFailHandler {
@@ -37,3 +39,5 @@ class FailHandlerSwitcher {
  private:
   ITestFailHandlerPtr current_;
 };
+
+}  // namespace wheels

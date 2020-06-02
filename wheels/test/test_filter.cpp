@@ -4,6 +4,8 @@
 #include <regex>
 #include <string>
 
+namespace wheels {
+
 class RegexTestFilter : public ITestFilter {
  public:
   RegexTestFilter(std::string pattern) : regex_(std::move(pattern)) {
@@ -21,3 +23,5 @@ ITestFilterPtr CreateTestFilter(int, const char**) {
   const char* value = getenv("TPCC_TEST_FILTER");
   return std::make_shared<RegexTestFilter>(value ? value : "");
 }
+
+}  // namespace wheels

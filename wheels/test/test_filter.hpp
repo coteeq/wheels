@@ -2,6 +2,8 @@
 
 #include <wheels/test/test.hpp>
 
+namespace wheels {
+
 class ITestFilter {
  public:
   virtual ~ITestFilter() = default;
@@ -12,3 +14,5 @@ class ITestFilter {
 using ITestFilterPtr = std::shared_ptr<ITestFilter>;
 
 ITestFilterPtr CreateTestFilter(int argc, const char** argv);
+
+}  // namespace wheels
