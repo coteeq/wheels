@@ -4,8 +4,8 @@
 
 // Suppress compiler warnings about unused variable/argument
 #define WHEELS_UNUSED(x) \
-  do {                  \
-    (void)(x);          \
+  do {                   \
+    (void)(x);           \
   } while (false)
 
 // Unreachable by control flow

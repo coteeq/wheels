@@ -135,34 +135,34 @@ class TestTimeLimitWatcher {
 
 #define TEST_SUITE(name) TEST_SUITE_WITH_PRIORITY(name, 0)
 
-#define SIMPLE_TEST(name)                                                    \
-  void ExecuteTest##name();                                                  \
-  struct Test##name : public ITest {                                         \
-    std::string Name() const override {                                      \
-      return GetCurrentTestSuiteName() + ":" #name;                          \
-    }                                                                        \
-    std::string Describe() const override {                                  \
+#define SIMPLE_TEST(name)                                                     \
+  void ExecuteTest##name();                                                   \
+  struct Test##name : public ITest {                                          \
+    std::string Name() const override {                                       \
+      return GetCurrentTestSuiteName() + ":" #name;                           \
+    }                                                                         \
+    std::string Describe() const override {                                   \
       return wheels::StringBuilder() << "'" << #name << "' from test suite '" \
-                                    << GetCurrentTestSuiteName() << "'";     \
-    }                                                                        \
-    int Priority() const override {                                          \
-      return GetCurrentTestSuitePriority();                                  \
-    }                                                                        \
-    void Run() override {                                                    \
-      TestTimeLimitWatcher time_limit_watcher(std::chrono::seconds(10));     \
-      try {                                                                  \
-        ExecuteTest##name();                                                 \
-      } catch (...) {                                                        \
-        FailTestByException();                                               \
-      }                                                                      \
-    }                                                                        \
-  };                                                                         \
-  struct Test##name##Registrar {                                             \
-    Test##name##Registrar() {                                                \
-      RegisterTest(std::make_shared<Test##name>());                          \
-    }                                                                        \
-  };                                                                         \
-  static Test##name##Registrar test_##name##_registrar_;                     \
+                                     << GetCurrentTestSuiteName() << "'";     \
+    }                                                                         \
+    int Priority() const override {                                           \
+      return GetCurrentTestSuitePriority();                                   \
+    }                                                                         \
+    void Run() override {                                                     \
+      TestTimeLimitWatcher time_limit_watcher(std::chrono::seconds(10));      \
+      try {                                                                   \
+        ExecuteTest##name();                                                  \
+      } catch (...) {                                                         \
+        FailTestByException();                                                \
+      }                                                                       \
+    }                                                                         \
+  };                                                                          \
+  struct Test##name##Registrar {                                              \
+    Test##name##Registrar() {                                                 \
+      RegisterTest(std::make_shared<Test##name>());                           \
+    }                                                                         \
+  };                                                                          \
+  static Test##name##Registrar test_##name##_registrar_;                      \
   void ExecuteTest##name()
 
 ////////////////////////////////////////////////////////////////////////////////

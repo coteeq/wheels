@@ -23,8 +23,7 @@ namespace wheels {
 void Fail(const std::string& error_message) {
   static std::mutex mutex;
   std::lock_guard<std::mutex> locked(mutex);
-  std::cerr << "'ExecuteWithFork' error: " << error_message
-            << std::endl;
+  std::cerr << "'ExecuteWithFork' error: " << error_message << std::endl;
   std::abort();
 }
 

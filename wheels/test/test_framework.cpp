@@ -275,7 +275,8 @@ static void RunSingleTest(ITestPtr test, ITestReporterPtr reporter) {
   try {
     ExecuteTest(test);
   } catch (...) {
-    WHEELS_PANIC("Test framework internal error: " << CurrentExceptionMessage());
+    WHEELS_PANIC(
+        "Test framework internal error: " << CurrentExceptionMessage());
   }
 
   reporter->TestPassed(test, timer.Elapsed());

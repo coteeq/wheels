@@ -4,8 +4,8 @@
 #include <wheels/support/panic.hpp>
 
 #define WHEELS_VERIFY(cond, error)                                   \
-  do {                                                              \
+  do {                                                               \
     if (WHEELS_UNLIKELY(!(cond))) {                                  \
       WHEELS_PANIC("Assertion '" << #cond << "' failed: " << error); \
-    }                                                               \
+    }                                                                \
   } while (false);

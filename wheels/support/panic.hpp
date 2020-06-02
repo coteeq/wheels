@@ -11,6 +11,6 @@ void Panic(const std::string& error);
 // Usage: WHEELS_PANIC("Internal error: " << e.what());
 
 #define WHEELS_PANIC(error)                                              \
-  do {                                                                  \
+  do {                                                                   \
     ::detail::Panic(wheels::StringBuilder() << HERE() << ": " << error); \
   } while (false)

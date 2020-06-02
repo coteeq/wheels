@@ -96,8 +96,8 @@ static void ExecuteTestWithFork(ITestPtr test) {
   }
 
   if (!stderr.empty()) {
-    FAIL_TEST(
-        "Test produced stderr: " << wheels::FormatStderrForErrorMessage(stderr));
+    FAIL_TEST("Test produced stderr: "
+              << wheels::FormatStderrForErrorMessage(stderr));
   }
 
   // Test completed!
