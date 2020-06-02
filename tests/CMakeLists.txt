@@ -7,7 +7,7 @@ message(STATUS "Wheels tests")
 set(RUN_TESTS_MAIN "./run_tests.cpp")
 file(GLOB TESTS "./test*.cpp")
 
-# Build
+# All tests target
 
 add_executable(wheels_all_tests ${RUN_TESTS_MAIN} ${TESTS})
 target_link_libraries(wheels_all_tests wheels)
