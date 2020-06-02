@@ -1,6 +1,6 @@
 #include <wheels/support/panic.hpp>
 
-#include <wheels/support/locking.hpp>
+#include <mutex>
 
 namespace detail {
 
@@ -8,7 +8,7 @@ void Panic(const std::string& error) {
   static std::mutex mutex;
 
   {
-    auto guard = wheels::LockUnique(mutex);
+    std::lock_guard guard(mutex);
     std::cerr << error << std::endl;
   }
 
