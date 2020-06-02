@@ -3,4 +3,4 @@
 #include <cstddef>
 #include <ostream>
 
-std::ostream& operator<<(std::ostream& out, std::nullptr_t _);
+std::ostream& operator<<(std::ostream& out, std::nullptr_t);

@@ -10,21 +10,21 @@ using Duration = std::chrono::nanoseconds;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class Timer {
+class StopWatch {
   using Clock = std::chrono::steady_clock;
   using TimePoint = std::chrono::time_point<Clock>;
 
  public:
-  Timer() : start_time_(Now()) {
+  StopWatch() : start_(Now()) {
   }
 
   Duration Elapsed() const {
-    return Now() - start_time_;
+    return Now() - start_;
   }
 
   Duration Restart() {
     auto elapsed = Elapsed();
-    start_time_ = Now();
+    start_ = Now();
     return elapsed;
   }
 
@@ -34,7 +34,7 @@ class Timer {
   }
 
  private:
-  TimePoint start_time_;
+  TimePoint start_;
 };
 
 }  // namespace wheels

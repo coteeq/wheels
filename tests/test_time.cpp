@@ -3,26 +3,27 @@
 
 #include <wheels/test/test_framework.hpp>
 
-using wheels::Timer;
+using wheels::StopWatch;
+using namespace std::chrono_literals;
 
 TEST_SUITE(Time) {
   SIMPLE_TEST(Elapsed) {
-    Timer timer;
+    StopWatch stop_watch;
     wheels::SleepMillis(100);
-    ASSERT_TRUE(timer.Elapsed() >= std::chrono::milliseconds(100));
+    ASSERT_TRUE(stop_watch.Elapsed() >= 100ms);
   }
 
   SIMPLE_TEST(Restart) {
-    static const auto kPeriod = std::chrono::milliseconds(100);
+    static const auto kPeriod = 100ms;
 
-    Timer timer;
+    StopWatch stop_watch;
 
     wheels::Sleep(kPeriod);
-    auto elapsed = timer.Restart();
+    auto elapsed = stop_watch.Restart();
     ASSERT_TRUE(elapsed >= kPeriod);
 
     wheels::Sleep(kPeriod);
-    elapsed = timer.Elapsed();
+    elapsed = stop_watch.Elapsed();
     ASSERT_TRUE(elapsed >= kPeriod);
     ASSERT_TRUE(elapsed <= kPeriod * 2);
   }

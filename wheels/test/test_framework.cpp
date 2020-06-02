@@ -270,7 +270,7 @@ static void RunSingleTest(ITestPtr test, ITestReporterPtr reporter) {
 
   reporter->TestStarted(test);
 
-  wheels::Timer timer;
+  wheels::StopWatch timer;
 
   try {
     ExecuteTest(test);
@@ -300,7 +300,7 @@ void RunTests(const TestList& tests) {
 
   auto reporter = GetReporter();
 
-  wheels::Timer timer;
+  wheels::StopWatch timer;
 
   for (auto&& test : tests) {
     RunSingleTest(test, reporter);
