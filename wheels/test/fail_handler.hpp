@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace wheels {
+namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -40,4 +40,4 @@ class FailHandlerSwitcher {
   ITestFailHandlerPtr current_;
 };
 
-}  // namespace wheels
+}  // namespace wheels::test

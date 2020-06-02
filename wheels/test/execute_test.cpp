@@ -16,7 +16,7 @@
 
 #include <wheels/support/fork.hpp>
 
-namespace wheels {
+namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -108,13 +108,13 @@ void ExecuteTest(ITestPtr test) {
   ExecuteTestWithFork(std::move(test));
 }
 
-}  // namespace wheels
+}  // namespace wheels::test
 
 #else
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace wheels {
+namespace wheels::test {
 
 // Execute test locally
 
@@ -126,6 +126,6 @@ void ExecuteTest(ITestPtr test) {
   ExecuteTestInCurrentProcess(std::move(test));
 }
 
-}  // namespace wheels
+}  // namespace wheels::test
 
 #endif

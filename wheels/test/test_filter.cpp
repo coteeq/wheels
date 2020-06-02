@@ -4,7 +4,7 @@
 #include <regex>
 #include <string>
 
-namespace wheels {
+namespace wheels::test {
 
 class RegexTestFilter : public ITestFilter {
  public:
@@ -24,4 +24,4 @@ ITestFilterPtr CreateTestFilter(int, const char**) {
   return std::make_shared<RegexTestFilter>(value ? value : "");
 }
 
-}  // namespace wheels
+}  // namespace wheels::test

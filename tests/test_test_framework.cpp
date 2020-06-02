@@ -23,9 +23,9 @@ TEST_SUITE(TestFramework) {
   }
 
   class CountingFailHandler
- : public wheels::ITestFailHandler {
+ : public wheels::test::ITestFailHandler {
    public:
-    void Fail(wheels::ITestPtr /*test*/, const std::string& /*error*/) override {
+    void Fail(wheels::test::ITestPtr /*test*/, const std::string& /*error*/) override {
       ++fail_count_;
     }
 
@@ -40,7 +40,7 @@ TEST_SUITE(TestFramework) {
   SIMPLE_TEST(FiredAsserts) {
     auto counting_fail_handler = std::make_shared<CountingFailHandler>();
 
-    wheels::FailHandlerSwitcher switcher(counting_fail_handler);
+    wheels::test::FailHandlerSwitcher switcher(counting_fail_handler);
 
     ASSERT_TRUE(false);
     ASSERT_EQ(counting_fail_handler->FailCount(), 1);

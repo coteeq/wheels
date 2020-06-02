@@ -4,7 +4,7 @@
 
 #include <wheels/support/time.hpp>
 
-namespace wheels {
+namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,4 +23,4 @@ class ITestReporter {
 
 using ITestReporterPtr = std::shared_ptr<ITestReporter>;
 
-}  // namespace wheels
+}  // namespace wheels::test

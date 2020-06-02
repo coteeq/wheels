@@ -25,7 +25,7 @@
 
 using wheels::Duration;
 
-namespace wheels {
+namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ class ConsoleTestReporter : public ITestReporter {
 
   void TestFailed(const ITestPtr& test, const std::string& error) override {
     std::cout << "Test " << test->Describe() << RED(" FAILED ")
-              << wheels::GetFailEmoji() << ": " << error << std::endl
+              << GetFailEmoji() << ": " << error << std::endl
               << std::flush;
   }
 
@@ -70,7 +70,7 @@ class ConsoleTestReporter : public ITestReporter {
     }
     std::cout << " (total time: " << ToSeconds(elapsed) << " seconds)"
               << std::endl
-              << wheels::GetSuccessEmoji() << std::endl
+              << GetSuccessEmoji() << std::endl
               << std::flush;
   }
 
@@ -311,4 +311,4 @@ void RunTests(const TestList& tests) {
   reporter->AllTestsPassed(tests.size(), timer.Elapsed());
 }
 
-}  // namespace wheels
+}  // namespace wheels::test

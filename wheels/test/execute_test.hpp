@@ -2,8 +2,8 @@
 
 #include <wheels/test/test.hpp>
 
-namespace wheels {
+namespace wheels::test {
 
 void ExecuteTest(ITestPtr test);
 
-}  // namespace wheels
+}  // namespace wheels::test

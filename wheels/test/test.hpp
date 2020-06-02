@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-namespace wheels {
+namespace wheels::test {
 
 class ITest {
  public:
@@ -20,4 +20,4 @@ class ITest {
 
 using ITestPtr = std::shared_ptr<ITest>;
 
-}  // namespace wheels
+}  // namespace wheels::test

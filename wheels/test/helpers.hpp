@@ -2,9 +2,9 @@
 
 #include <string>
 
-namespace wheels {
+namespace wheels::test {
 
 // TODO: better
 std::string FormatStderrForErrorMessage(const std::string& stderr);
 
-}  // namespace wheels
+}  // namespace wheels::test

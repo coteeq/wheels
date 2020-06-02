@@ -2,7 +2,7 @@
 
 #include <wheels/support/panic.hpp>
 
-namespace wheels {
+namespace wheels::test {
 
 static ITestFailHandlerPtr handler = nullptr;
 
@@ -17,4 +17,4 @@ ITestFailHandlerPtr GetTestFailHandler() {
   return handler;
 }
 
-}  // namespace wheels
+}  // namespace wheels::test

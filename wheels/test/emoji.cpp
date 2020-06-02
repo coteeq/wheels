@@ -4,7 +4,7 @@
 
 #include <vector>
 
-namespace wheels {
+namespace wheels::test {
 
 std::string_view GetSuccessEmoji() {
   static const std::vector<std::string_view> kCandidates = {
@@ -26,4 +26,4 @@ std::string_view GetFailEmoji() {
   return wheels::PickRandom(kCandidates);
 }
 
-}  // namespace wheels
+}  // namespace wheels::test
