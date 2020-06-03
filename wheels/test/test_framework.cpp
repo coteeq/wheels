@@ -161,10 +161,9 @@ void FailTestByAssert(const AssertionError& assert_error) {
 }
 
 static std::string FormatCurrentExceptionMessage() {
-  std::ostringstream out;
-  out << "Uncaught exception in thread " << std::this_thread::get_id() << ": "
-      << CurrentExceptionMessage();
-  return out.str();
+  return StringBuilder() << "Uncaught exception in thread "
+                         << std::this_thread::get_id() << ": "
+                         << CurrentExceptionMessage();
 }
 
 void FailTestByException() {

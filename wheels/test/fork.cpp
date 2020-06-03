@@ -62,8 +62,8 @@ class LiveStdoutPrinter : public IByteStreamConsumer {
 void ExecuteTestWithFork(ITestPtr test) {
   auto execute_test = [test]() { ExecuteTestInForkedProcess(test); };
 
-  auto result = ExecuteWithFork(
-      execute_test, std::make_unique<LiveStdoutPrinter>(), nullptr);
+  auto result = ExecuteWithFork(execute_test,
+                                std::make_unique<LiveStdoutPrinter>(), nullptr);
 
   // Process result
 
@@ -73,8 +73,8 @@ void ExecuteTestWithFork(ITestPtr test) {
   if (result.Exited(exit_code)) {
     if (exit_code != 0) {
       FAIL_TEST("Test subprocess terminated with non-zero exit code: "
-                    << exit_code
-                    << ", stderr: " << FormatStderrForErrorMessage(stderr));
+                << exit_code
+                << ", stderr: " << FormatStderrForErrorMessage(stderr));
     }
   }
 
@@ -84,8 +84,8 @@ void ExecuteTestWithFork(ITestPtr test) {
       FAIL_TEST("Test subprocess terminated by signal: " << signal);
     } else {
       FAIL_TEST("Test subprocess terminated by signal "
-                    << signal
-                    << ", stderr: " << FormatStderrForErrorMessage(stderr));
+                << signal
+                << ", stderr: " << FormatStderrForErrorMessage(stderr));
     }
   }
 
