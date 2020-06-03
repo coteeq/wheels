@@ -174,7 +174,7 @@ class PipeReader {
       }
     }
     if (consumer_) {
-      consumer_->Eof();
+      consumer_->HandleEof();
     }
   }
 

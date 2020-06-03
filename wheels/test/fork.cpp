@@ -42,14 +42,14 @@ static void ExecuteTestInForkedProcess(ITestPtr test) {
   FlushPendingLogMessages();
 }
 
-class PrintStdoutConsumer : public IByteStreamConsumer {
+class LiveStdoutPrinter : public IByteStreamConsumer {
  public:
   void Consume(const char* buf, size_t length) override {
     std::cout.write(buf, length);
     bytes_consumed_ += length;
   }
 
-  void Eof() override {
+  void HandleEof() override {
     if (bytes_consumed_ > 0) {
       std::cout << std::endl;
     }
@@ -63,7 +63,7 @@ void ExecuteTestWithFork(ITestPtr test) {
   auto execute_test = [test]() { ExecuteTestInForkedProcess(test); };
 
   auto result = ExecuteWithFork(
-      execute_test, std::make_unique<PrintStdoutConsumer>(), nullptr);
+      execute_test, std::make_unique<LiveStdoutPrinter>(), nullptr);
 
   // Process result
 

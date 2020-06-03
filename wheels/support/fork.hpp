@@ -12,7 +12,7 @@ class IByteStreamConsumer {
  public:
   virtual ~IByteStreamConsumer() = default;
   virtual void Consume(const char* buf, size_t length) = 0;
-  virtual void Eof() = 0;
+  virtual void HandleEof() = 0;
 };
 
 using IByteStreamConsumerPtr = std::unique_ptr<IByteStreamConsumer>;
