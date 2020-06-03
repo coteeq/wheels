@@ -20,7 +20,7 @@ class RegexTestFilter : public ITestFilter {
 };
 
 ITestFilterPtr CreateTestFilter(int, const char**) {
-  const char* value = getenv("TPCC_TEST_FILTER");
+  const char* value = getenv("WHEELS_TEST_FILTER");
   return std::make_shared<RegexTestFilter>(value ? value : "");
 }
 
