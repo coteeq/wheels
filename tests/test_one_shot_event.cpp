@@ -1,10 +1,11 @@
 #include <wheels/support/one_shot_event.hpp>
 
-#include <wheels/support/sleep.hpp>
 #include <wheels/test/test_framework.hpp>
 
 #include <chrono>
 #include <thread>
+
+using namespace std::chrono_literals;
 
 TEST_SUITE(OneShotEvent) {
   SIMPLE_TEST(SetAndAwait) {
@@ -28,7 +29,7 @@ TEST_SUITE(OneShotEvent) {
     wheels::OneShotEvent event;
 
     std::thread delayed_set([&]() {
-      wheels::SleepMillis(500);
+      std::this_thread::sleep_for(500ms);
       event.Set();
     });
 
@@ -40,8 +41,8 @@ TEST_SUITE(OneShotEvent) {
   SIMPLE_TEST(TimedWait) {
     wheels::OneShotEvent event;
 
-    ASSERT_FALSE(event.TimedWait(std::chrono::seconds(1)));
+    ASSERT_FALSE(event.TimedWait(1s));
     event.Set();
-    ASSERT_TRUE(event.TimedWait(std::chrono::seconds(1)));
+    ASSERT_TRUE(event.TimedWait(1s));
   }
 }
