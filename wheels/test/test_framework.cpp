@@ -1,6 +1,7 @@
 #include <wheels/test/test_framework.hpp>
 
 #include <wheels/support/compiler.hpp>
+#include <wheels/support/exception.hpp>
 #include <wheels/support/one_shot_event.hpp>
 #include <wheels/support/panic.hpp>
 #include <wheels/support/singleton.hpp>
@@ -157,16 +158,6 @@ void FailTest(const std::string& error_message) {
 
 void FailTestByAssert(const AssertionError& assert_error) {
   FailTest(assert_error.ToString());
-}
-
-static std::string CurrentExceptionMessage() {
-  try {
-    throw;
-  } catch (const std::exception& e) {
-    return e.what();
-  } catch (...) {
-    return "wild exception...";
-  }
 }
 
 static std::string FormatCurrentExceptionMessage() {
