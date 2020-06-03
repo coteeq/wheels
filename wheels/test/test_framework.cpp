@@ -184,7 +184,7 @@ void FailTestByException() {
 
 class TestRepository {
  public:
-  void Add(ITestPtr test) {
+  void Register(ITestPtr test) {
     int p = test->Priority();
     tests_[p].push_back(std::move(test));
   }
@@ -205,7 +205,7 @@ class TestRepository {
 };
 
 void RegisterTest(ITestPtr test) {
-  Singleton<TestRepository>()->Add(std::move(test));
+  Singleton<TestRepository>()->Register(std::move(test));
 }
 
 TestList ListAllTests() {
@@ -267,12 +267,12 @@ static void PrintCompilerVersion() {
   std::cout << "Compiler: " __VERSION__ << std::endl;
 }
 
-static void RunSingleTest(ITestPtr test, ITestReporterPtr reporter) {
+static void RunTest(ITestPtr test, ITestReporterPtr reporter) {
   TestContextGuard ctx_installer(test);
 
   reporter->TestStarted(test);
 
-  wheels::StopWatch timer;
+  wheels::StopWatch stop_watch;
 
   try {
     ExecuteTest(test);
@@ -281,17 +281,17 @@ static void RunSingleTest(ITestPtr test, ITestReporterPtr reporter) {
         "Test framework internal error: " << CurrentExceptionMessage());
   }
 
-  reporter->TestPassed(test, timer.Elapsed());
+  reporter->TestPassed(test, stop_watch.Elapsed());
 }
 
 TestList FilterTests(const TestList& tests, ITestFilterPtr filter) {
-  TestList chosen_tests;
+  TestList selected_tests;
   for (const auto& test : tests) {
     if (filter->Accept(test)) {
-      chosen_tests.push_back(test);
+      selected_tests.push_back(test);
     }
   }
-  return chosen_tests;
+  return selected_tests;
 }
 
 void RunTests(const TestList& tests) {
@@ -302,13 +302,13 @@ void RunTests(const TestList& tests) {
 
   auto reporter = GetReporter();
 
-  wheels::StopWatch timer;
+  wheels::StopWatch stop_watch;
 
   for (auto&& test : tests) {
-    RunSingleTest(test, reporter);
+    RunTest(test, reporter);
   }
 
-  reporter->AllTestsPassed(tests.size(), timer.Elapsed());
+  reporter->AllTestsPassed(tests.size(), stop_watch.Elapsed());
 }
 
 }  // namespace wheels::test
