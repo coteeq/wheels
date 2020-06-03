@@ -255,6 +255,6 @@ void RunTests(const TestList& tests);
     auto filter = wheels::test::CreateTestFilter(argc, argv);            \
     auto tests = wheels::test::FilterTests(wheels::test::ListAllTests(), \
                                            std::move(filter));           \
-    wheels::test::RunTests(tests);                                             \
+    wheels::test::RunTests(tests);                                       \
     return EXIT_SUCCESS;                                                 \
   }

@@ -2,7 +2,7 @@
 
 #include <unistd.h>
 
-namespace terminal {
+namespace wheels::terminal {
 
 static std::string_view CheckTerminal(std::string_view ctrl) {
   static bool terminal = isatty(1);
@@ -33,4 +33,4 @@ std::string_view Reset() {
   return CheckTerminal("\033[0m");
 }
 
-}  // namespace terminal
+}  // namespace wheels::terminal

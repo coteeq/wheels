@@ -2,7 +2,7 @@
 
 #include <string_view>
 
-namespace terminal {
+namespace wheels::terminal {
 
 std::string_view Red();
 std::string_view Green();
@@ -11,8 +11,13 @@ std::string_view Cyan();
 std::string_view Magenta();
 std::string_view Reset();
 
-}  // namespace terminal
+}  // namespace wheels::terminal
 
-#define GREEN(smth) terminal::Green() << smth << terminal::Reset()
-#define RED(smth) terminal::Red() << smth << terminal::Reset()
-#define CYAN(smth) terminal::Cyan() << smth << terminal::Reset()
+#define GREEN(output) \
+  ::wheels::terminal::Green() << output << ::wheels::terminal::Reset()
+
+#define RED(output) \
+  ::wheels::terminal::Red() << output << ::wheels::terminal::Reset()
+
+#define CYAN(output) \
+  ::wheels::terminal::Cyan() << output << ::wheels::terminal::Reset()
