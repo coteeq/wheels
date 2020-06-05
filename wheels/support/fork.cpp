@@ -140,7 +140,7 @@ class PipeReader {
  public:
   PipeReader(int pipe_fd, IByteStreamConsumerPtr consumer)
       : pipe_fd_(pipe_fd),
-        consumer_(std::move(consumer)),
+        live_consumer_(std::move(consumer)),
         reader_thread_(&PipeReader::ReadAll, this) {
   }
 
@@ -152,7 +152,7 @@ class PipeReader {
       return data_;
     }
     reader_thread_.join();
-    data_ = buffer_.ToString();
+    data_ = all_data_buf_.ToString();
     joined_ = true;
     return data_;
   }
@@ -168,22 +168,22 @@ class PipeReader {
       if (bytes_read == 0) {
         break;  // Exhausted
       }
-      buffer_.Append(GetChunkBuf(), bytes_read);
-      if (consumer_) {
-        consumer_->Consume(GetChunkBuf(), bytes_read);
+      all_data_buf_.Append(GetChunkBuf(), bytes_read);
+      if (live_consumer_) {
+        live_consumer_->Consume({GetChunkBuf(), bytes_read});
       }
     }
-    if (consumer_) {
-      consumer_->HandleEof();
+    if (live_consumer_) {
+      live_consumer_->HandleEof();
     }
   }
 
  private:
   int pipe_fd_;
-  IByteStreamConsumerPtr consumer_;
+  IByteStreamConsumerPtr live_consumer_;
 
   ChunkBuffer chunk_;
-  GrowingBuffer buffer_;
+  GrowingBuffer all_data_buf_;
 
   std::thread reader_thread_;
 

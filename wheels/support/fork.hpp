@@ -3,6 +3,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 
 namespace wheels {
 
@@ -11,7 +12,7 @@ namespace wheels {
 class IByteStreamConsumer {
  public:
   virtual ~IByteStreamConsumer() = default;
-  virtual void Consume(const char* buf, size_t length) = 0;
+  virtual void Consume(std::string_view chunk) = 0;
   virtual void HandleEof() = 0;
 };
 

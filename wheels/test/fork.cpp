@@ -44,19 +44,19 @@ static void ExecuteTestInForkedProcess(ITestPtr test) {
 
 class LiveStdoutPrinter : public IByteStreamConsumer {
  public:
-  void Consume(const char* buf, size_t length) override {
-    std::cout.write(buf, length);
-    bytes_consumed_ += length;
+  void Consume(std::string_view chunk) override {
+    std::cout.write(chunk.data(), chunk.length());
+    total_bytes_consumed_ += chunk.length();
   }
 
   void HandleEof() override {
-    if (bytes_consumed_ > 0) {
+    if (total_bytes_consumed_ > 0) {
       std::cout << std::endl;
     }
   }
 
  private:
-  size_t bytes_consumed_ = 0;
+  size_t total_bytes_consumed_ = 0;
 };
 
 void ExecuteTestWithFork(ITestPtr test) {
