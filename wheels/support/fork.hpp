@@ -9,8 +9,7 @@ namespace wheels {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class IByteStreamConsumer {
- public:
+struct IByteStreamConsumer {
   virtual ~IByteStreamConsumer() = default;
   virtual void Consume(std::string_view chunk) = 0;
   virtual void HandleEof() = 0;
