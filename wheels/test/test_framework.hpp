@@ -2,7 +2,7 @@
 
 #include <wheels/test/test.hpp>
 #include <wheels/test/registry.hpp>
-#include <wheels/test/test_filter.hpp>
+#include <wheels/test/filter.hpp>
 
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>

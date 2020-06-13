@@ -1,4 +1,4 @@
-#include <wheels/test/test_filter.hpp>
+#include <wheels/test/filter.hpp>
 
 #include <cstdlib>
 #include <regex>
