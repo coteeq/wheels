@@ -201,9 +201,9 @@ int AwaitTerminationAndGetStatus(pid_t child_pid) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Result ExecuteWithFork(TargetFunction target,
-                       IByteStreamConsumerPtr stdout_consumer,
-                       IByteStreamConsumerPtr stderr_consumer) {
+ForkResult ExecuteWithFork(std::function<void()> target,
+                           IByteStreamConsumerPtr stdout_consumer,
+                           IByteStreamConsumerPtr stderr_consumer) {
   ForkAwarePipe stdout_pipe;
   ForkAwarePipe stderr_pipe;
 
@@ -237,7 +237,7 @@ Result ExecuteWithFork(TargetFunction target,
     auto stdout = stdout_reader.GetAll();
     auto stderr = stderr_reader.GetAll();
 
-    return Result(status, std::move(stdout), std::move(stderr));
+    return ForkResult(status, std::move(stdout), std::move(stderr));
   } else {
     FailOnSystemError("Cannot fork process");
   }
@@ -247,7 +247,7 @@ Result ExecuteWithFork(TargetFunction target,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Result::Exited(int& exit_code) const {
+bool ForkResult::Exited(int& exit_code) const {
   if (WIFEXITED(status_)) {
     exit_code = WEXITSTATUS(status_);
     return true;
@@ -255,7 +255,7 @@ bool Result::Exited(int& exit_code) const {
   return false;
 }
 
-bool Result::KilledBySignal(int& signal) const {
+bool ForkResult::KilledBySignal(int& signal) const {
   if (WIFSIGNALED(status_)) {
     signal = WTERMSIG(status_);
     return true;

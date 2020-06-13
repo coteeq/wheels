@@ -19,9 +19,9 @@ using IByteStreamConsumerPtr = std::unique_ptr<IByteStreamConsumer>;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class Result {
+class ForkResult {
  public:
-  Result(int status, std::string stdout, std::string stderr)
+  ForkResult(int status, std::string stdout, std::string stderr)
       : status_(status),
         stdout_(std::move(stdout)),
         stderr_(std::move(stderr)) {
@@ -46,10 +46,8 @@ class Result {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using TargetFunction = std::function<void()>;
-
-Result ExecuteWithFork(TargetFunction target,
-                       IByteStreamConsumerPtr stdout_consumer,
-                       IByteStreamConsumerPtr stderr_consumer);
+ForkResult ExecuteWithFork(std::function<void()> target,
+                           IByteStreamConsumerPtr stdout_consumer,
+                           IByteStreamConsumerPtr stderr_consumer);
 
 }  // namespace wheels
