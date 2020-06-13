@@ -1,6 +1,7 @@
 #pragma once
 
 #include <wheels/test/test.hpp>
+#include <wheels/test/registry.hpp>
 #include <wheels/test/test_filter.hpp>
 
 #include <wheels/support/nullptr.hpp>
@@ -9,7 +10,6 @@
 #include <wheels/support/string_builder.hpp>
 #include <wheels/support/time.hpp>
 
-#include <vector>
 #include <chrono>
 
 namespace wheels::test {
@@ -100,13 +100,6 @@ void FailTestByException();
   }
 
 #define FAIL_TEST(error) FailTest(::wheels::StringBuilder() << error)
-
-////////////////////////////////////////////////////////////////////////////////
-
-using TestList = std::vector<ITestPtr>;
-
-void RegisterTest(ITestPtr test);
-TestList ListAllTests();
 
 ////////////////////////////////////////////////////////////////////////////////
 
