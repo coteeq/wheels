@@ -11,6 +11,6 @@ std::string FormatStderrForErrorMessage(const std::string& stderr);
 
 double ToSeconds(const Duration d);
 
-std::string FormatSeconds(const Duration d);
+std::string FormatSeconds(const Duration d, size_t digits);
 
 }  // namespace wheels::test

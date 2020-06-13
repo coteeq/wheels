@@ -30,7 +30,7 @@ class ConsoleTestReporter : public ITestReporter {
 
     std::cout << GREEN("PASSED");
     if (elapsed > kSignificantTestTime) {
-      std::cout << " (" << FormatSeconds(elapsed) << " seconds)";
+      std::cout << " (" << FormatSeconds(elapsed, 2) << " seconds)";
     }
     std::cout << std::endl;
   }
@@ -48,7 +48,7 @@ class ConsoleTestReporter : public ITestReporter {
     } else {
       std::cout << GREEN("1 TEST PASSED!");
     }
-    std::cout << " (total time: " << FormatSeconds(elapsed) << " seconds)"
+    std::cout << " (total time: " << FormatSeconds(elapsed, 2) << " seconds)"
               << std::endl
               << GetSuccessEmoji() << std::endl
               << std::flush;

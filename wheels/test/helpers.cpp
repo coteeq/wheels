@@ -26,8 +26,8 @@ double ToSeconds(wheels::Duration elapsed) {
   return std::chrono::duration<double>(elapsed).count();
 }
 
-std::string FormatSeconds(const Duration d) {
-  return StringBuilder() << std::fixed << std::setprecision(3) << ToSeconds(d);
+std::string FormatSeconds(const Duration d, size_t digits) {
+  return StringBuilder() << std::fixed << std::setprecision(digits) << ToSeconds(d);
 }
 
 }  // namespace wheels::test
