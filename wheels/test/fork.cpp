@@ -29,7 +29,7 @@ static void InstallForkedTestFailHandler() {
 }
 
 static void ExecuteTestInForkedProcess(ITestPtr test) {
-  std::cout << "Executed subprocess with pid = " << getpid() << std::endl;
+  std::cout << "Executed in subprocess with pid = " << getpid() << std::endl;
 
   InstallForkedTestFailHandler();
 
