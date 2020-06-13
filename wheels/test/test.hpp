@@ -11,6 +11,7 @@ class ITest {
 
   virtual void Run() = 0;
   virtual std::string Name() const = 0;
+  virtual std::string Suite() const = 0;
   virtual std::string Describe() const = 0;
 
   virtual int Priority() const {

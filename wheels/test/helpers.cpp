@@ -1,6 +1,9 @@
 #include <wheels/test/helpers.hpp>
 
+#include <wheels/support/string_builder.hpp>
+
 #include <algorithm>
+#include <iomanip>
 
 namespace wheels::test {
 
@@ -17,6 +20,14 @@ std::string FormatStderrForErrorMessage(const std::string& stderr) {
   }
   // Multi-line stderr
   return std::string("\n") + stderr + "\n";
+}
+
+double ToSeconds(wheels::Duration elapsed) {
+  return std::chrono::duration<double>(elapsed).count();
+}
+
+std::string FormatSeconds(const Duration d) {
+  return StringBuilder() << std::fixed << std::setprecision(3) << ToSeconds(d);
 }
 
 }  // namespace wheels::test

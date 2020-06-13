@@ -138,9 +138,10 @@ class TestTimeLimitWatcher {
       return GetCurrentTestSuiteName() + ":" #name;                 \
     }                                                               \
     std::string Describe() const override {                         \
-      return ::wheels::StringBuilder()                              \
-             << "'" << #name << "' from test suite '"               \
-             << GetCurrentTestSuiteName() << "'";                   \
+      return #name;                                                 \
+    }                                                               \
+    std::string Suite() const override {                            \
+      return GetCurrentTestSuiteName();                             \
     }                                                               \
     int Priority() const override {                                 \
       return GetCurrentTestSuitePriority();                         \
@@ -209,6 +210,9 @@ class TestTimeLimitWatcher {
       std::string Describe() const override {                          \
         return ::wheels::StringBuilder()                               \
                << "'" << #name << "' with parameters " << parameters_; \
+      }                                                                \
+      std::string Suite() const override {                             \
+        return GetCurrentTestSuiteName();                              \
       }                                                                \
       void Run() override {                                            \
         ::wheels::test::TestTimeLimitWatcher time_limit_watcher(       \

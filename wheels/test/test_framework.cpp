@@ -6,18 +6,16 @@
 #include <wheels/support/panic.hpp>
 #include <wheels/support/singleton.hpp>
 #include <wheels/support/string_builder.hpp>
-#include <wheels/support/terminal.hpp>
 
-#include <wheels/test/emoji.hpp>
+#include <wheels/test/console_reporter.hpp>
 #include <wheels/test/execute_test.hpp>
-#include <wheels/test/reporter.hpp>
 #include <wheels/test/fail_handler.hpp>
+#include <wheels/test/helpers.hpp>
 
 #include <wheels/logging/logging.hpp>
 
 #include <chrono>
 #include <cstdlib>
-#include <iomanip>
 #include <mutex>
 #include <sstream>
 #include <string>
@@ -29,61 +27,8 @@ namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static double ToSeconds(wheels::Duration elapsed) {
-  return std::chrono::duration<double>(elapsed).count();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-class ConsoleTestReporter : public ITestReporter {
- public:
-  void TestStarted(const ITestPtr& test) override {
-    PrintSeparatorLine();
-    std::cout << "Test " << CYAN(test->Describe()) << " running..."
-              << std::endl;
-  }
-
-  void TestFailed(const ITestPtr& test, const std::string& error) override {
-    std::cout << "Test " << test->Describe() << RED(" FAILED ")
-              << GetFailEmoji() << ": " << error << std::endl
-              << std::flush;
-  }
-
-  void TestPassed(const ITestPtr& test, wheels::Duration elapsed) override {
-    WHEELS_UNUSED(test);
-    std::cout << GREEN("PASSED") << " (" << std::fixed << std::setprecision(3)
-              << ToSeconds(elapsed) << " seconds)" << std::endl;
-  }
-
-  void AllTestsPassed(size_t test_count, wheels::Duration elapsed) override {
-    if (test_count == 0) {
-      std::cout << "NO TESTS TO RUN..." << std::endl;
-      return;
-    }
-
-    PrintSeparatorLine();
-
-    if (test_count > 1) {
-      std::cout << GREEN("ALL " << test_count << " TESTS PASSED!");
-    } else {
-      std::cout << GREEN("1 TEST PASSED!");
-    }
-    std::cout << " (total time: " << ToSeconds(elapsed) << " seconds)"
-              << std::endl
-              << GetSuccessEmoji() << std::endl
-              << std::flush;
-  }
-
- private:
-  static void PrintSeparatorLine() {
-    static const std::string kSeparatorLine(80, '-');
-    std::cout << kSeparatorLine << std::endl;
-  }
-};
-
 ITestReporterPtr GetReporter() {
-  static auto reporter = std::make_shared<ConsoleTestReporter>();
-  return reporter;
+  return GetConsoleReporter();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
