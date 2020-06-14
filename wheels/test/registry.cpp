@@ -11,13 +11,13 @@ namespace wheels::test {
 class TestRepository {
  public:
   void Register(ITestPtr test) {
-    int p = test->Priority();
-    tests_[p].push_back(std::move(test));
+    int priority = test->Priority();
+    tests_[priority].push_back(std::move(test));
   }
 
   TestList ListAll() const {
     TestList all;
-    for (const auto& [p, tests] : tests_) {
+    for (const auto& [priority, tests] : tests_) {
       for (const auto& t : tests) {
         all.push_back(t);
       }
