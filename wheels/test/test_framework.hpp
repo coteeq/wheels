@@ -99,7 +99,7 @@ void FailTestByException();
                   "Thrown unexpected exception, expected '" #exception "'"); \
   }
 
-#define FAIL_TEST(error) FailTest(::wheels::StringBuilder() << error)
+#define FAIL_TEST(error) ::wheels::test::FailTest(::wheels::StringBuilder() << error)
 
 ////////////////////////////////////////////////////////////////////////////////
 
