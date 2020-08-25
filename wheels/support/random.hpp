@@ -1,7 +1,5 @@
 #pragma once
 
-#include <wheels/support/intrusive_list.hpp>
-
 #include <cstddef>
 #include <iterator>
 #include <list>
@@ -41,26 +39,7 @@ T PickRandom(const std::vector<T>& items) {
   if (items.empty()) {
     throw std::invalid_argument("items is empty");
   }
-  return items[wheels::RandomUInteger(items.size() - 1)];
-}
-
-template <typename T>
-T* UnlinkRandomItem(IntrusiveList<T>& items) {
-  auto iterator = items.begin();
-  std::advance(iterator, RandomUInteger(items.Size() - 1));
-  auto* item = iterator.Item();
-  item->Unlink();
-  return item;
-}
-
-template <typename T>
-std::vector<T*> ShuffleToVector(IntrusiveList<T>& items) {
-  std::vector<T*> shuffled;
-  while (!items.IsEmpty()) {
-    shuffled.push_back(items.PopFront());
-  }
-  RandomShuffleInplace(shuffled);
-  return shuffled;
+  return items[RandomUInteger(items.size() - 1)];
 }
 
 }  // namespace wheels
