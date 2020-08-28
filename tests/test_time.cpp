@@ -1,15 +1,18 @@
 #include <wheels/support/time.hpp>
-#include <wheels/support/sleep.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
+#include <thread>
+
 using wheels::StopWatch;
+
 using namespace std::chrono_literals;
+using std::this_thread::sleep_for;
 
 TEST_SUITE(Time) {
   SIMPLE_TEST(Elapsed) {
     StopWatch stop_watch;
-    wheels::SleepMillis(100);
+    sleep_for(100ms);
     ASSERT_TRUE(stop_watch.Elapsed() >= 100ms);
   }
 
@@ -18,11 +21,11 @@ TEST_SUITE(Time) {
 
     StopWatch stop_watch;
 
-    wheels::Sleep(kPeriod);
+    sleep_for(kPeriod);
     auto elapsed = stop_watch.Restart();
     ASSERT_TRUE(elapsed >= kPeriod);
 
-    wheels::Sleep(kPeriod);
+    sleep_for(kPeriod);
     elapsed = stop_watch.Elapsed();
     ASSERT_TRUE(elapsed >= kPeriod);
     ASSERT_TRUE(elapsed <= kPeriod * 2);

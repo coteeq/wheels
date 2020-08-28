@@ -1,6 +1,8 @@
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/fail_handler.hpp>
 
+#include <thread>
+
 TEST_SUITE(TestFramework) {
   void ThrowRuntimeError() {
     throw std::runtime_error("error!");
@@ -48,4 +50,10 @@ TEST_SUITE(TestFramework) {
     ASSERT_EQ(1, 2);
     ASSERT_EQ(counting_fail_handler->FailCount(), 2);
   }
+
+  /*
+  TEST(TimeLimit, wheels::test::TestOptions().TimeLimit(12s)) {
+    std::this_thread::sleep_for(11s);
+  }
+  */
 }
