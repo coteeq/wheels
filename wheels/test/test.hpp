@@ -1,5 +1,7 @@
 #pragma once
 
+#include <wheels/test/test_options.hpp>
+
 #include <memory>
 #include <string>
 
@@ -13,6 +15,10 @@ class ITest {
   virtual std::string Name() const = 0;
   virtual std::string Suite() const = 0;
   virtual std::string Describe() const = 0;
+
+  virtual TestOptions Options() const {
+    return {};  // defaults
+  }
 
   virtual int Priority() const {
     return 0;  // default
