@@ -16,8 +16,8 @@ namespace wheels {
 template <typename T>
 class RollbackGuard {
  public:
-  RollbackGuard(T& obj, T value)
-    : obj_(obj), old_value_(std::exchange(obj, std::move(value))) {
+  RollbackGuard(T& obj, T old_value)
+    : obj_(obj), old_value_(old_value) {
   }
 
   ~RollbackGuard() {
@@ -28,5 +28,10 @@ class RollbackGuard {
   T& obj_;
   T old_value_;
 };
+
+template <typename T>
+RollbackGuard<T> ScopedExchange(T& obj, T value) {
+  return RollbackGuard<T>(obj, std::exchange(obj, value));
+}
 
 }  // namespace wheels
