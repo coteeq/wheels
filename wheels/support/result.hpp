@@ -16,6 +16,7 @@
  * https://www.boost.org/doc/libs/1_72_0/libs/outcome/doc/html/index.html
  * https://github.com/llvm-mirror/llvm/blob/master/include/llvm/Support/ErrorOr.h
  * https://github.com/facebook/folly/blob/master/folly/Try.h
+ * https://abseil.io/docs/cpp/guides/status
  * https://github.com/TartanLlama/expected
  * https://www.youtube.com/watch?v=CGwk3i1bGQI
  * http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0762r0.pdf
