@@ -4,20 +4,13 @@
 
 namespace wheels {
 
-/* Usage:
- * {
- *   // Save old value and set `value`
- *   RollbackGuard set(var, value);
- *   ...
- * } // Rollback saved old value
- */
+namespace detail {
 
-// TODO: Looking for a better name...
-template <typename T>
+template<typename T>
 class RollbackGuard {
  public:
-  RollbackGuard(T& obj, T old_value)
-    : obj_(obj), old_value_(old_value) {
+  RollbackGuard(T &obj, T&& old_value)
+      : obj_(obj), old_value_(std::move(old_value)) {
   }
 
   ~RollbackGuard() {
@@ -29,9 +22,11 @@ class RollbackGuard {
   T old_value_;
 };
 
+}  // namespace detail
+
 template <typename T>
-RollbackGuard<T> ScopedExchange(T& obj, T value) {
-  return RollbackGuard<T>(obj, std::exchange(obj, value));
+detail::RollbackGuard<T> ScopedExchange(T& obj, T value) {
+  return detail::RollbackGuard<T>(obj, std::exchange(obj, std::move(value)));
 }
 
 }  // namespace wheels
