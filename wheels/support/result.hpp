@@ -151,6 +151,10 @@ class [[nodiscard]] Result {
     ThrowIfError();
   }
 
+  void Ignore() {
+    // No-op
+  }
+
   // Error accessors
 
   bool MatchErrorCode(int expected) const {
@@ -309,6 +313,10 @@ class [[nodiscard]] Result<void> {
 
   void ExpectOk() {
     ThrowIfError();
+  }
+
+  void Ignore() {
+    // No-op
   }
 
   const Error& GetError() const {

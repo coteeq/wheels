@@ -75,6 +75,10 @@ Result<std::string> MakeError() {
   return make_result::Fail(TimedOut());
 }
 
+wheels::Status MakeOkStatus() {
+  return wheels::Status::Ok();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -129,6 +133,14 @@ TEST_SUITE(Result) {
     ASSERT_EQ(error.value(), (int)std::errc::timed_out);
 
     ASSERT_THROW(result.ThrowIfError(), std::system_error);
+  }
+
+  SIMPLE_TEST(Ignore) {
+    // No warnings here!
+
+    MakeVector(7).Ignore();
+    MakeError().Ignore();
+    MakeOkStatus().Ignore();
   }
 
   SIMPLE_TEST(MatchErrorCode) {
