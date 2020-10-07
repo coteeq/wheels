@@ -89,7 +89,6 @@ TEST_SUITE(Result) {
 
     auto result = Result<TestClass>::Ok(kMessage);
     ASSERT_TRUE(result.IsOk());
-    ASSERT_TRUE(result);
     ASSERT_FALSE(result.HasError());
     result.ThrowIfError();  // Nothing happens
     result.ExpectOk();  // Nothing happens
@@ -126,7 +125,6 @@ TEST_SUITE(Result) {
     auto result = Result<TestClass>::Fail(TimedOut());
 
     ASSERT_FALSE(result.IsOk());
-    ASSERT_TRUE(!result);
     ASSERT_TRUE(result.HasError());
 
     auto error = result.GetErrorCode();
@@ -178,14 +176,12 @@ TEST_SUITE(Result) {
     auto result = Result<void>::Ok();
     ASSERT_FALSE(result.HasError());
     ASSERT_TRUE(result.IsOk());
-    ASSERT_TRUE(result);
     result.ThrowIfError();  // Nothing happens
     result.ExpectOk();  // Nothing happens
     
     // Fail
     auto err_result = Result<void>::Fail(TimedOut());
     ASSERT_TRUE(err_result.HasError());
-    ASSERT_TRUE(!err_result);
     ASSERT_THROW(err_result.ThrowIfError(), std::system_error);
     ASSERT_THROW(err_result.ExpectOk(), std::system_error);
     auto error = err_result.GetErrorCode();
@@ -211,7 +207,7 @@ TEST_SUITE(Result) {
   SIMPLE_TEST(MakeOkResult) {
     auto ok = make_result::Ok();
     ok.ExpectOk();
-    ASSERT_TRUE(ok);
+    ASSERT_TRUE(ok.IsOk());
 
     const size_t answer = 4;
     Result<size_t> result = make_result::Ok(answer);
@@ -219,15 +215,15 @@ TEST_SUITE(Result) {
 
   SIMPLE_TEST(MakeErrorResult) {
     Result<std::string> response = make_result::Fail(TimedOut());
-    ASSERT_FALSE(response);
+    ASSERT_FALSE(response.IsOk());
 
     Result<std::vector<std::string>> lines = make_result::PropagateError(response);
-    ASSERT_FALSE(lines);
+    ASSERT_FALSE(lines.IsOk());
   }
 
   SIMPLE_TEST(MakeResultStatus) {
     auto result = make_result::ToStatus(TimedOut());
-    ASSERT_FALSE(result);
+    ASSERT_FALSE(result.IsOk());
     ASSERT_TRUE(result.HasError());
   }
 
@@ -235,18 +231,18 @@ TEST_SUITE(Result) {
     return make_result::Ok(value);
   }
 
+  /*
   SIMPLE_TEST(Consistency) {
     auto result = IntResult(0);
     if (!result) {
       FAIL_TEST("???");
     }
 
-    /*
     if (!IntResult(0)) {
       FAIL();
     }
-    */
   }
+  */
 
   SIMPLE_TEST(JustStatus) {
     auto answer = Result<int>::Ok(42);

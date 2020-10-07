@@ -137,10 +137,11 @@ class [[nodiscard]] Result {
     return !HasError();
   }
 
-  // Remove?
+  /* Intentionally disabled
   explicit operator bool() const {
     return IsOk();
   }
+  */
 
   void ThrowIfError() {
     error_.ThrowIfError();
@@ -303,9 +304,11 @@ class [[nodiscard]] Result<void> {
     return !HasError();
   }
 
+  /* Intentionally disabled
   explicit operator bool() const {
     return IsOk();
   }
+  */
 
   void ThrowIfError() {
     error_.ThrowIfError();
