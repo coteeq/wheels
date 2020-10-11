@@ -10,6 +10,7 @@
 #include <wheels/support/string_builder.hpp>
 #include <wheels/support/time.hpp>
 
+#include <iostream>
 #include <chrono>
 
 namespace wheels::test {
