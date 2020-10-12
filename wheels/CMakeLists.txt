@@ -41,6 +41,8 @@ target_compile_definitions(wheels PUBLIC ${TEST_FRAMEWORK_DEFINITIONS})
 
 # Linters
 
+if(WHEELS_DEVELOPER)
+
 if(CLANG_FORMAT_TOOL)
     add_clang_format_target(
             wheels_clang_format
@@ -54,4 +56,6 @@ if(CLANG_TIDY_TOOL)
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${LIB_INCLUDE_PATH}
             ${LIB_HEADERS} ${LIB_CXX_SOURCES})
+endif()
+
 endif()
