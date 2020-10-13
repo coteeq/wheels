@@ -19,7 +19,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 add_subdirectory(wheels)
 
 option(WHEELS_TESTS "Enable wheels tests" OFF)
-option(WHEELS_DEVELOPER, "Wheels development mode" OFF)
+option(WHEELS_DEVELOPER "Wheels development mode" OFF)
 
 if(WHEELS_TESTS OR WHEELS_DEVELOPER)
     add_subdirectory(tests)
