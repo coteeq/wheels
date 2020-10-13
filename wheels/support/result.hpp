@@ -166,7 +166,7 @@ class [[nodiscard]] Result {
     return error_;
   }
 
-  std::error_code GetErrorCode() {
+  std::error_code GetErrorCode() const {
     return error_.GetErrorCode();
   }
 
