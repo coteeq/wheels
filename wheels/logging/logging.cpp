@@ -133,7 +133,7 @@ class EventPool {
 //////////////////////////////////////////////////////////////////////
 
 static int GetMinimalLogLevelFromEnv(LogLevel default_level) {
-  const char* env_level = getenv("TPCC_LOG_LEVEL");
+  const char* env_level = getenv("WHEELS_LOG_LEVEL");
   if (env_level) {
     try {
       return std::atoi(env_level);
