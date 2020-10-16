@@ -21,6 +21,11 @@ class IdGenerator {
     return next_.fetch_add(1) + 1;
   }
 
+  // ?
+  void Reset() {
+    next_ = 0;
+  }
+
  private:
   std::atomic<Id> next_{0};
 };
