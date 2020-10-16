@@ -37,7 +37,7 @@ class Error {
   }
 
   // HasErrorCode -> std::system_error
-  void ThrowIfError() {
+  void ThrowIfError() const {
     if (HasException()) {
       std::rethrow_exception(std::get<std::exception_ptr>(error_));
     } else if (HasErrorCode()) {

@@ -143,7 +143,7 @@ class [[nodiscard]] Result {
   }
   */
 
-  void ThrowIfError() {
+  void ThrowIfError() const {
     error_.ThrowIfError();
   }
 
@@ -310,7 +310,7 @@ class [[nodiscard]] Result<void> {
   }
   */
 
-  void ThrowIfError() {
+  void ThrowIfError() const {
     error_.ThrowIfError();
   }
 

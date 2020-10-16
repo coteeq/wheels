@@ -343,4 +343,9 @@ TEST_SUITE(Result) {
     auto result = make_result::Invoke(foo, MoveOnly(3));
     ASSERT_EQ(result->data, 4);
   }
+
+  SIMPLE_TEST(ConstResultValue) {
+    const Result<int> result = make_result::Ok(42);
+    ASSERT_EQ(result.Value(), 42);
+  }
 }
