@@ -20,7 +20,7 @@ namespace wheels::test {
 
 // Execute test locally
 
-void ExecuteTestHere() {
+void ExecuteTestHere(const ITestPtr& test) {
   try {
     test->Run();
   } catch (...) {
@@ -29,7 +29,7 @@ void ExecuteTestHere() {
 }
 
 void ExecuteTest(ITestPtr test) {
-  ExecuteTestHere();
+  ExecuteTestHere(test);
 }
 
 }  // namespace wheels::test
