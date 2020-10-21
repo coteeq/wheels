@@ -10,6 +10,8 @@ class MmapAllocation {
     Reset();
   }
 
+  static size_t PageSize();
+
   // Allocate `count` pages of zeroed memory
   static MmapAllocation AllocatePages(size_t count);
 

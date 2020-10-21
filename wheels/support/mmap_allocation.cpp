@@ -10,10 +10,16 @@ namespace wheels {
 
 //////////////////////////////////////////////////////////////////////
 
-static size_t PagesToBytes(size_t count) {
-  static const size_t kPageSize = 4096;
+static const size_t kPageSize = 4096;
 
+//////////////////////////////////////////////////////////////////////
+
+static size_t PagesToBytes(size_t count) {
   return count * kPageSize;
+}
+
+size_t MmapAllocation::PageSize() {
+  return kPageSize;
 }
 
 MmapAllocation MmapAllocation::AllocatePages(size_t count) {
