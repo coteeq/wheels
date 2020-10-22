@@ -3,6 +3,7 @@
 #include <wheels/test/test_framework.hpp>
 
 using wheels::Result;
+using wheels::Status;
 namespace make_result = wheels::make_result;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -300,6 +301,16 @@ TEST_SUITE(Result) {
     auto sum = [](int x, int y) { return x + y; };
     auto result = make_result::Invoke(sum, 1, 2);
     ASSERT_EQ(*result, 3);
+  }
+
+  SIMPLE_TEST(InvokeVoid) {
+    bool done = false;
+    auto work = [&]() {
+      done = true;
+    };
+    Status status = make_result::Invoke(work);
+    ASSERT_TRUE(status.IsOk());
+    ASSERT_TRUE(done);
   }
 
   SIMPLE_TEST(Throw) {
