@@ -17,7 +17,7 @@ std::string_view Green() {
   return CheckTerminal("\033[1;32m");
 }
 
-std::string_view Yello() {
+std::string_view Yellow() {
   return CheckTerminal("\033[1;33m");
 }
 

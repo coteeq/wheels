@@ -24,3 +24,6 @@ std::string_view Reset();
 
 #define MAGENTA(output) \
   ::wheels::terminal::Magenta() << output << ::wheels::terminal::Reset()
+
+#define YELLOW(output) \
+  ::wheels::terminal::Yellow() << output << ::wheels::terminal::Reset()
