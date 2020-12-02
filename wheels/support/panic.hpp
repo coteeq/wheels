@@ -4,7 +4,7 @@
 #include <wheels/support/string_builder.hpp>
 
 namespace detail {
-void Panic(const std::string& error);
+[[noreturn]] void Panic(const std::string& error);
 }  // namespace detail
 
 // Print source location and error message to stderr, then abort
