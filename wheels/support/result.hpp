@@ -70,6 +70,8 @@ class ValueStorage {
 
 ////////////////////////////////////////////////////////////
 
+// Result = Value | Error
+
 template <typename T>
 class [[nodiscard]] Result {
  public:
@@ -277,6 +279,8 @@ class [[nodiscard]] Result {
 };
 
 ////////////////////////////////////////////////////////////
+
+// Status = Result<void> = Success | Error
 
 template <>
 class [[nodiscard]] Result<void> {
