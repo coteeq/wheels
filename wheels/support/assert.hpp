@@ -8,4 +8,4 @@
     if (WHEELS_UNLIKELY(!(cond))) {                                  \
       WHEELS_PANIC("Assertion '" << #cond << "' failed: " << error); \
     }                                                                \
-  } while (false);
+  } while (false)
