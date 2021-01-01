@@ -6,10 +6,10 @@ namespace wheels {
 
 namespace detail {
 
-template<typename T>
+template <typename T>
 class RollbackGuard {
  public:
-  RollbackGuard(T &obj, T&& old_value)
+  RollbackGuard(T& obj, T&& old_value)
       : obj_(obj), old_value_(std::move(old_value)) {
   }
 

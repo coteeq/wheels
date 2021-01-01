@@ -32,7 +32,7 @@ class ProgressBar {
     WHEELS_VERIFY(progress_ < total_, "Overflow");
 
     ++progress_;
-    if (Percents(progress_-1, total_) < Percents(progress_, total_)) {
+    if (Percents(progress_ - 1, total_) < Percents(progress_, total_)) {
       Draw();
     }
   }
@@ -60,8 +60,8 @@ class ProgressBar {
 
   void WriteProgress() {
     size_t percents = Percents(progress_, total_);
-    std::cout << '\r' << name_ << ": " << percents << '%'
-      << " (" << progress_ << ")";
+    std::cout << '\r' << name_ << ": " << percents << '%' << " (" << progress_
+              << ")";
     std::cout.flush();
   }
 
@@ -73,11 +73,8 @@ class ProgressBar {
 
     std::stringstream out;
 
-    out << '\r'
-        << name_ << ": |"
-        << std::string(fill, options_.fill_char)
-        << std::string(left, '-')
-        << "| " << percents << "% Complete";
+    out << '\r' << name_ << ": |" << std::string(fill, options_.fill_char)
+        << std::string(left, '-') << "| " << percents << "% Complete";
 
     std::cout << out.str();
   }

@@ -5,22 +5,22 @@
 
 #ifndef NDEBUG
 
-#define WHEELS_ASSERT(cond, error) \
-do { \
-  if (!(cond)) { \
-    WHEELS_PANIC("Assertion '" << #cond << "' failed: " << error); \
-  } \
-} while (false)
+#define WHEELS_ASSERT(cond, error)                                   \
+  do {                                                               \
+    if (!(cond)) {                                                   \
+      WHEELS_PANIC("Assertion '" << #cond << "' failed: " << error); \
+    }                                                                \
+  } while (false)
 
 #else
 
 #define WHEELS_ASSERT(cond, error) \
-do { \
-  if (false) { \
-    bool to_ignore = cond; \
-    WHEELS_UNUSED(to_ignore); \
-  } \
-} while (false)
+  do {                             \
+    if (false) {                   \
+      bool to_ignore = cond;       \
+      WHEELS_UNUSED(to_ignore);    \
+    }                              \
+  } while (false)
 
 #endif
 
