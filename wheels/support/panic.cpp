@@ -2,6 +2,7 @@
 
 #include <mutex>
 
+namespace wheels {
 namespace detail {
 
 static std::mutex mutex;
@@ -16,3 +17,4 @@ void Panic(const std::string& error) {
 }
 
 }  // namespace detail
+}  // namespace wheels

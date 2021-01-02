@@ -20,10 +20,11 @@ struct SourceLocation {
   }
 };
 
-std::ostream &operator<<(std::ostream &out, const SourceLocation &where);
+std::ostream& operator<<(std::ostream& out, const SourceLocation& where);
 
 }  // namespace wheels
 
 // Use WHEELS_HERE in macros to capture current location
 
-#define WHEELS_HERE ::wheels::SourceLocation(__FILE__, __PRETTY_FUNCTION__, __LINE__)
+#define WHEELS_HERE \
+  ::wheels::SourceLocation(__FILE__, __PRETTY_FUNCTION__, __LINE__)
