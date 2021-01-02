@@ -55,7 +55,7 @@ class AssertionError {
 std::ostream& operator<<(std::ostream& out, const AssertionError& error);
 
 #define ASSERTION_ERROR(cond) \
-  ::wheels::test::AssertionError(TO_STRING(cond), HERE())
+  ::wheels::test::AssertionError(TO_STRING(cond), WHEELS_HERE)
 
 ////////////////////////////////////////////////////////////////////////////////
 

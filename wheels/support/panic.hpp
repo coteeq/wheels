@@ -12,5 +12,5 @@ namespace detail {
 
 #define WHEELS_PANIC(error)                                              \
   do {                                                                   \
-    ::detail::Panic(wheels::StringBuilder() << HERE() << ": " << error); \
+    ::detail::Panic(wheels::StringBuilder() << WHEELS_HERE << ": " << error); \
   } while (false)

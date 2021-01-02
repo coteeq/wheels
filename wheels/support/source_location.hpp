@@ -22,6 +22,6 @@ struct SourceLocation {
 
 std::ostream& operator<<(std::ostream& out, const SourceLocation& where);
 
-// Use HERE in macros to capture current location
+// Use WHEELS_HERE in macros to capture current location
 
-#define HERE() SourceLocation(__FILE__, __PRETTY_FUNCTION__, __LINE__)
+#define WHEELS_HERE SourceLocation(__FILE__, __PRETTY_FUNCTION__, __LINE__)
