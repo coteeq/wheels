@@ -10,7 +10,7 @@ namespace detail {
 // Print source location and error message to stderr, then abort
 // Usage: WHEELS_PANIC("Internal error: " << e.what());
 
-#define WHEELS_PANIC(error)                                              \
-  do {                                                                   \
+#define WHEELS_PANIC(error)                                                   \
+  do {                                                                        \
     ::detail::Panic(wheels::StringBuilder() << WHEELS_HERE << ": " << error); \
   } while (false)

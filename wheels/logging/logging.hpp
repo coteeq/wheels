@@ -31,11 +31,11 @@ void LogMessageSimple(std::string message);
 
 //////////////////////////////////////////////////////////////////////
 
-#define LOG_IMPL(level, expr)                                      \
-  do {                                                             \
-    if (wheels::LevelAccepted(level)) {                            \
+#define LOG_IMPL(level, expr)                                           \
+  do {                                                                  \
+    if (wheels::LevelAccepted(level)) {                                 \
       wheels::LogMessage(WHEELS_HERE, wheels::StringBuilder() << expr); \
-    }                                                              \
+    }                                                                   \
   } while (false);
 
 #define LOG_DEBUG(expr) LOG_IMPL(wheels::LogLevel::Debug, expr)
