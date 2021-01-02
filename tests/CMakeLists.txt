@@ -4,10 +4,9 @@ message(STATUS "Wheels tests")
 
 # List sources
 
-set(RUN_TESTS_MAIN "./run_tests.cpp")
-file(GLOB TESTS "./test*.cpp")
+file(GLOB TEST_SOURCES "./*.cpp")
 
 # All tests target
 
-add_executable(wheels_all_tests ${RUN_TESTS_MAIN} ${TESTS})
+add_executable(wheels_all_tests ${TEST_SOURCES})
 target_link_libraries(wheels_all_tests wheels)
