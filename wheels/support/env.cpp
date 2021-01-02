@@ -11,6 +11,10 @@ std::optional<std::string> GetEnvVar(const char* name) {
   }
 }
 
+std::string GetEnvVarOr(const char* name, const std::string default_value) {
+  return GetEnvVar(name).value_or(default_value);
+}
+
 std::optional<std::string> GetUser() {
   return GetEnvVar("USER");
 }
