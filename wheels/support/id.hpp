@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <atomic>
 
-namespace wheels::support {
+namespace wheels {
 
 // Monotonic integer ids
 
@@ -30,4 +30,4 @@ class IdGenerator {
   std::atomic<Id> next_{0};
 };
 
-}  // namespace wheels::support
+}  // namespace wheels
