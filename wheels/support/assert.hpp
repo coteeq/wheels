@@ -3,6 +3,8 @@
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/panic.hpp>
 
+////////////////////////////////////////////////////////////////////////////////
+
 #ifndef NDEBUG
 
 #define WHEELS_ASSERT(cond, error)                                   \
@@ -23,6 +25,8 @@
   } while (false)
 
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
 
 #define WHEELS_VERIFY(cond, error)                                   \
   do {                                                               \
