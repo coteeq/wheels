@@ -169,6 +169,25 @@ static void PrintCompilerVersion() {
   std::cout << "Compiler: " __VERSION__ << std::endl;
 }
 
+static void PrintSanitizerInfo() {
+#if __has_feature(address_sanitizer)
+  std::cout << "Sanitizer: Address (https://clang.llvm.org/docs/AddressSanitizer.html)" << std::endl;
+#elif __has_feature(thread_sanitizer)
+  std::cout << "Sanitizer: Thread (https://clang.llvm.org/docs/ThreadSanitizer.html)" << std::endl;
+#else
+  // Do not care
+#endif
+
+  int sanitizer_slowdown = GetSanitizerSlowdown();
+  if (sanitizer_slowdown != 1) {
+    std::cout << "Expected slowdown introduced by sanitizer: x" << sanitizer_slowdown << std::endl;
+  }
+}
+
+static void PrintTestFrameworkMode() {
+  std::cout << "Fork tests: " << (UseForks() ? "yes" : "no") << std::endl;
+}
+
 static void RunTest(ITestPtr test, ITestReporterPtr reporter) {
   TestContextGuard ctx_installer(test);
 
@@ -199,6 +218,8 @@ TestList FilterTests(const TestList& tests, ITestFilterPtr filter) {
 void RunTests(const TestList& tests) {
   DisableStdoutBuffering();
   PrintCompilerVersion();
+  PrintSanitizerInfo();
+  PrintTestFrameworkMode();
 
   InstallTestFailHandler(std::make_shared<AbortOnFailHandler>());
 

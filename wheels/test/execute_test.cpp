@@ -10,6 +10,10 @@ void ExecuteTest(ITestPtr test) {
   ExecuteTestWithFork(std::move(test));
 }
 
+bool UseForks() {
+  return true;
+}
+
 }  // namespace wheels::test
 
 #else
@@ -30,6 +34,10 @@ void ExecuteTestHere(const ITestPtr& test) {
 
 void ExecuteTest(ITestPtr test) {
   ExecuteTestHere(test);
+}
+
+bool UseForks() {
+  return false;
 }
 
 }  // namespace wheels::test

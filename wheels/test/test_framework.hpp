@@ -3,6 +3,7 @@
 #include <wheels/test/test.hpp>
 #include <wheels/test/registry.hpp>
 #include <wheels/test/filter.hpp>
+#include <wheels/test/sanitizers.hpp>
 
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>
@@ -117,6 +118,12 @@ class TestTimeLimitWatcher {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+inline wheels::Duration TestTimeLimit(TestOptions options) {
+  return options.time_limit * GetSanitizerSlowdown();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 // Test suite provides separate namespace for bunch of simple test functions
 
 #define TEST_SUITE_WITH_PRIORITY(name, priority) \
@@ -153,7 +160,7 @@ class TestTimeLimitWatcher {
     }                                                               \
     void Run() override {                                           \
       ::wheels::test::TestTimeLimitWatcher time_limit_watcher(      \
-          Options().time_limit);                                    \
+          ::wheels::test::TestTimeLimit(Options()));                                    \
       try {                                                         \
         ExecuteTest##name();                                        \
       } catch (...) {                                               \
