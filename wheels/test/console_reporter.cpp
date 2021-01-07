@@ -16,7 +16,7 @@ class ConsoleTestReporter : public ITestReporter {
   void TestStarted(const ITestPtr& test) override {
     PrintSeparatorLine();
     std::cout << "Test '" << MAGENTA(test->Describe()) << "' from suite '"
-              << CYAN(test->Suite()) << "' running..." << std::endl;
+              << CYAN(test->Suite()) << "' is running..." << std::endl;
   }
 
   void TestFailed(const ITestPtr& test, const std::string& error) override {
