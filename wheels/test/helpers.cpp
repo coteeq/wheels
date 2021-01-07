@@ -19,6 +19,7 @@ std::string FormatStderrForErrorMessage(const std::string& stderr) {
     return stderr;
   }
   // Multi-line stderr
+  // TODO: stringstream
   return std::string("\n") + stderr + "\n";
 }
 
