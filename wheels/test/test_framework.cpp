@@ -171,21 +171,32 @@ static void PrintCompilerVersion() {
 
 static void PrintSanitizerInfo() {
 #if __has_feature(address_sanitizer)
-  std::cout << "Sanitizer: Address (https://clang.llvm.org/docs/AddressSanitizer.html)" << std::endl;
+  std::cout << "Sanitizer: Address "
+               "(https://clang.llvm.org/docs/AddressSanitizer.html)"
+            << std::endl;
 #elif __has_feature(thread_sanitizer)
-  std::cout << "Sanitizer: Thread (https://clang.llvm.org/docs/ThreadSanitizer.html)" << std::endl;
+  std::cout
+      << "Sanitizer: Thread (https://clang.llvm.org/docs/ThreadSanitizer.html)"
+      << std::endl;
 #else
   // Do not care
 #endif
 
   int sanitizer_slowdown = GetSanitizerSlowdown();
   if (sanitizer_slowdown != 1) {
-    std::cout << "Expected slowdown introduced by sanitizer: x" << sanitizer_slowdown << std::endl;
+    std::cout << "Expected slowdown introduced by sanitizer: x"
+              << sanitizer_slowdown << std::endl;
   }
 }
 
 static void PrintTestFrameworkMode() {
-  std::cout << "Fork tests: " << (UseForks() ? "yes" : "no") << std::endl;
+  if (UseForks()) {
+    std::cout << "Use forks: YES, run tests in subprocesses (set CMake option "
+                 "WHEELS_FORK_TESTS=OFF to disable forks)"
+              << std::endl;
+  } else {
+    std::cout << "Use forks: NO" << std::endl;
+  }
 }
 
 static void RunTest(ITestPtr test, ITestReporterPtr reporter) {

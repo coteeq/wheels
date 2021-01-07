@@ -160,7 +160,7 @@ inline wheels::Duration TestTimeLimit(TestOptions options) {
     }                                                               \
     void Run() override {                                           \
       ::wheels::test::TestTimeLimitWatcher time_limit_watcher(      \
-          ::wheels::test::TestTimeLimit(Options()));                                    \
+          ::wheels::test::TestTimeLimit(Options()));                \
       try {                                                         \
         ExecuteTest##name();                                        \
       } catch (...) {                                               \
