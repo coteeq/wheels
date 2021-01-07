@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 project(wheels)
 
-include(cmake/BuildTypes.cmake)
 include(cmake/ClangFormat.cmake)
 include(cmake/ClangTidy.cmake)
 
