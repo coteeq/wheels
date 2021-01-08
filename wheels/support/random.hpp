@@ -1,10 +1,11 @@
 #pragma once
 
+#include <wheels/support/assert.hpp>
+
 #include <cstddef>
 #include <iterator>
-#include <list>
-#include <stdexcept>
 #include <vector>
+#include <utility>
 
 namespace wheels {
 
@@ -36,9 +37,7 @@ void RandomShuffleInplace(std::vector<T>& items) {
 
 template <typename T>
 T PickRandom(const std::vector<T>& items) {
-  if (items.empty()) {
-    throw std::invalid_argument("items is empty");
-  }
+  WHEELS_VERIFY(!items.empty(), "empty items");
   return items[RandomUInteger(items.size() - 1)];
 }
 
