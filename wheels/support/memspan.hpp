@@ -5,6 +5,10 @@
 
 namespace wheels {
 
+// View on a contiguous chunk of writeable memory
+// The memory is owned by some other object and that object must maintain the
+// memory as long as the span references it.
+
 struct MemSpan {
  public:
   MemSpan(char* start, size_t size) : start_(start), size_(size) {
