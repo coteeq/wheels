@@ -3,6 +3,11 @@
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/panic.hpp>
 
+/* Use-cases:
+ * 1) Contract violations
+ * 2) Unrecoverable errors
+ */
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef NDEBUG
