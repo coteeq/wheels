@@ -1,10 +1,11 @@
 #pragma once
 
 #include <wheels/support/memspan.hpp>
+#include <wheels/support/noncopyable.hpp>
 
 namespace wheels {
 
-class MmapAllocation {
+class MmapAllocation : public NonCopyable {
  public:
   MmapAllocation() {
     Reset();
