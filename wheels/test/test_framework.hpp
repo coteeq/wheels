@@ -141,7 +141,7 @@ inline wheels::Duration TestTimeLimit(TestOptions options) {
 #define TEST_SUITE(name) TEST_SUITE_WITH_PRIORITY(name, 0)
 
 #define TEST(name, options)                                         \
-  void ExecuteTest##name();                                         \
+  void TestRoutine##name();                                         \
   struct Test##name : public ::wheels::test::ITest {                \
     std::string Name() const override {                             \
       return GetCurrentTestSuiteName() + ":" #name;                 \
@@ -162,7 +162,7 @@ inline wheels::Duration TestTimeLimit(TestOptions options) {
       ::wheels::test::TestTimeLimitWatcher time_limit_watcher(      \
           ::wheels::test::TestTimeLimit(Options()));                \
       try {                                                         \
-        ExecuteTest##name();                                        \
+        TestRoutine##name();                                        \
       } catch (...) {                                               \
         ::wheels::test::FailTestByException();                      \
       }                                                             \
@@ -174,7 +174,7 @@ inline wheels::Duration TestTimeLimit(TestOptions options) {
     }                                                               \
   };                                                                \
   static Test##name##Registrar test_##name##_registrar_;            \
-  void ExecuteTest##name()
+  void TestRoutine##name()
 
 #define SIMPLE_TEST(name) TEST(name, ::wheels::test::TestOptions{})
 
