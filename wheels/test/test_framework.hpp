@@ -118,8 +118,8 @@ class TestTimeLimitWatcher {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-inline wheels::Duration TestTimeLimit(TestOptions options) {
-  return options.time_limit * GetSanitizerSlowdown();
+inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
+  return base_time_limit * GetSanitizerSlowdown();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,7 +160,7 @@ inline wheels::Duration TestTimeLimit(TestOptions options) {
     }                                                               \
     void Run() override {                                           \
       ::wheels::test::TestTimeLimitWatcher time_limit_watcher(      \
-          ::wheels::test::TestTimeLimit(Options()));                \
+          ::wheels::test::TestTimeLimit(Options().time_limit));     \
       try {                                                         \
         TestRoutine##name();                                        \
       } catch (...) {                                               \
