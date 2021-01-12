@@ -4,6 +4,7 @@
 #include <wheels/test/registry.hpp>
 #include <wheels/test/filter.hpp>
 #include <wheels/test/sanitizers.hpp>
+#include <wheels/test/main.hpp>
 
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>
@@ -187,11 +188,8 @@ void RunTests(const TestList& tests);
 
 }  // namespace wheels::test
 
-#define RUN_ALL_TESTS()                                                  \
-  int main(int argc, const char** argv) {                                \
-    auto filter = wheels::test::CreateTestFilter(argc, argv);            \
-    auto tests = wheels::test::FilterTests(wheels::test::ListAllTests(), \
-                                           std::move(filter));           \
-    wheels::test::RunTests(tests);                                       \
-    return EXIT_SUCCESS;                                                 \
+#define RUN_ALL_TESTS()                     \
+  int main(int argc, const char** argv) {   \
+    wheels::test::RunTestsMain(argc, argv); \
+    return EXIT_SUCCESS;                    \
   }

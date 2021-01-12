@@ -16,4 +16,8 @@ Tokens Split(std::string str, char delimiter) {
   return tokens;
 }
 
+bool StartsWith(const std::string& str, std::string_view prefix) {
+  return prefix.compare(str.substr(0, prefix.length())) == 0;
+}
+
 }  // namespace wheels
