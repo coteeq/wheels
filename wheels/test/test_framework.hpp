@@ -181,6 +181,10 @@ inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+const ITestPtr& CurrentTest();
+
+////////////////////////////////////////////////////////////////////////////////
+
 TestList FilterTests(const TestList& tests, ITestFilterPtr filter);
 void RunTests(const TestList& tests);
 

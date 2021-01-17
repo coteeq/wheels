@@ -65,7 +65,7 @@ struct TestContext {
     current_.reset();
   }
 
-  ITestPtr GetCurrentTest() {
+  const ITestPtr& GetCurrentTest() {
     if (!current_) {
       std::terminate();
     }
@@ -86,7 +86,7 @@ struct TestContextGuard {
   }
 };
 
-static ITestPtr CurrentTest() {
+const ITestPtr& CurrentTest() {
   return Singleton<TestContext>()->GetCurrentTest();
 }
 
