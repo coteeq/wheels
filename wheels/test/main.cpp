@@ -3,6 +3,7 @@
 #include <wheels/test/test_framework.hpp>
 
 #include <wheels/support/args.hpp>
+#include <wheels/support/string_utils.hpp>
 
 #include <string>
 #include <vector>
@@ -12,12 +13,16 @@
 namespace wheels::test {
 
 void RunTestsMain(int argc, const char** argv) {
-  const auto args = AsNamedArgs(argc, argv);
+  ArgumentsParser parser;
+  parser.AddArgument("--suite");
+  parser.AddArgument("--test");
+
+  const auto args = parser.Parse(argc, argv);
 
   if (!args.empty()) {
     std::cout << "Command line arguments: " << std::endl;
     for (const auto& [k, v] : args) {
-      std::cout << "'" << k << "' -> '" << v << "'" << std::endl;
+      std::cout << Quoted(k) << " -> " << Quoted(v) << std::endl;
     }
   }
 
