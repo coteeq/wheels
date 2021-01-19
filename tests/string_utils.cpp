@@ -2,6 +2,8 @@
 
 #include <wheels/test/test_framework.hpp>
 
+#include <sstream>
+
 TEST_SUITE(StringUtils) {
   SIMPLE_TEST(Split) {
     auto tokens = wheels::Split("1,22,333", ',');
@@ -25,5 +27,11 @@ TEST_SUITE(StringUtils) {
     ASSERT_EQ(tokens[2], "");
     ASSERT_EQ(tokens[3], "2");
     ASSERT_EQ(tokens[4], "");
+  }
+
+  SIMPLE_TEST(Quoted) {
+    std::stringstream out;
+    out << wheels::Quoted("Hello!");
+    ASSERT_EQ(out.str(), "'Hello!'");
   }
 }
