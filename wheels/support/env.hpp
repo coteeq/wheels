@@ -11,4 +11,6 @@ std::string GetEnvVarOr(const char* name, const std::string default_value);
 
 std::optional<std::string> GetUser();
 
+std::optional<std::string> GetTempPath();
+
 }  // namespace wheels
