@@ -19,10 +19,10 @@ std::optional<std::string> GetUser() {
   return GetEnvVar("USER");
 }
 
-#define TRY_GET(value, name) \
-if (!value.has_value()) { \
-  value = GetEnvVar(#name); \
-}
+#define TRY_GET(value, name)  \
+  if (!value.has_value()) {   \
+    value = GetEnvVar(#name); \
+  }
 
 std::optional<std::string> GetTempPath() {
   std::optional<std::string> tmp_path;

@@ -19,7 +19,8 @@ NamedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
     }
 
     if (i + 1 >= argc) {
-      WHEELS_PANIC("Value for command line argument " << Quoted(name) << " not set");
+      WHEELS_PANIC("Value for command line argument " << Quoted(name)
+                                                      << " not set");
     }
 
     args.emplace(name, std::string(argv[i + 1]));
