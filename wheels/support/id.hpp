@@ -11,7 +11,7 @@ namespace wheels {
 
 using Id = std::size_t;
 
-static const Id kInvalidId = 0;
+extern const Id kInvalidId;
 
 //////////////////////////////////////////////////////////////////////
 

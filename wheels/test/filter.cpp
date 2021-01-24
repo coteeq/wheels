@@ -33,8 +33,8 @@ static std::string GetArgumentOr(const NamedArgs& args, const std::string& name,
 }
 
 ITestFilterPtr CreateTestFilter(const NamedArgs& args) {
-  const auto suite = GetArgumentOr(args, "--suite", "");
-  const auto test = GetArgumentOr(args, "--test", "");
+  const auto suite = GetArgumentOr(args, "suite", "");
+  const auto test = GetArgumentOr(args, "test", "");
 
   return std::make_shared<RegexTestFilter>(suite, test);
 }

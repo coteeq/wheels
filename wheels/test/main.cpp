@@ -14,8 +14,8 @@ namespace wheels::test {
 
 void RunTestsMain(int argc, const char** argv) {
   ArgumentsParser parser;
-  parser.AddArgument("--suite");
-  parser.AddArgument("--test");
+  parser.AddArgument("suite");
+  parser.AddArgument("test");
 
   const auto args = parser.Parse(argc, argv);
 

@@ -5,6 +5,11 @@
 #include <iostream>
 
 TEST_SUITE(Env) {
+  SIMPLE_TEST(GetEnvVarOr) {
+    auto value = wheels::GetEnvVarOr("19sf991dusdhfkjsdhfkjh1", "42");
+    ASSERT_EQ(value, "42");
+  }
+
   SIMPLE_TEST(GetUser) {
     auto user = wheels::GetUser();
     if (user.has_value()) {
