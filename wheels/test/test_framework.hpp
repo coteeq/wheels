@@ -19,14 +19,14 @@ namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class AssertionError {
+class AssertionFailure {
  public:
-  AssertionError(const std::string& cond, const SourceLocation& where)
-      : cond_(cond), where_(where) {
+  AssertionFailure(const std::string& condition, const SourceLocation& where)
+      : condition_(condition), where_(where) {
   }
 
   template <typename T>
-  AssertionError& operator<<(const T& next) {
+  AssertionFailure& operator<<(const T& next) {
     description_ << next;
     return *this;
   }
@@ -40,7 +40,7 @@ class AssertionError {
   }
 
   friend std::ostream& operator<<(std::ostream& out,
-                                  const AssertionError& error);
+                                  const AssertionFailure& error);
 
   std::string ToString() const {
     std::ostringstream out;
@@ -49,32 +49,32 @@ class AssertionError {
   }
 
  private:
-  std::string cond_;
+  std::string condition_;
   SourceLocation where_;
   std::ostringstream description_;
 };
 
-std::ostream& operator<<(std::ostream& out, const AssertionError& error);
+std::ostream& operator<<(std::ostream& out, const AssertionFailure& failure);
 
-#define ASSERTION_ERROR(cond) \
-  ::wheels::test::AssertionError(TO_STRING(cond), WHEELS_HERE)
+#define ASSERTION_FAILURE(cond) \
+  ::wheels::test::AssertionFailure(TO_STRING(cond), WHEELS_HERE)
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void FailTest(const std::string& error_message);
-void FailTestByAssert(const AssertionError& assert_error);
+void FailTestByAssert(const AssertionFailure& assert_failure);
 void FailTestByException();
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define ASSERT_TRUE(cond)                                    \
-  if (!(cond)) {                                             \
-    ::wheels::test::FailTestByAssert(ASSERTION_ERROR(cond)); \
+#define ASSERT_TRUE(cond)                                      \
+  if (!(cond)) {                                               \
+    ::wheels::test::FailTestByAssert(ASSERTION_FAILURE(cond)); \
   }
 
-#define ASSERT_TRUE_M(cond, message)                                    \
-  if (!(cond)) {                                                        \
-    ::wheels::test::FailTestByAssert(ASSERTION_ERROR(cond) << message); \
+#define ASSERT_TRUE_M(cond, message)                                      \
+  if (!(cond)) {                                                          \
+    ::wheels::test::FailTestByAssert(ASSERTION_FAILURE(cond) << message); \
   }
 
 #define ASSERT_FALSE(cond) ASSERT_TRUE(!(cond))

@@ -26,7 +26,7 @@ using LeaksScope = __lsan::ScopedDisabler;
 
 #else
 
-inline void MarkLeakingObjectPtr(void *) {
+inline void MarkLeakingObjectPtr(void*) {
 }
 
 struct LeaksScope {

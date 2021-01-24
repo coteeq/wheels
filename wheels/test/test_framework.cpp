@@ -44,9 +44,10 @@ class AbortOnFailHandler : public ITestFailHandler {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::ostream& operator<<(std::ostream& out, const AssertionError& error) {
-  out << "Assertion '" << error.cond_ << "' failed at " << error.where_;
-  auto description = error.GetDescription();
+std::ostream& operator<<(std::ostream& out, const AssertionFailure& failure) {
+  out << "Assertion '" << failure.condition_ << "' failed at "
+      << failure.where_;
+  auto description = failure.GetDescription();
   if (!description.empty()) {
     out << ": " << description;
   }
@@ -100,8 +101,8 @@ void FailTest(const std::string& error_message) {
   GetTestFailHandler()->Fail(CurrentTest(), error_message);
 }
 
-void FailTestByAssert(const AssertionError& assert_error) {
-  FailTest(assert_error.ToString());
+void FailTestByAssert(const AssertionFailure& assert_failure) {
+  FailTest(assert_failure.ToString());
 }
 
 static std::string FormatCurrentExceptionMessage() {
