@@ -1,6 +1,6 @@
-#include <wheels/test/sanitizers.hpp>
+#include <wheels/support/sanitizers.hpp>
 
-namespace wheels::test {
+namespace wheels {
 
 int GetSanitizerSlowdown() {
 #if __has_feature(address_sanitizer)
@@ -16,4 +16,4 @@ int GetSanitizerSlowdown() {
 #endif
 }
 
-}  // namespace wheels::test
+}  // namespace wheels

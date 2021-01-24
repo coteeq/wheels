@@ -2,6 +2,17 @@
 
 #include <sanitizer/lsan_interface.h>
 
+namespace wheels {
+
+////////////////////////////////////////////////////////////////////////////////
+
+// >= 1, 1 means no slowdown
+int GetSanitizerSlowdown();
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Leaks
+
 #if __has_feature(address_sanitizer)
 
 // Mark intentional memory leak
@@ -15,7 +26,7 @@ using LeaksScope = __lsan::ScopedDisabler;
 
 #else
 
-inline void MarkLeakingObjectPtr(void*) {
+inline void MarkLeakingObjectPtr(void *) {
 }
 
 struct LeaksScope {
@@ -26,3 +37,5 @@ struct LeaksScope {
 };
 
 #endif
+
+}  // namespace wheels

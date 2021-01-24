@@ -3,11 +3,11 @@
 #include <wheels/test/test.hpp>
 #include <wheels/test/registry.hpp>
 #include <wheels/test/filter.hpp>
-#include <wheels/test/sanitizers.hpp>
 #include <wheels/test/main.hpp>
 
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>
+#include <wheels/support/sanitizers.hpp>
 #include <wheels/support/source_location.hpp>
 #include <wheels/support/string_builder.hpp>
 #include <wheels/support/time.hpp>
