@@ -9,7 +9,6 @@
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>
 #include <wheels/support/sanitizers.hpp>
-#include <wheels/support/source_location.hpp>
 #include <wheels/support/string_builder.hpp>
 #include <wheels/support/time.hpp>
 
