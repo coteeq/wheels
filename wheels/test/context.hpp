@@ -18,4 +18,8 @@ void SetContext(const std::string& key, T value) {
   SetContextImpl(key, {value});
 }
 
+inline bool HasContext(const std::string& key) {
+  return wheels::test::GetContextImpl(key).has_value();
+}
+
 }  // namespace wheels::test
