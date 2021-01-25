@@ -13,11 +13,9 @@ size_t TestIterationHash();
 
 }  // namespace wheels::test
 
-// Available context: "test_iteration" -> size_t
-
-#define ITERATE_TEST(name, time_limit)                              \
-  void IteratedTestRoutine##name();                                 \
-  TEST(name, ::wheels::test::TestOptions().TimeLimit(time_limit)) { \
-    ::wheels::test::Iterate([]() { IteratedTestRoutine##name(); }); \
-  }                                                                 \
+#define ITERATE_TEST(name, time_budget)                              \
+  void IteratedTestRoutine##name();                                  \
+  TEST(name, ::wheels::test::TestOptions().TimeLimit(time_budget)) { \
+    ::wheels::test::Iterate([]() { IteratedTestRoutine##name(); });  \
+  }                                                                  \
   void IteratedTestRoutine##name()
