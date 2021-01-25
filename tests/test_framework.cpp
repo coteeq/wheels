@@ -58,11 +58,7 @@ TEST_SUITE(TestFramework) {
   }
   */
 
-  /*
-  SIMPLE_TEST(Fail) {
-    ASSERT_TRUE(false);
-  }
-  */
+  // SIMPLE_TEST(Fail) { ASSERT_TRUE(false); }
 
   TEST(TimeLeft, wheels::test::TestOptions().TimeLimit(2s)) {
     while (wheels::test::TestTimeLeft() > 100ms) {
@@ -74,6 +70,7 @@ TEST_SUITE(TestFramework) {
   ITERATE_TEST(Iterations, 3s) {
     std::this_thread::sleep_for(50ms);
     std::cout << "Iteration: " <<
-              wheels::test::GetContext<size_t>("test_iteration") << std::endl;
+              wheels::test::TestIteration() << std::endl;
+    std::cout << "Hash: " << wheels::test::TestIterationHash() << std::endl;
   }
 }

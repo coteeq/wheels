@@ -57,6 +57,8 @@ class TestRunner {
 
     TestTimeLimitWatcher time_limit_watcher(time_limit_);
 
+    SetContext("test_hash", TestHash());
+
     try {
       test_->Run();
     } catch (...) {
@@ -66,6 +68,10 @@ class TestRunner {
 
   const ITestPtr& Test() const {
     return test_;
+  }
+
+  size_t TestHash() const {
+    return std::hash<std::string>()(test_->Name());
   }
 
   Duration TimeLimit() const {
@@ -118,6 +124,10 @@ Duration TestTimeLimit() {
 
 Duration TestTimeLeft() {
   return AccessTestRunner().TimeLeft();
+}
+
+size_t TestHash() {
+  return AccessTestRunner().TestHash();
 }
 
 std::any GetContextImpl(const std::string& key) {

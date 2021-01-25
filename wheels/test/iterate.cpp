@@ -2,6 +2,8 @@
 
 #include <wheels/test/helpers.hpp>
 
+#include <wheels/support/hash_combine.hpp>
+
 #include <chrono>
 #include <iostream>
 
@@ -33,14 +35,26 @@ void Iterate(std::function<void()> test_routine) {
   size_t iter = 0;
   Progress progress;
 
+  size_t test_iter_hash = TestHash();
+
   while (TestTimeLeft() > kSafeTLMargin) {
     ++iter;
+    SetContext("test_iteration_hash", test_iter_hash);
     SetContext("test_iteration", iter);
     test_routine();
     progress.IterCompleted();
+    HashCombine(test_iter_hash, iter);
   }
 
   std::cout << "Iterations made: " << progress.Iterations() << std::endl;
+}
+
+size_t TestIteration() {
+  return GetContext<size_t>("test_iteration");
+}
+
+size_t TestIterationHash() {
+  return GetContext<size_t>("test_iteration_hash");
 }
 
 }  // namespace wheels::test

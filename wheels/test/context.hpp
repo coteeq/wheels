@@ -1,5 +1,9 @@
 #pragma once
 
+#include <wheels/support/assert.hpp>
+#include <wheels/support/string_utils.hpp>
+
+#include <string>
 #include <any>
 
 namespace wheels::test {
@@ -8,7 +12,9 @@ std::any GetContextImpl(const std::string& key);
 
 template <typename T>
 T GetContext(const std::string& key) {
-  return std::any_cast<T>(GetContextImpl(key));
+  auto value = GetContextImpl(key);
+  WHEELS_VERIFY(value.has_value(), "Key " << Quoted(key) << " not found in test context");
+  return std::any_cast<T>(value);
 }
 
 void SetContextImpl(const std::string& key, std::any value);

@@ -4,6 +4,7 @@
 #include <wheels/test/helpers.hpp>
 
 #include <wheels/support/terminal.hpp>
+#include <wheels/support/string_utils.hpp>
 
 #include <iostream>
 
@@ -15,12 +16,12 @@ class ConsoleTestReporter : public ITestReporter {
  public:
   void TestStarted(const ITestPtr& test) override {
     PrintSeparatorLine();
-    std::cout << "Test '" << MAGENTA(test->Describe()) << "' from suite '"
-              << CYAN(test->Suite()) << "' is running..." << std::endl;
+    std::cout << "Test " << MAGENTA(Quoted(test->Describe())) << " from suite "
+              << CYAN(Quoted(test->Suite())) << " is running..." << std::endl;
   }
 
   void TestFailed(const ITestPtr& test, const std::string& error) override {
-    std::cout << "Test " << test->Describe() << RED(" FAILED ")
+    std::cout << "Test " << MAGENTA(Quoted(test->Describe())) << RED(" FAILED ")
               << GetFailEmoji() << ": " << error << std::endl
               << std::flush;
   }

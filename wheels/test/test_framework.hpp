@@ -119,6 +119,9 @@ const ITestPtr& CurrentTest();
 Duration TestTimeLimit();
 Duration TestTimeLeft();
 
+// Deterministic
+size_t TestHash();
+
 ////////////////////////////////////////////////////////////////////////////////
 
 TestList FilterTests(const TestList& tests, ITestFilterPtr filter);
