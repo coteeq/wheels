@@ -113,6 +113,8 @@ void FailTestByException();
 // Current test
 
 const ITestPtr& CurrentTest();
+
+// Access only from test routine
 Duration TestTimeLimit();
 Duration TestTimeLeft();
 

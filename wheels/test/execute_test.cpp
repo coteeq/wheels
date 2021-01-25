@@ -19,7 +19,7 @@ bool UseForks() {
 #else
 
 #include <wheels/test/test_framework.hpp>
-#include <wheels/test/run_test_here.hpp>
+#include <wheels/test/execute_test_here.hpp>
 
 namespace wheels::test {
 

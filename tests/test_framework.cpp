@@ -58,6 +58,12 @@ TEST_SUITE(TestFramework) {
   }
   */
 
+  /*
+  SIMPLE_TEST(Fail) {
+    ASSERT_TRUE(false);
+  }
+  */
+
   TEST(TimeLeft, wheels::test::TestOptions().TimeLimit(2s)) {
     while (wheels::test::TestTimeLeft() > 100ms) {
       // KeepRunning

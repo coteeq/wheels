@@ -1,5 +1,6 @@
 #include <wheels/test/test_framework.hpp>
 
+#include <wheels/support/assert.hpp>
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/exception.hpp>
 #include <wheels/support/panic.hpp>
@@ -21,6 +22,24 @@
 #include <thread>
 
 namespace wheels::test {
+
+////////////////////////////////////////////////////////////////////////////////
+
+static ITestPtr current_test;
+
+struct TestScope {
+  TestScope(ITestPtr test) {
+    current_test = test;
+  }
+  ~TestScope() {
+    current_test.reset();
+  }
+};
+
+const ITestPtr& CurrentTest() {
+  WHEELS_VERIFY(current_test, "Not in test context");
+  return current_test;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -109,6 +128,7 @@ static void RunTest(ITestPtr test, ITestReporterPtr reporter) {
   wheels::StopWatch stop_watch;
 
   try {
+    TestScope scope{test};
     ExecuteTest(test);
   } catch (...) {
     WHEELS_PANIC(

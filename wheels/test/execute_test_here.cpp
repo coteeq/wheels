@@ -97,10 +97,6 @@ void ExecuteTestHere(const ITestPtr& test) {
 
 // Current test
 
-const ITestPtr& CurrentTest() {
-  return AccessTestRunner().Test();
-}
-
 Duration TestTimeLimit() {
   return AccessTestRunner().TimeLimit();
 }
