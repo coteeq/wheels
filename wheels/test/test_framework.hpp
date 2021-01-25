@@ -5,10 +5,10 @@
 #include <wheels/test/registry.hpp>
 #include <wheels/test/filter.hpp>
 #include <wheels/test/main.hpp>
+#include <wheels/test/test_options.hpp>
 
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>
-#include <wheels/support/sanitizers.hpp>
 #include <wheels/support/string_builder.hpp>
 #include <wheels/support/time.hpp>
 
@@ -66,24 +66,6 @@ void FailTestByException();
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class TestTimeLimitWatcher {
- public:
-  TestTimeLimitWatcher(wheels::Duration timeout);
-  ~TestTimeLimitWatcher();
-
- private:
-  class Impl;
-  std::unique_ptr<Impl> pimpl_;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
-  return base_time_limit * GetSanitizerSlowdown();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 // Test suite provides separate namespace for bunch of simple test functions
 
 #define TEST_SUITE_WITH_OPTIONS(name, options) \
@@ -113,13 +95,7 @@ inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
       return options;                                               \
     }                                                               \
     void Run() override {                                           \
-      ::wheels::test::TestTimeLimitWatcher time_limit_watcher(      \
-          ::wheels::test::TestTimeLimit(Options().time_limit));     \
-      try {                                                         \
-        TestRoutine##name();                                        \
-      } catch (...) {                                               \
-        ::wheels::test::FailTestByException();                      \
-      }                                                             \
+      TestRoutine##name();                                          \
     }                                                               \
   };                                                                \
   struct Test##name##Registrar {                                    \
@@ -134,7 +110,11 @@ inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Current test
+
 const ITestPtr& CurrentTest();
+Duration TestTimeLimit();
+Duration TestTimeLeft();
 
 ////////////////////////////////////////////////////////////////////////////////
 

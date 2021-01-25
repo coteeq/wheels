@@ -2,10 +2,9 @@
 
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/exception.hpp>
-#include <wheels/support/one_shot_event.hpp>
 #include <wheels/support/panic.hpp>
-#include <wheels/support/singleton.hpp>
 #include <wheels/support/string_builder.hpp>
+#include <wheels/support/sanitizers.hpp>
 
 #include <wheels/test/console_reporter.hpp>
 #include <wheels/test/execute_test.hpp>
@@ -20,8 +19,6 @@
 #include <sstream>
 #include <string>
 #include <thread>
-
-using wheels::Duration;
 
 namespace wheels::test {
 
@@ -41,43 +38,6 @@ class AbortOnFailHandler : public ITestFailHandler {
     std::abort();
   }
 };
-
-////////////////////////////////////////////////////////////////////////////////
-
-struct TestContext {
- public:
-  void SetCurrentTest(ITestPtr test) {
-    current_ = std::move(test);
-  }
-
-  void Reset() {
-    current_.reset();
-  }
-
-  const ITestPtr& GetCurrentTest() {
-    if (!current_) {
-      std::terminate();
-    }
-    return current_;
-  }
-
- private:
-  ITestPtr current_{};
-};
-
-struct TestContextGuard {
-  TestContextGuard(ITestPtr test) {
-    Singleton<TestContext>()->SetCurrentTest(std::move(test));
-  }
-
-  ~TestContextGuard() {
-    Singleton<TestContext>()->Reset();
-  }
-};
-
-const ITestPtr& CurrentTest() {
-  return Singleton<TestContext>()->GetCurrentTest();
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -101,51 +61,6 @@ static std::string FormatCurrentExceptionMessage() {
 
 void FailTestByException() {
   FailTest(FormatCurrentExceptionMessage());
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-#if WHEELS_NO_TEST_TIME_LIMIT
-
-class TestTimeLimitWatcher::Impl {
- public:
-  Impl(Duration /* timeout */) {
-  }
-};
-
-#else
-
-class TestTimeLimitWatcher::Impl {
- public:
-  Impl(Duration timeout)
-      : timeout_(timeout), watcher_thread_(&Impl::Watch, this) {
-  }
-
-  ~Impl() {
-    stop_requested_.Set();
-    watcher_thread_.join();
-  }
-
- private:
-  void Watch() {
-    if (!stop_requested_.TimedWait(timeout_)) {
-      FAIL_TEST("Time limit exceeded - " << ToSeconds(timeout_) << " seconds");
-    }
-  }
-
- private:
-  Duration timeout_;
-  wheels::OneShotEvent stop_requested_;
-  std::thread watcher_thread_;
-};
-
-#endif
-
-TestTimeLimitWatcher::TestTimeLimitWatcher(Duration timeout)
-    : pimpl_(std::make_unique<TestTimeLimitWatcher::Impl>(timeout)) {
-}
-
-TestTimeLimitWatcher::~TestTimeLimitWatcher() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -189,8 +104,6 @@ static void PrintTestFrameworkMode() {
 }
 
 static void RunTest(ITestPtr test, ITestReporterPtr reporter) {
-  TestContextGuard ctx_installer(test);
-
   reporter->TestStarted(test);
 
   wheels::StopWatch stop_watch;

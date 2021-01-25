@@ -19,18 +19,9 @@ bool UseForks() {
 #else
 
 #include <wheels/test/test_framework.hpp>
+#include <wheels/test/run_test_here.hpp>
 
 namespace wheels::test {
-
-// Execute test locally
-
-void ExecuteTestHere(const ITestPtr& test) {
-  try {
-    test->Run();
-  } catch (...) {
-    FailTestByException();
-  }
-}
 
 void ExecuteTest(ITestPtr test) {
   ExecuteTestHere(test);

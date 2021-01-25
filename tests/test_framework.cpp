@@ -1,5 +1,6 @@
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/fail_handler.hpp>
+#include <wheels/test/iterate.hpp>
 
 #include <thread>
 
@@ -56,4 +57,16 @@ TEST_SUITE(TestFramework) {
     std::this_thread::sleep_for(11s);
   }
   */
+
+  TEST(TimeLeft, wheels::test::TestOptions().TimeLimit(2s)) {
+    while (wheels::test::TestTimeLeft() > 100ms) {
+      // KeepRunning
+      std::this_thread::sleep_for(10ms);
+    }
+  }
+
+  ITERATE_TEST(Iterations, 3s) {
+    std::this_thread::sleep_for(10ms);
+  }
+
 }

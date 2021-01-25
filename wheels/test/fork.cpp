@@ -6,6 +6,7 @@
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/helpers.hpp>
 #include <wheels/test/test_framework.hpp>
+#include <wheels/test/execute_test_here.hpp>
 
 #include <wheels/logging/logging.hpp>
 
@@ -33,11 +34,7 @@ static void ExecuteTestInForkedProcess(ITestPtr test) {
 
   InstallForkedTestFailHandler();
 
-  try {
-    test->Run();
-  } catch (...) {
-    FailTestByException();
-  }
+  ExecuteTestHere(test);
 
   FlushPendingLogMessages();
 }
