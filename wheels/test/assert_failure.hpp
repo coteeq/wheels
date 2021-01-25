@@ -47,5 +47,6 @@ std::ostream& operator<<(std::ostream& out, const AssertionFailure& failure);
 
 }  // namespace wheels::test
 
+// Used by test macros (ASSERT_TRUE etc)
 #define ASSERTION_FAILURE(cond) \
   ::wheels::test::AssertionFailure(TO_STRING(cond), WHEELS_HERE)
