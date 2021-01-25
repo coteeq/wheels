@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <chrono>
+#include <vector>
 
 namespace wheels::test {
 
@@ -127,15 +128,16 @@ inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
 
 // Test suite provides separate namespace for bunch of simple test functions
 
-#define TEST_SUITE_WITH_OPTIONS(name, options)   \
-  namespace TestSuite##name {                    \
-    std::string GetCurrentTestSuiteName() {      \
-      return #name;                              \
-    }                                            \
-  }                                              \
+#define TEST_SUITE_WITH_OPTIONS(name, options) \
+  namespace TestSuite##name {                  \
+    std::string GetCurrentTestSuiteName() {    \
+      return #name;                            \
+    }                                          \
+  }                                            \
   namespace TestSuite##name
 
-#define TEST_SUITE(name) TEST_SUITE_WITH_OPTIONS(name, ::wheels::test::TestSuiteOptions{})
+#define TEST_SUITE(name) \
+  TEST_SUITE_WITH_OPTIONS(name, ::wheels::test::TestSuiteOptions{})
 
 #define TEST(name, options)                                         \
   void TestRoutine##name();                                         \
@@ -179,14 +181,33 @@ const ITestPtr& CurrentTest();
 ////////////////////////////////////////////////////////////////////////////////
 
 TestList FilterTests(const TestList& tests, ITestFilterPtr filter);
+TestList FilterTestSuites(const TestList& tests,
+                          std::vector<std::string> suites);
+
 void RunTests(const TestList& tests);
 
 ////////////////////////////////////////////////////////////////////////////////
 
 }  // namespace wheels::test
 
-#define RUN_ALL_TESTS()                     \
-  int main(int argc, const char** argv) {   \
-    wheels::test::RunTestsMain(argc, argv); \
-    return EXIT_SUCCESS;                    \
+#define RUN_ALL_TESTS()                                \
+  int main(int argc, const char** argv) {              \
+    auto all_tests = wheels::test::ListAllTests();     \
+    wheels::test::RunTestsMain(all_tests, argc, argv); \
+    return EXIT_SUCCESS;                               \
   }
+
+// Run test suites (from different translation units) in specified order
+// Usage: RUN_TEST_SUITES(Unit, Error, Result)
+
+#define RUN_TEST_SUITES(...)                                               \
+  int main(int argc, const char** argv) {                                  \
+    std::vector<std::string> suites;                                       \
+    MAP(_ADD_SUITE_TO_LIST, __VA_ARGS__)                                   \
+    auto all_tests = wheels::test::ListAllTests();                         \
+    auto suites_tests = wheels::test::FilterTestSuites(all_tests, suites); \
+    wheels::test::RunTestsMain(suites_tests, argc, argv);                  \
+    return EXIT_SUCCESS;                                                   \
+  }
+
+#define _ADD_SUITE_TO_LIST(s) suites.push_back(#s);

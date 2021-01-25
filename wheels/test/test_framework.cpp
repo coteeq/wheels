@@ -227,6 +227,19 @@ TestList FilterTests(const TestList& tests, ITestFilterPtr filter) {
   return selected_tests;
 }
 
+TestList FilterTestSuites(const TestList& tests,
+                          std::vector<std::string> suites) {
+  TestList result;
+  for (const auto& suite : suites) {
+    for (const auto& test : tests) {
+      if (test->Suite() == suite) {
+        result.push_back(test);
+      }
+    }
+  }
+  return result;
+}
+
 void RunTests(const TestList& tests) {
   DisableStdoutBuffering();
   PrintCompilerVersion();

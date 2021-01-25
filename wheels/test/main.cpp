@@ -12,7 +12,7 @@
 
 namespace wheels::test {
 
-void RunTestsMain(int argc, const char** argv) {
+void RunTestsMain(const TestList& tests, int argc, const char** argv) {
   ArgumentsParser parser;
   parser.AddArgument("suite");
   parser.AddArgument("test");
@@ -27,9 +27,9 @@ void RunTestsMain(int argc, const char** argv) {
   }
 
   auto filter = CreateTestFilter(args);
-  auto tests = FilterTests(ListAllTests(), std::move(filter));
+  auto selected_tests = FilterTests(tests, std::move(filter));
 
-  RunTests(tests);
+  RunTests(selected_tests);
 }
 
 }  // namespace wheels::test

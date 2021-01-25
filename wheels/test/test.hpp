@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace wheels::test {
 
@@ -22,5 +23,7 @@ class ITest {
 };
 
 using ITestPtr = std::shared_ptr<ITest>;
+
+using TestList = std::vector<ITestPtr>;
 
 }  // namespace wheels::test

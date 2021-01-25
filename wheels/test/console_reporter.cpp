@@ -48,7 +48,7 @@ class ConsoleTestReporter : public ITestReporter {
     } else {
       std::cout << GREEN("1 TEST PASSED!");
     }
-    std::cout << " (total time: " << FormatSeconds(elapsed, 2) << " seconds)"
+    std::cout << " (Total time: " << FormatSeconds(elapsed, 2) << " seconds)"
               << std::endl
               << GetSuccessEmoji() << std::endl
               << std::flush;
