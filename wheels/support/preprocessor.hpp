@@ -12,3 +12,5 @@
 #define CONCAT(x, y) _CONCAT_EXPANDED(x, y)
 
 #define UNIQUE_NAME(name) CONCAT(name, __COUNTER__)
+
+#include <wheels/support/map.hpp>
