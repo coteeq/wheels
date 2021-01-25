@@ -19,10 +19,6 @@ class ITest {
   virtual TestOptions Options() const {
     return {};  // defaults
   }
-
-  virtual int Priority() const {
-    return 0;  // default
-  }
 };
 
 using ITestPtr = std::shared_ptr<ITest>;

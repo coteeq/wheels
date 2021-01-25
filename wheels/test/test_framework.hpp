@@ -127,19 +127,15 @@ inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
 
 // Test suite provides separate namespace for bunch of simple test functions
 
-#define TEST_SUITE_WITH_PRIORITY(name, priority) \
+#define TEST_SUITE_WITH_OPTIONS(name, options)   \
   namespace TestSuite##name {                    \
     std::string GetCurrentTestSuiteName() {      \
       return #name;                              \
     }                                            \
-                                                 \
-    int GetCurrentTestSuitePriority() {          \
-      return priority;                           \
-    }                                            \
   }                                              \
   namespace TestSuite##name
 
-#define TEST_SUITE(name) TEST_SUITE_WITH_PRIORITY(name, 0)
+#define TEST_SUITE(name) TEST_SUITE_WITH_OPTIONS(name, ::wheels::test::TestSuiteOptions{})
 
 #define TEST(name, options)                                         \
   void TestRoutine##name();                                         \
@@ -155,9 +151,6 @@ inline wheels::Duration TestTimeLimit(wheels::Duration base_time_limit) {
     }                                                               \
     ::wheels::test::TestOptions Options() const override {          \
       return options;                                               \
-    }                                                               \
-    int Priority() const override {                                 \
-      return GetCurrentTestSuitePriority();                         \
     }                                                               \
     void Run() override {                                           \
       ::wheels::test::TestTimeLimitWatcher time_limit_watcher(      \
