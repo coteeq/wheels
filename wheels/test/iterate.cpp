@@ -30,7 +30,7 @@ static const auto kSafeTLMargin = 100ms;
 
 void Iterate(std::function<void()> test_routine) {
   std::cout << "Iterated test, time budget: "
-    << FormatSeconds(TestTimeLimit(), 2) << " seconds" << std::endl;
+            << FormatSeconds(TestTimeLimit(), 2) << " seconds" << std::endl;
 
   size_t iter = 0;
   Progress progress;

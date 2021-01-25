@@ -44,8 +44,7 @@ TestRunner& AccessTestRunner() {
 
 class TestRunner {
  public:
-  TestRunner(ITestPtr test)
-      : test_(std::move(test)) {
+  TestRunner(ITestPtr test) : test_(std::move(test)) {
   }
 
   void Run() {

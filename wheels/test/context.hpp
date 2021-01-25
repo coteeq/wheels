@@ -13,7 +13,8 @@ std::any GetContextImpl(const std::string& key);
 template <typename T>
 T GetContext(const std::string& key) {
   auto value = GetContextImpl(key);
-  WHEELS_VERIFY(value.has_value(), "Key " << Quoted(key) << " not found in test context");
+  WHEELS_VERIFY(value.has_value(),
+                "Key " << Quoted(key) << " not found in test context");
   return std::any_cast<T>(value);
 }
 
