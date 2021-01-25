@@ -6,6 +6,7 @@
 #include <wheels/test/filter.hpp>
 #include <wheels/test/main.hpp>
 #include <wheels/test/test_options.hpp>
+#include <wheels/test/context.hpp>
 
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>

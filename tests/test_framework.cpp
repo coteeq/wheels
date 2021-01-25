@@ -72,7 +72,8 @@ TEST_SUITE(TestFramework) {
   }
 
   ITERATE_TEST(Iterations, 3s) {
-    std::this_thread::sleep_for(10ms);
+    std::this_thread::sleep_for(50ms);
+    std::cout << "Iteration: " <<
+              wheels::test::GetContext<size_t>("test_iteration") << std::endl;
   }
-
 }

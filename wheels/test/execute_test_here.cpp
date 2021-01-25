@@ -9,6 +9,9 @@
 #include <wheels/support/panic.hpp>
 #include <wheels/support/exception.hpp>
 
+#include <any>
+#include <map>
+
 namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,10 +85,22 @@ class TestRunner {
     }
   }
 
+  std::any GetCtx(const std::string& key) {
+    if (auto it = ctx_.find(key); it != ctx_.end()) {
+      return it->second;
+    }
+    return {};
+  }
+
+  void SetCtx(const std::string& key, std::any value) {
+    ctx_.insert_or_assign(key, value);
+  }
+
  private:
   ITestPtr test_;
   TimePoint start_time_;
   Duration time_limit_;
+  std::map<std::string, std::any> ctx_;
 };
 
 void ExecuteTestHere(const ITestPtr& test) {
@@ -103,6 +118,14 @@ Duration TestTimeLimit() {
 
 Duration TestTimeLeft() {
   return AccessTestRunner().TimeLeft();
+}
+
+std::any GetContextImpl(const std::string& key) {
+  return AccessTestRunner().GetCtx(key);
+}
+
+void SetContextImpl(const std::string& key, std::any value) {
+  AccessTestRunner().SetCtx(key, std::move(value));
 }
 
 }  // namespace wheels::test
