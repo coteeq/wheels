@@ -26,8 +26,8 @@ class TestRunner;
 static TestRunner* current_runner{nullptr};
 
 struct TestRunnerScope {
-  TestRunnerScope(TestRunner* r) {
-    current_runner = r;
+  TestRunnerScope(TestRunner* runner) {
+    current_runner = runner;
   }
 
   ~TestRunnerScope() {
@@ -90,22 +90,22 @@ class TestRunner {
     }
   }
 
-  std::any GetCtx(const std::string& key) {
-    if (auto it = ctx_.find(key); it != ctx_.end()) {
+  std::any GetContext(const std::string& key) {
+    if (auto it = context_.find(key); it != context_.end()) {
       return it->second;
     }
     return {};
   }
 
-  void SetCtx(const std::string& key, std::any value) {
-    ctx_.insert_or_assign(key, value);
+  void SetContext(const std::string& key, std::any value) {
+    context_.insert_or_assign(key, value);
   }
 
  private:
   ITestPtr test_;
   TimePoint start_time_;
   Duration time_limit_;
-  std::map<std::string, std::any> ctx_;
+  std::map<std::string, std::any> context_;
 };
 
 void ExecuteTestHere(const ITestPtr& test) {
@@ -130,11 +130,11 @@ size_t TestHash() {
 }
 
 std::any GetContextImpl(const std::string& key) {
-  return AccessTestRunner().GetCtx(key);
+  return AccessTestRunner().GetContext(key);
 }
 
 void SetContextImpl(const std::string& key, std::any value) {
-  AccessTestRunner().SetCtx(key, std::move(value));
+  AccessTestRunner().SetContext(key, std::move(value));
 }
 
 }  // namespace wheels::test
