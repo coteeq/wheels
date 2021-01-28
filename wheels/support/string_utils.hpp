@@ -23,16 +23,23 @@ bool StartsWith(const std::string& str, std::string_view prefix);
 
 namespace detail {
 
+// TODO: reference?
+template <typename T>
 struct Quoted {
-  std::string str;
+  T value;
 };
 
-std::ostream& operator<<(std::ostream& out, const Quoted& quoted);
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const Quoted<T> quoted) {
+  out << "'" << quoted.value << "'";
+  return out;
+}
 
 }  // namespace detail
 
-inline detail::Quoted Quoted(const std::string& str) {
-  return detail::Quoted{str};
+template <typename T>
+detail::Quoted<T> Quoted(const T& value) {
+  return detail::Quoted<T>{value};
 }
 
 }  // namespace wheels

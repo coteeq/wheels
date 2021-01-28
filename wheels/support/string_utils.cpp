@@ -20,13 +20,4 @@ bool StartsWith(const std::string& str, std::string_view prefix) {
   return prefix.compare(str.substr(0, prefix.length())) == 0;
 }
 
-namespace detail {
-
-std::ostream& operator<<(std::ostream& out, const Quoted& quoted) {
-  out << "'" << quoted.str << "'";
-  return out;
-}
-
-}  // namespace detail
-
 }  // namespace wheels

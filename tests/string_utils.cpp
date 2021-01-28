@@ -29,9 +29,15 @@ TEST_SUITE(StringUtils) {
     ASSERT_EQ(tokens[4], "");
   }
 
-  SIMPLE_TEST(Quoted) {
+  SIMPLE_TEST(QuotedString) {
     std::stringstream out;
-    out << wheels::Quoted("Hello!");
+    out << wheels::Quoted(std::string("Hello!"));
     ASSERT_EQ(out.str(), "'Hello!'");
+  }
+
+  SIMPLE_TEST(QuotedInt) {
+    std::stringstream out;
+    out << wheels::Quoted(42);
+    ASSERT_EQ(out.str(), "'42'");
   }
 }
