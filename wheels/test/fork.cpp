@@ -29,12 +29,12 @@ static void InstallForkedTestFailHandler() {
   InstallTestFailHandler(std::make_shared<ForkedTestFailHandler>());
 }
 
-static void ExecuteTestInForkedProcess(ITestPtr test) {
+static void ExecuteTestInForkedProcess(ITestPtr test, const Options& options) {
   std::cout << "Executed in subprocess with pid = " << getpid() << std::endl;
 
   InstallForkedTestFailHandler();
 
-  ExecuteTestHere(test);
+  ExecuteTestHere(test, options);
 
   FlushPendingLogMessages();
 }
@@ -56,8 +56,10 @@ class LiveStdoutPrinter : public IByteStreamConsumer {
   size_t total_bytes_consumed_ = 0;
 };
 
-void ExecuteTestWithFork(ITestPtr test) {
-  auto execute_test = [test]() { ExecuteTestInForkedProcess(test); };
+void ExecuteTestWithFork(ITestPtr test, const Options& options) {
+  auto execute_test = [test, options]() {
+    ExecuteTestInForkedProcess(test, options);
+  };
 
   auto result = ExecuteWithFork(execute_test,
                                 std::make_unique<LiveStdoutPrinter>(), nullptr);

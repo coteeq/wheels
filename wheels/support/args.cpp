@@ -5,36 +5,85 @@
 
 namespace wheels {
 
-std::string ArgumentsParser::MakeLongArgument(std::string name) {
-  return StringBuilder() << "--" << name;
-}
-
-std::string ArgumentsParser::GetLongArgumentName(const std::string argument) {
+std::string ArgumentsParser::WithoutDashes(const std::string argument) {
   return argument.substr(2, argument.length());
 }
 
-NamedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
-  NamedArgs args;
+#define FAIL_PARSE(error) Fail(StringBuilder() << name_ << ": " error)
 
-  for (int i = 1; i < argc; i += 2) {
-    std::string argument(argv[i]);
+ParsedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
+  ParsedArgs parsed_args;
 
-    WHEELS_VERIFY(StartsWith(argument, "--"),
-                  "Argument expected: --{name}, found " << Quoted(argument));
+  std::set<std::string> presented;
 
-    if (arg_long_names_.find(argument) == arg_long_names_.end()) {
-      WHEELS_PANIC("Unexpected command line argument: " << Quoted(argument));
+  for (int i = 1; i < argc;) {
+    std::string name_with_dashes(argv[i]);
+
+    if (!StartsWith(name_with_dashes, "--")) {
+      FAIL_PARSE("Argument expected: --{name}, found "
+                 << Quoted(name_with_dashes));
     }
 
-    if (i + 1 >= argc) {
-      WHEELS_PANIC("Value for command line argument " << Quoted(argument)
-                                                      << " not set");
+    auto name = WithoutDashes(name_with_dashes);
+
+    auto it = args_.find(name);
+    if (it == args_.end()) {
+      FAIL_PARSE(
+          "Unexpected command line argument: " << Quoted(name_with_dashes));
     }
 
-    args.emplace(GetLongArgumentName(argument), std::string(argv[i + 1]));
+    const auto& argument = it->second;
+
+    if (argument.flag) {
+      // Flags: --{name}
+      parsed_args.AddFlag(name);
+      ++i;
+    } else {
+      // --{name} {value}
+      if (i + 1 >= argc) {
+        FAIL_PARSE("Value for command line argument "
+                   << Quoted(name_with_dashes) << " not set");
+      }
+      std::string value{argv[i + 1]};
+      i += 2;
+      presented.insert(name);
+      parsed_args.Add(name, value);
+    }
   }
 
-  return args;
+  // Defaults
+
+  for (const auto [_, argument] : args_) {
+    if (!argument.flag && !presented.count(argument.name)) {
+      if (argument.default_value.has_value()) {
+        parsed_args.Add(argument.name, *argument.default_value);
+      } else {
+        FAIL_PARSE("Required argument not set: " << Quoted(argument.name));
+      }
+    }
+  }
+
+  return parsed_args;
+}
+
+void ArgumentsParser::PrintHelp() {
+  std::cout << name_ << " CLI:" << std::endl;
+  for (const auto& [_, arg] : args_) {
+    if (arg.flag) {
+      std::cout << "--" << arg.name << " (FLAG)" << std::endl;
+    } else {
+      std::cout << "--" << arg.name << " " << arg.value_descr;
+      if (arg.default_value.has_value()) {
+        std::cout << " (default: " << Quoted(*arg.default_value) << ")";
+      }
+      std::cout << std::endl;
+    }
+  }
+}
+
+void ArgumentsParser::Fail(const std::string& error) {
+  PrintHelp();
+  WHEELS_PANIC(error);
 }
 
 }  // namespace wheels

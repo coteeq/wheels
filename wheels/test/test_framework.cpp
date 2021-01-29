@@ -112,24 +112,29 @@ static void PrintSanitizerInfo() {
   }
 }
 
-static void PrintTestFrameworkMode() {
-  if (UseForks()) {
-    std::cout << "Use forks: YES, run tests in subprocesses (set CMake option "
-                 "WHEELS_FORK_TESTS=OFF to disable forks)"
-              << std::endl;
+static void PrintTestFrameworkOptions(const Options& options) {
+  if (options.forks) {
+    std::cout
+        << "Run tests in subprocesses (set --disable-forks to disable forks)"
+        << std::endl;
   } else {
-    std::cout << "Use forks: NO" << std::endl;
+    std::cout << "Forks disabled" << std::endl;
+  }
+
+  if (options.disable_time_limits) {
+    std::cout << "Test time limits disabled" << std::endl;
   }
 }
 
-static void RunTest(ITestPtr test, ITestReporterPtr reporter) {
+static void RunTest(ITestPtr test, const Options& options,
+                    ITestReporterPtr reporter) {
   reporter->TestStarted(test);
 
   wheels::StopWatch stop_watch;
 
   try {
     TestScope scope{test};
-    ExecuteTest(test);
+    ExecuteTest(test, options);
   } catch (...) {
     WHEELS_PANIC(
         "Test framework internal error: " << CurrentExceptionMessage());
@@ -161,11 +166,11 @@ TestList FilterTestSuites(const TestList& tests,
   return result;
 }
 
-void RunTests(const TestList& tests) {
+void RunTests(const TestList& tests, const Options& options) {
   DisableStdoutBuffering();
   PrintCompilerVersion();
   PrintSanitizerInfo();
-  PrintTestFrameworkMode();
+  PrintTestFrameworkOptions(options);
 
   InstallTestFailHandler(std::make_shared<AbortOnFailHandler>());
 
@@ -174,7 +179,7 @@ void RunTests(const TestList& tests) {
   wheels::StopWatch stop_watch;
 
   for (auto&& test : tests) {
-    RunTest(test, reporter);
+    RunTest(test, options, reporter);
   }
 
   reporter->AllTestsPassed(tests.size(), stop_watch.Elapsed());

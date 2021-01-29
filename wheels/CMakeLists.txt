@@ -18,27 +18,6 @@ target_link_libraries(wheels PUBLIC pthread)
 
 # --------------------------------------------------------------------
 
-# Test framework settings
-
-option(WHEELS_FORK_TESTS "Fork tests" ON)
-option(WHEELS_NO_TEST_TIME_LIMIT "Disable time limits for tests" OFF)
-
-set(TEST_FRAMEWORK_DEFINITIONS "")
-
-if(WHEELS_FORK_TESTS)
-    message(STATUS "Fork tests")
-    list(APPEND TEST_FRAMEWORK_DEFINITIONS WHEELS_FORK_TESTS=1)
-endif()
-
-if (WHEELS_NO_TEST_TIME_LIMIT)
-    message(STATUS "Disable test time limits")
-    list(APPEND TEST_FRAMEWORK_DEFINITIONS WHEELS_NO_TEST_TIME_LIMIT=1)
-endif()
-
-target_compile_definitions(wheels PUBLIC ${TEST_FRAMEWORK_DEFINITIONS})
-
-# --------------------------------------------------------------------
-
 # Linters
 
 if(WHEELS_DEVELOPER)

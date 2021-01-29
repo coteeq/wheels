@@ -4,6 +4,6 @@
 
 namespace wheels::test {
 
-void ExecuteTestWithFork(ITestPtr test);
+void ExecuteTestWithFork(ITestPtr test, const Options& options);
 
 }  // namespace wheels::test

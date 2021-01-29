@@ -8,7 +8,10 @@ namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-struct TestSuiteOptions {};
+struct Options {
+  bool forks{false};
+  bool disable_time_limits{false};
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -26,8 +29,14 @@ struct TestOptions {
     return *this;
   }
 
+  TestOptions& ForceFork() {
+    force_fork_ = true;
+    return *this;
+  }
+
   wheels::Duration time_limit;
   bool adapt_time_limit_to_sanitizer_{false};
+  bool force_fork_{false};
 };
 
 }  // namespace wheels::test

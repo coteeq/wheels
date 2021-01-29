@@ -44,7 +44,8 @@ TestRunner& AccessTestRunner() {
 
 class TestRunner {
  public:
-  TestRunner(ITestPtr test) : test_(std::move(test)) {
+  TestRunner(ITestPtr test, const Options& options)
+      : options_(options), test_(std::move(test)) {
   }
 
   void Run() {
@@ -52,11 +53,10 @@ class TestRunner {
 
     start_time_ = Clock::now();
 
-    time_limit_ = TestTimeLimit(test_->Options());
-
+    InitTimeLimit();
     TestTimeLimitWatcher time_limit_watcher(time_limit_);
 
-    SetContext("test_hash", TestHash());
+    SetContext("test_hash", ComputeTestHash());
 
     try {
       test_->Run();
@@ -69,8 +69,18 @@ class TestRunner {
     return test_;
   }
 
-  size_t TestHash() const {
+  size_t ComputeTestHash() const {
     return std::hash<std::string>()(test_->Name());
+  }
+
+  void InitTimeLimit() {
+    static const auto kInfTimeLimit = 100500s;
+
+    if (options_.disable_time_limits) {
+      time_limit_ = kInfTimeLimit;
+    } else {
+      time_limit_ = TestTimeLimit(test_->Options());
+    }
   }
 
   Duration TimeLimit() const {
@@ -102,14 +112,15 @@ class TestRunner {
   }
 
  private:
+  Options options_;
   ITestPtr test_;
-  TimePoint start_time_;
   Duration time_limit_;
+  TimePoint start_time_;
   std::map<std::string, std::any> context_;
 };
 
-void ExecuteTestHere(const ITestPtr& test) {
-  TestRunner runner{test};
+void ExecuteTestHere(const ITestPtr& test, const Options& options) {
+  TestRunner runner{test, options};
   runner.Run();
 }
 
@@ -126,7 +137,7 @@ Duration TestTimeLeft() {
 }
 
 size_t TestHash() {
-  return AccessTestRunner().TestHash();
+  return AccessTestRunner().ComputeTestHash();
 }
 
 std::any GetContextImpl(const std::string& key) {

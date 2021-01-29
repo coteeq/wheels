@@ -69,16 +69,13 @@ void FailTestByException();
 
 // Test suite provides separate namespace for bunch of simple test functions
 
-#define TEST_SUITE_WITH_OPTIONS(name, options) \
-  namespace TestSuite##name {                  \
-    std::string GetCurrentTestSuiteName() {    \
-      return #name;                            \
-    }                                          \
-  }                                            \
+#define TEST_SUITE(name)                    \
+  namespace TestSuite##name {               \
+    std::string GetCurrentTestSuiteName() { \
+      return #name;                         \
+    }                                       \
+  }                                         \
   namespace TestSuite##name
-
-#define TEST_SUITE(name) \
-  TEST_SUITE_WITH_OPTIONS(name, ::wheels::test::TestSuiteOptions{})
 
 #define TEST(name, options)                                         \
   void TestRoutine##name();                                         \
@@ -128,7 +125,7 @@ TestList FilterTests(const TestList& tests, ITestFilterPtr filter);
 TestList FilterTestSuites(const TestList& tests,
                           std::vector<std::string> suites);
 
-void RunTests(const TestList& tests);
+void RunTests(const TestList& tests, const Options& options);
 
 ////////////////////////////////////////////////////////////////////////////////
 

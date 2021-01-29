@@ -22,19 +22,9 @@ class RegexTestFilter : public ITestFilter {
   std::regex test_;
 };
 
-static std::string GetArgumentOr(const NamedArgs& args, const std::string& name,
-                                 const std::string& default_value) {
-  auto it = args.find(name);
-  if (it != args.end()) {
-    return it->second;
-  } else {
-    return default_value;
-  }
-}
-
-ITestFilterPtr CreateTestFilter(const NamedArgs& args) {
-  const auto suite = GetArgumentOr(args, "suite", "");
-  const auto test = GetArgumentOr(args, "test", "");
+ITestFilterPtr CreateTestFilter(const ParsedArgs& args) {
+  const auto suite = args.Get("suite");
+  const auto test = args.Get("test");
 
   return std::make_shared<RegexTestFilter>(suite, test);
 }

@@ -17,6 +17,6 @@ class ITestFilter {
 
 using ITestFilterPtr = std::shared_ptr<ITestFilter>;
 
-ITestFilterPtr CreateTestFilter(const NamedArgs& args);
+ITestFilterPtr CreateTestFilter(const ParsedArgs& args);
 
 }  // namespace wheels::test
