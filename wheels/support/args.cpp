@@ -53,7 +53,7 @@ ParsedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
 
   // Defaults
 
-  for (const auto [_, argument] : args_) {
+  for (const auto& [_, argument] : args_) {
     if (!argument.flag && !presented.count(argument.name)) {
       if (argument.default_value.has_value()) {
         parsed_args.Add(argument.name, *argument.default_value);
