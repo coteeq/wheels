@@ -13,7 +13,7 @@ namespace detail {
 
 // Usage: WHEELS_PANIC("Internal error: " << e.what());
 
-#define WHEELS_PANIC(error)                                   \
-  do {                                                        \
+#define WHEELS_PANIC(error)                                                   \
+  do {                                                                        \
     ::wheels::detail::Panic(WHEELS_HERE, ::wheels::StringBuilder() << error); \
   } while (false)
