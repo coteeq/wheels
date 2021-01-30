@@ -58,7 +58,7 @@ struct Argument {
     return *this;
   }
 
-  Argument& Default(std::string value) {
+  Argument& WithDefault(std::string value) {
     WHEELS_VERIFY(!flag, "Inconsistent");
     default_value = value;
     return *this;
