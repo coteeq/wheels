@@ -90,6 +90,11 @@ class ArgumentsParser {
     Add(Argument{name}.Flag());
   }
 
+  void AddHelpFlag(const std::string& help = "help") {
+    AddFlag(help);
+    help_flag_ = help;
+  }
+
   ParsedArgs Parse(const int argc, const char** argv);
 
  private:
@@ -102,6 +107,7 @@ class ArgumentsParser {
  private:
   std::string name_;
   std::map<std::string, Argument> args_;
+  std::optional<std::string> help_flag_;
 };
 
 }  // namespace wheels

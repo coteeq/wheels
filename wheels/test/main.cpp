@@ -18,6 +18,7 @@ static Options MakeOptions(const ParsedArgs& args) {
 
 void RunTestsMain(const TestList& tests, int argc, const char** argv) {
   ArgumentsParser parser{"Wheels test framework"};
+  parser.AddHelpFlag();
   // Filter
   parser.Add(Argument{"suite"}.ValueDescr("REGEXP").WithDefault(".*"));
   parser.Add(Argument{"test"}.ValueDescr("REGEXP").WithDefault(".*"));

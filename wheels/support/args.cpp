@@ -63,6 +63,15 @@ ParsedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
     }
   }
 
+  // Help
+
+  if (help_flag_.has_value()) {
+    if (parsed_args.HasFlag(*help_flag_)) {
+      PrintHelp();
+      std::exit(0);
+    }
+  }
+
   return parsed_args;
 }
 
