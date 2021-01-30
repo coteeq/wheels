@@ -7,10 +7,10 @@ namespace detail {
 
 static std::mutex mutex;
 
-void Panic(const std::string& error) {
+void Panic(SourceLocation where, const std::string& error) {
   {
     std::lock_guard guard(mutex);
-    std::cerr << error << std::endl;
+    std::cerr << "Panicked at " << where << ": " << error << std::endl;
   }
 
   std::abort();

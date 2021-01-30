@@ -6,7 +6,7 @@
 namespace wheels {
 
 namespace detail {
-[[noreturn]] void Panic(const std::string& error);
+[[noreturn]] void Panic(SourceLocation where, const std::string& error);
 }  // namespace detail
 
 }  // namespace wheels
@@ -15,6 +15,5 @@ namespace detail {
 
 #define WHEELS_PANIC(error)                                   \
   do {                                                        \
-    ::wheels::detail::Panic(::wheels::StringBuilder()         \
-                            << WHEELS_HERE << ": " << error); \
+    ::wheels::detail::Panic(WHEELS_HERE, ::wheels::StringBuilder() << error); \
   } while (false)
