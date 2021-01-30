@@ -5,16 +5,13 @@
 #include <wheels/support/args.hpp>
 #include <wheels/support/string_utils.hpp>
 
-#include <string>
-#include <vector>
 #include <map>
-#include <iostream>
 
 namespace wheels::test {
 
 static Options MakeOptions(const ParsedArgs& args) {
   Options options;
-  options.forks = !args.HasFlag("no-forks");
+  options.forks = !args.HasFlag("disable-forks");
   options.disable_time_limits = args.HasFlag("disable-time-limits");
   return options;
 }
@@ -22,9 +19,9 @@ static Options MakeOptions(const ParsedArgs& args) {
 void RunTestsMain(const TestList& tests, int argc, const char** argv) {
   ArgumentsParser parser{"Wheels test framework"};
   // Filter
-  parser.Add(Argument{"suite"}.ValueDescr("REGEXP").Default(".*"));
-  parser.Add(Argument{"test"}.ValueDescr("REGEXP").Default(".*"));
-  parser.AddFlag("no-forks");
+  parser.Add(Argument{"suite"}.ValueDescr("REGEXP").WithDefault(".*"));
+  parser.Add(Argument{"test"}.ValueDescr("REGEXP").WithDefault(".*"));
+  parser.AddFlag("disable-forks");
   parser.AddFlag("disable-time-limits");
 
   const auto args = parser.Parse(argc, argv);

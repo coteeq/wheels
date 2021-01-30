@@ -2,6 +2,8 @@
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/iterate.hpp>
 
+#include <wheels/support/quick_exit.hpp>
+
 #include <thread>
 
 TEST_SUITE(TestFramework) {
@@ -72,5 +74,9 @@ TEST_SUITE(TestFramework) {
     std::cout << "Iteration: " <<
               wheels::test::TestIteration() << std::endl;
     std::cout << "Hash: " << wheels::test::TestIterationHash() << std::endl;
+  }
+
+  TEST(ForceFork, wheels::test::TestOptions().ForceFork()) {
+    wheels::QuickExit(0);
   }
 }

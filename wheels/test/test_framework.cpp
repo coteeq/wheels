@@ -114,9 +114,9 @@ static void PrintSanitizerInfo() {
 
 static void PrintTestFrameworkOptions(const Options& options) {
   if (options.forks) {
-    std::cout
-        << "Run tests in subprocesses (set --disable-forks to disable forks)"
-        << std::endl;
+    std::cout << "Run tests in subprocesses (set --disable-forks flag to "
+                 "disable forks)"
+              << std::endl;
   } else {
     std::cout << "Forks disabled" << std::endl;
   }

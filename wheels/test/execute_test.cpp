@@ -6,7 +6,7 @@
 namespace wheels::test {
 
 void ExecuteTest(ITestPtr test, const Options& options) {
-  if (options.forks) {
+  if (options.forks || test->Options().force_fork_) {
     ExecuteTestWithFork(std::move(test), options);
   } else {
     ExecuteTestHere(std::move(test), options);
