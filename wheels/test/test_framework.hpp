@@ -113,9 +113,10 @@ void FailTestByException();
 const ITestPtr& CurrentTest();
 
 // Access only from test routine
+// Thread-safe!
+
 Duration TestTimeLimit();
 Duration TestTimeLeft();
-
 // Deterministic
 size_t TestHash();
 
