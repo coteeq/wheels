@@ -9,6 +9,12 @@ std::string ArgumentsParser::WithoutDashes(const std::string argument) {
   return argument.substr(2, argument.length());
 }
 
+void ArgumentsParser::Add(const Argument& argument) {
+  WHEELS_VERIFY(args_.count(argument.name) == 0, "Argument " << Quoted(argument.name) << " already added to parser");
+  args_.insert_or_assign(argument.name, argument);
+}
+
+
 #define FAIL_PARSE(error) Fail(StringBuilder() << name_ << ": " error)
 
 ParsedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
@@ -44,6 +50,7 @@ ParsedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
         FAIL_PARSE("Value for command line argument "
                    << Quoted(name_with_dashes) << " not set");
       }
+      // TODO: Check duplicates
       std::string value{argv[i + 1]};
       i += 2;
       presented.insert(name);

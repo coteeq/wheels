@@ -78,13 +78,7 @@ class ArgumentsParser {
   ArgumentsParser(const std::string& name) : name_(name) {
   }
 
-  void Add(const std::string& name) {
-    Add(Argument{name});
-  }
-
-  void Add(const Argument& argument) {
-    args_.insert_or_assign(argument.name, argument);
-  }
+  void Add(const Argument& argument);
 
   void AddFlag(const std::string& name) {
     Add(Argument{name}.Flag());
