@@ -25,7 +25,7 @@ static void CLI(ArgumentParser& parser) {
       "Test name filter");
   parser.Add("disable-forks")
       .Flag()
-      .Help("Do not execute test in subprocesses");
+      .Help("Do not execute tests in subprocesses");
   parser.Add("disable-time-limits").Flag();
 }
 
