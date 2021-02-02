@@ -2,7 +2,7 @@
 
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/args.hpp>
+#include <wheels/support/argparse.hpp>
 #include <wheels/support/string_utils.hpp>
 
 #include <map>
@@ -17,7 +17,7 @@ static Options MakeOptions(const ParsedArgs& args) {
 }
 
 void RunTestsMain(const TestList& tests, int argc, const char** argv) {
-  ArgumentsParser parser{"Wheels test framework"};
+  ArgumentParser parser{"Wheels test framework"};
   parser.AddHelpFlag();
   // Filter
   parser.Add(Argument{"suite"}.ValueDescr("REGEXP").WithDefault(".*"));

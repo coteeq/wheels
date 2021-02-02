@@ -1,15 +1,15 @@
-#include <wheels/support/args.hpp>
+#include <wheels/support/argparse.hpp>
 
 #include <wheels/support/string_utils.hpp>
 #include <wheels/support/assert.hpp>
 
 namespace wheels {
 
-std::string ArgumentsParser::WithoutDashes(const std::string argument) {
+std::string ArgumentParser::WithoutDashes(const std::string argument) {
   return argument.substr(2, argument.length());
 }
 
-void ArgumentsParser::Add(const Argument& argument) {
+void ArgumentParser::Add(const Argument& argument) {
   WHEELS_VERIFY(args_.count(argument.name) == 0, "Argument " << Quoted(argument.name) << " already added to parser");
   args_.insert_or_assign(argument.name, argument);
 }
@@ -17,7 +17,7 @@ void ArgumentsParser::Add(const Argument& argument) {
 
 #define FAIL_PARSE(error) Fail(StringBuilder() << name_ << ": " error)
 
-ParsedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
+ParsedArgs ArgumentParser::Parse(const int argc, const char** argv) {
   ParsedArgs parsed_args;
 
   std::set<std::string> presented;
@@ -82,7 +82,7 @@ ParsedArgs ArgumentsParser::Parse(const int argc, const char** argv) {
   return parsed_args;
 }
 
-void ArgumentsParser::PrintHelp() {
+void ArgumentParser::PrintHelp() {
   std::cout << name_ << " CLI:" << std::endl;
   for (const auto& [_, arg] : args_) {
     if (arg.flag) {
@@ -97,7 +97,7 @@ void ArgumentsParser::PrintHelp() {
   }
 }
 
-void ArgumentsParser::Fail(const std::string& error) {
+void ArgumentParser::Fail(const std::string& error) {
   PrintHelp();
   WHEELS_PANIC(error);
 }

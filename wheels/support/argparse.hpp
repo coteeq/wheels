@@ -73,9 +73,9 @@ struct Argument {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class ArgumentsParser {
+class ArgumentParser {
  public:
-  ArgumentsParser(const std::string& name) : name_(name) {
+  ArgumentParser(const std::string& name) : name_(name) {
   }
 
   void Add(const Argument& argument);
