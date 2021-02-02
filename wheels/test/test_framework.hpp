@@ -126,7 +126,7 @@ TestList FilterTests(const TestList& tests, ITestFilterPtr filter);
 TestList FilterTestSuites(const TestList& tests,
                           std::vector<std::string> suites);
 
-void RunTests(const TestList& tests, const Options& options);
+void RunTests(const TestList& tests, const GlobalOptions& options);
 
 ////////////////////////////////////////////////////////////////////////////////
 

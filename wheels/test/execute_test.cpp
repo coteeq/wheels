@@ -5,7 +5,7 @@
 
 namespace wheels::test {
 
-void ExecuteTest(ITestPtr test, const Options& options) {
+void ExecuteTest(ITestPtr test, const GlobalOptions& options) {
   if (options.forks || test->Options().force_fork_) {
     ExecuteTestWithFork(std::move(test), options);
   } else {

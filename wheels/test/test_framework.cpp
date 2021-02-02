@@ -112,7 +112,7 @@ static void PrintSanitizerInfo() {
   }
 }
 
-static void PrintTestFrameworkOptions(const Options& options) {
+static void PrintTestFrameworkOptions(const GlobalOptions& options) {
   if (options.forks) {
     std::cout << "Run tests in subprocesses (set --disable-forks flag to "
                  "disable forks)"
@@ -126,7 +126,7 @@ static void PrintTestFrameworkOptions(const Options& options) {
   }
 }
 
-static void RunTest(ITestPtr test, const Options& options,
+static void RunTest(ITestPtr test, const GlobalOptions& options,
                     ITestReporterPtr reporter) {
   reporter->TestStarted(test);
 
@@ -166,7 +166,7 @@ TestList FilterTestSuites(const TestList& tests,
   return result;
 }
 
-void RunTests(const TestList& tests, const Options& options) {
+void RunTests(const TestList& tests, const GlobalOptions& options) {
   DisableStdoutBuffering();
   PrintCompilerVersion();
   PrintSanitizerInfo();

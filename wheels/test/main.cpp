@@ -9,8 +9,8 @@
 
 namespace wheels::test {
 
-static Options MakeOptions(const ParsedArgs& args) {
-  Options options;
+static GlobalOptions MakeOptions(const ParsedArgs& args) {
+  GlobalOptions options;
   options.forks = !args.HasFlag("disable-forks");
   options.disable_time_limits = args.HasFlag("disable-time-limits");
   return options;

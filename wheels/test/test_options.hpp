@@ -8,7 +8,7 @@ namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-struct Options {
+struct GlobalOptions {
   bool forks{false};
   bool disable_time_limits{false};
 };

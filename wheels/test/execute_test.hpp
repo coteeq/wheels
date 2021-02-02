@@ -4,6 +4,6 @@
 
 namespace wheels::test {
 
-void ExecuteTest(ITestPtr test, const Options& options);
+void ExecuteTest(ITestPtr test, const GlobalOptions& options);
 
 }  // namespace wheels::test

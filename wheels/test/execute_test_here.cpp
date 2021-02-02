@@ -44,7 +44,7 @@ TestRunner& AccessTestRunner() {
 
 class TestRunner {
  public:
-  TestRunner(ITestPtr test, const Options& options)
+  TestRunner(ITestPtr test, const GlobalOptions& options)
       : options_(options), test_(std::move(test)) {
   }
 
@@ -112,14 +112,14 @@ class TestRunner {
   }
 
  private:
-  Options options_;
+  GlobalOptions options_;
   ITestPtr test_;
   Duration time_limit_;
   TimePoint start_time_;
   std::map<std::string, std::any> context_;
 };
 
-void ExecuteTestHere(const ITestPtr& test, const Options& options) {
+void ExecuteTestHere(const ITestPtr& test, const GlobalOptions& options) {
   TestRunner runner{test, options};
   runner.Run();
 }
