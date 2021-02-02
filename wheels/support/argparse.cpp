@@ -5,15 +5,20 @@
 
 namespace wheels {
 
+ArgumentBuilder::~ArgumentBuilder() {
+  parser_->Add(arg_);
+}
+
 std::string ArgumentParser::WithoutDashes(const std::string argument) {
   return argument.substr(2, argument.length());
 }
 
 void ArgumentParser::Add(const Argument& argument) {
-  WHEELS_VERIFY(args_.count(argument.name) == 0, "Argument " << Quoted(argument.name) << " already added to parser");
+  WHEELS_VERIFY(
+      args_.count(argument.name) == 0,
+      "Argument " << Quoted(argument.name) << " already added to parser");
   args_.insert_or_assign(argument.name, argument);
 }
-
 
 #define FAIL_PARSE(error) Fail(StringBuilder() << name_ << ": " error)
 
@@ -86,11 +91,18 @@ void ArgumentParser::PrintHelp() {
   std::cout << name_ << " CLI:" << std::endl;
   for (const auto& [_, arg] : args_) {
     if (arg.flag) {
-      std::cout << "--" << arg.name << " (FLAG)" << std::endl;
+      std::cout << "--" << arg.name << " (FLAG)";
+      if (arg.help.has_value()) {
+        std::cout << " - " << arg.help.value();
+      }
+      std::cout << std::endl;
     } else {
       std::cout << "--" << arg.name << " " << arg.value_descr;
       if (arg.default_value.has_value()) {
         std::cout << " (default: " << Quoted(*arg.default_value) << ")";
+      }
+      if (arg.help.has_value()) {
+        std::cout << " - " << arg.help.value();
       }
       std::cout << std::endl;
     }

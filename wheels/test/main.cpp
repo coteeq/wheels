@@ -16,14 +16,22 @@ static Options MakeOptions(const ParsedArgs& args) {
   return options;
 }
 
-void RunTestsMain(const TestList& tests, int argc, const char** argv) {
-  ArgumentParser parser{"Wheels test framework"};
+static void CLI(ArgumentParser& parser) {
   parser.AddHelpFlag();
   // Filter
-  parser.Add(Argument{"suite"}.ValueDescr("REGEXP").WithDefault(".*"));
-  parser.Add(Argument{"test"}.ValueDescr("REGEXP").WithDefault(".*"));
-  parser.AddFlag("disable-forks");
-  parser.AddFlag("disable-time-limits");
+  parser.Add("suite").ValueDescr("REGEXP").WithDefault(".*").Help(
+      "Test suite name filter");
+  parser.Add("test").ValueDescr("REGEXP").WithDefault(".*").Help(
+      "Test name filter");
+  parser.Add("disable-forks")
+      .Flag()
+      .Help("Do not execute test in subprocesses");
+  parser.Add("disable-time-limits").Flag();
+}
+
+void RunTestsMain(const TestList& tests, int argc, const char** argv) {
+  ArgumentParser parser{"Wheels test runner"};
+  CLI(parser);
 
   const auto args = parser.Parse(argc, argv);
 

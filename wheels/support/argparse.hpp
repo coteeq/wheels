@@ -4,6 +4,7 @@
 
 #include <wheels/support/assert.hpp>
 #include <wheels/support/string_utils.hpp>
+#include <wheels/support/noncopyable.hpp>
 
 #include <string>
 #include <vector>
@@ -50,25 +51,49 @@ struct Argument {
   bool flag{false};
   std::optional<std::string> default_value{};
   std::string value_descr{"value"};
+  std::optional<std::string> help;
+};
 
-  Argument& Flag() {
-    WHEELS_VERIFY(!default_value.has_value(), "Inconsistent");
-    flag = true;
-    value_descr = "";
+////////////////////////////////////////////////////////////////////////////////
+
+class ArgumentParser;
+
+struct ArgumentBuilder : public wheels::NonCopyable {
+  using Builder = ArgumentBuilder;
+
+  ArgumentBuilder(ArgumentParser* parser, std::string name) : parser_(parser) {
+    arg_.name = name;
+  }
+
+  ~ArgumentBuilder();
+
+  Builder& Flag() {
+    WHEELS_VERIFY(!arg_.default_value.has_value(), "Inconsistent");
+    arg_.flag = true;
+    arg_.value_descr = "";
     return *this;
   }
 
-  Argument& WithDefault(std::string value) {
-    WHEELS_VERIFY(!flag, "Inconsistent");
-    default_value = value;
+  Builder& WithDefault(std::string value) {
+    WHEELS_VERIFY(!arg_.flag, "Inconsistent");
+    arg_.default_value = value;
     return *this;
   }
 
-  Argument& ValueDescr(std::string descr) {
-    WHEELS_VERIFY(!flag, "Inconsistent");
-    value_descr = descr;
+  Builder& ValueDescr(std::string descr) {
+    WHEELS_VERIFY(!arg_.flag, "Inconsistent");
+    arg_.value_descr = descr;
     return *this;
   }
+
+  Builder& Help(std::string help) {
+    arg_.help = help;
+    return *this;
+  }
+
+ private:
+  ArgumentParser* parser_;
+  Argument arg_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,12 +105,12 @@ class ArgumentParser {
 
   void Add(const Argument& argument);
 
-  void AddFlag(const std::string& name) {
-    Add(Argument{name}.Flag());
+  ArgumentBuilder Add(const std::string& name) {
+    return {this, name};
   }
 
   void AddHelpFlag(const std::string& help = "help") {
-    AddFlag(help);
+    Add(help).Flag().Help("Print help and exit");
     help_flag_ = help;
   }
 
