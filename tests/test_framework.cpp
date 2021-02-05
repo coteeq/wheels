@@ -1,6 +1,7 @@
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/iterate.hpp>
+#include <wheels/test/util.hpp>
 
 #include <wheels/support/quick_exit.hpp>
 
@@ -78,5 +79,11 @@ TEST_SUITE(TestFramework) {
 
   TEST(ForceFork, wheels::test::TestOptions().ForceFork()) {
     wheels::QuickExit(0);
+  }
+
+  TEST(KeepRunning, wheels::test::TestOptions().TimeLimit(1s)) {
+    while (wheels::test::KeepRunning()) {
+      std::this_thread::yield();
+    }
   }
 }
