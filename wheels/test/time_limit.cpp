@@ -4,54 +4,33 @@
 
 #include <wheels/test/helpers.hpp>
 
-#include <wheels/support/one_shot_event.hpp>
 #include <wheels/support/sanitizers.hpp>
 
 #include <thread>
+#include <chrono>
 
 namespace wheels::test {
 
-#if WHEELS_NO_TEST_TIME_LIMIT
-
-class TestTimeLimitWatcher::Impl {
- public:
-  Impl(Duration /* timeout */) {
-  }
-};
-
-#else
-
-class TestTimeLimitWatcher::Impl {
- public:
-  Impl(Duration timeout)
-      : timeout_(timeout), watcher_thread_(&Impl::Watch, this) {
-  }
-
-  ~Impl() {
-    stop_requested_.Set();
-    watcher_thread_.join();
-  }
-
- private:
-  void Watch() {
-    if (!stop_requested_.TimedWait(timeout_)) {
-      FAIL_TEST("Time limit exceeded - " << ToSeconds(timeout_) << " seconds");
-    }
-  }
-
- private:
-  Duration timeout_;
-  wheels::OneShotEvent stop_requested_;
-  std::thread watcher_thread_;
-};
-
-#endif
-
-TestTimeLimitWatcher::TestTimeLimitWatcher(Duration timeout)
-    : pimpl_(std::make_unique<TestTimeLimitWatcher::Impl>(timeout)) {
+TestTimeLimitWatcher::TestTimeLimitWatcher(Duration time_limit)
+    : time_limit_(time_limit), watcher_thread_([this]() { Watch(); }) {
 }
 
-TestTimeLimitWatcher::~TestTimeLimitWatcher() {
+void TestTimeLimitWatcher::Watch() {
+  auto deadline = Clock::now() + time_limit_;
+
+  do {
+    std::this_thread::sleep_for(1ms);
+    if (stop_requested_.load()) {
+      return;
+    }
+  } while (Clock::now() < deadline);
+
+  FAIL_TEST("Time limit exceeded - " << ToSeconds(time_limit_) << " seconds");
+}
+
+void TestTimeLimitWatcher::Join() {
+  stop_requested_.store(true);
+  watcher_thread_.join();
 }
 
 wheels::Duration TestTimeLimit(TestOptions options) {
