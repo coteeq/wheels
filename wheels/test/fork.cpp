@@ -6,7 +6,7 @@
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/helpers.hpp>
 #include <wheels/test/test_framework.hpp>
-#include <wheels/test/execute_test_here.hpp>
+#include <wheels/test/here.hpp>
 
 #include <wheels/logging/logging.hpp>
 
@@ -29,12 +29,12 @@ static void InstallForkedTestFailHandler() {
   InstallTestFailHandler(std::make_shared<ForkedTestFailHandler>());
 }
 
-static void ExecuteTestInChildProcess(ITestPtr test, const GlobalOptions& options) {
+static void RunTestInChildProcess(ITestPtr test, const GlobalOptions& options) {
   std::cout << "Executed in subprocess with pid = " << getpid() << std::endl;
 
   InstallForkedTestFailHandler();
 
-  ExecuteTestHere(test, options);
+  RunTestHere(test, options);
 
   FlushPendingLogMessages();
 }
@@ -56,9 +56,9 @@ class LiveStdoutPrinter : public IByteStreamConsumer {
   size_t total_bytes_consumed_ = 0;
 };
 
-void ExecuteTestWithFork(ITestPtr test, const GlobalOptions& options) {
+void RunTestWithFork(ITestPtr test, const GlobalOptions& options) {
   auto execute_test = [test, options]() {
-    ExecuteTestInChildProcess(test, options);
+    RunTestInChildProcess(test, options);
   };
 
   auto result = ExecuteWithFork(execute_test,

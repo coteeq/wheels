@@ -1,8 +1,8 @@
-#include <wheels/test/execute_test_here.hpp>
+#include <wheels/test/here.hpp>
 
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/time_limit.hpp>
-#include <wheels/test/execute_test.hpp>
+#include <wheels/test/run_test.hpp>
 
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/assert.hpp>
@@ -119,7 +119,7 @@ class TestRunner {
   std::map<std::string, std::any> context_;
 };
 
-void ExecuteTestHere(const ITestPtr& test, const GlobalOptions& options) {
+void RunTestHere(const ITestPtr& test, const GlobalOptions& options) {
   TestRunner runner{test, options};
   runner.Run();
 }

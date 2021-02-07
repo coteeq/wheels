@@ -8,7 +8,7 @@
 #include <wheels/support/sanitizers.hpp>
 
 #include <wheels/test/console_reporter.hpp>
-#include <wheels/test/execute_test.hpp>
+#include <wheels/test/run_test.hpp>
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/helpers.hpp>
 
@@ -134,7 +134,7 @@ static void RunTest(ITestPtr test, const GlobalOptions& options,
 
   try {
     TestScope scope{test};
-    ExecuteTest(test, options);
+    RunTest(test, options);
   } catch (...) {
     WHEELS_PANIC(
         "Test framework internal error: " << CurrentExceptionMessage());

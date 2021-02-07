@@ -63,6 +63,12 @@ TEST_SUITE(TestFramework) {
 
   // SIMPLE_TEST(Fail) { ASSERT_TRUE(false); }
 
+  /*
+  TEST(TL, wheels::test::TestOptions().TimeLimit(1s)) {
+    std::this_thread::sleep_for(1100ms);
+  }
+  */
+
   TEST(TimeLeft, wheels::test::TestOptions().TimeLimit(2s)) {
     while (wheels::test::TestTimeLeft() > 100ms) {
       // KeepRunning
