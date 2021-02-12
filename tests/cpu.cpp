@@ -17,4 +17,9 @@ TEST_SUITE(Cpu) {
     std::cout << "Loop cycle count: " << end - start << std::endl;
   }
 
+  SIMPLE_TEST(SpinLockPause) {
+    for (size_t i = 0; i < 1005001; ++i) {
+      SpinLockPause();
+    }
+  }
 }
