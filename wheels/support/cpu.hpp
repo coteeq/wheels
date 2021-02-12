@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace wheels {
+
 ////////////////////////////////////////////////////////////////////////////////
 
 inline uint64_t GetCpuCycleCount() {
@@ -20,3 +22,5 @@ inline uint64_t GetCpuCycleCount() {
 inline void SpinLockPause() {
   asm volatile("pause\n" : : : "memory");
 }
+
+}  // namespace wheels
