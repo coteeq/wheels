@@ -10,12 +10,13 @@ using Duration = std::chrono::nanoseconds;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+template <typename Clock = std::chrono::steady_clock>
 class StopWatch {
-  using Clock = std::chrono::steady_clock;
-  using TimePoint = std::chrono::time_point<Clock>;
+  using TimePoint = typename Clock::time_point;
 
  public:
   StopWatch() : start_(Now()) {
+    static_assert(Clock::is_steady, "Steady clock required");
   }
 
   Duration Elapsed() const {
