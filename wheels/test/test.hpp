@@ -26,4 +26,9 @@ using ITestPtr = std::shared_ptr<ITest>;
 
 using TestList = std::vector<ITestPtr>;
 
+using TestRoutine = std::function<void()>;
+
+ITestPtr MakeTest(TestRoutine routine, const std::string& name,
+                  const std::string& suite, TestOptions options);
+
 }  // namespace wheels::test

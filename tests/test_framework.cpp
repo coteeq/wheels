@@ -7,6 +7,23 @@
 
 #include <thread>
 
+class Registrar {
+ public:
+  Registrar() {
+    MakeAndRegisterTest();
+  }
+
+  void MakeAndRegisterTest() {
+    auto body = []() {
+      std::cout << "Manually registered test";
+    };
+    auto test = wheels::test::MakeTest(body, "MakeTest", "TestFramework", wheels::test::TestOptions{});
+    wheels::test::RegisterTest(std::move(test));
+  }
+};
+
+static Registrar registrar;
+
 TEST_SUITE(TestFramework) {
   void ThrowRuntimeError() {
     throw std::runtime_error("error!");
