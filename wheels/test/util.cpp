@@ -7,7 +7,7 @@ using namespace std::chrono_literals;
 namespace wheels::test {
 
 bool KeepRunning() {
-  return TestTimeLeft() > 250ms;
+  return TestTimeLeft() > 500ms;
 }
 
 }  // namespace wheels::test
