@@ -19,7 +19,7 @@ void TestTimeLimitWatcher::Watch() {
   auto deadline = Clock::now() + time_limit_;
 
   do {
-    std::this_thread::sleep_for(1ms);
+    std::this_thread::sleep_for(50ms);
     if (stop_requested_.load()) {
       return;
     }
