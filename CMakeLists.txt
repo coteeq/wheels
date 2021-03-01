@@ -4,14 +4,9 @@ project(wheels)
 include(cmake/ClangFormat.cmake)
 include(cmake/ClangTidy.cmake)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
+include(cmake/CompileOptions.cmake)
 include(cmake/Platform.cmake)
 include(cmake/Processor.cmake)
-
-add_compile_options(-Wall -Wextra -Wpedantic -Werror -g -fno-omit-frame-pointer)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 
