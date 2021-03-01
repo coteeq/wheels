@@ -26,7 +26,7 @@ class Progress {
 };
 
 // TODO: measure iteration time limit
-static const auto kSafeTLMargin = 100ms;
+static const auto kSafeTLMargin = 300ms;
 
 void Iterate(std::function<void()> test_routine) {
   std::cout << "Iterated test, time budget: "
