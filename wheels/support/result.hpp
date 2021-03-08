@@ -293,11 +293,6 @@ class [[nodiscard]] Result<void> {
     return Result(std::move(error));
   }
 
-  Result(Error error) {
-    WHEELS_VERIFY(error.HasError(), "Expected non-empty error");
-    error_ = std::move(error);
-  }
-
   // Testing
 
   bool HasError() const {
@@ -340,6 +335,11 @@ class [[nodiscard]] Result<void> {
 
  private:
   Result() = default;
+
+  Result(Error error) {
+    WHEELS_VERIFY(error.HasError(), "Expected non-empty error");
+    error_ = std::move(error);
+  }
 
  private:
   Error error_;
