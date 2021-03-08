@@ -150,13 +150,13 @@ TEST_SUITE(Result) {
   SIMPLE_TEST(Move) {
     auto result_1 = Result<TestClass>::Ok("Hello");
     auto result_2 = std::move(result_1);
-    ASSERT_EQ(result_2.Value().Message(), "Hello");
+    ASSERT_EQ(result_2.ValueOrThrow().Message(), "Hello");
   }
 
   SIMPLE_TEST(Copy) {
     auto result_1 = Result<TestClass>::Ok("Hello");
     Result<TestClass> result_2 = result_1;
-    ASSERT_EQ(result_1.Value().Message(), "Hello");
+    ASSERT_EQ(result_1.ValueOrThrow().Message(), "Hello");
   }
 
   SIMPLE_TEST(AccessMethods) {
@@ -169,7 +169,7 @@ TEST_SUITE(Result) {
     TestClass thief = std::move(*result);
     ASSERT_EQ(thief.Message(), "Hello");
     
-    ASSERT_EQ(result.Value().Message(), "");
+    ASSERT_EQ(result.ValueOrThrow().Message(), "");
   }
 
   SIMPLE_TEST(Void) {
@@ -336,7 +336,7 @@ TEST_SUITE(Result) {
   SIMPLE_TEST(MoveOnly) {
     {
       auto r = Result<MoveOnly>::Ok(42);
-      auto v = std::move(r).Value();
+      auto v = std::move(r).ValueOrThrow();
       ASSERT_EQ(v.data, 42);
     }
 
@@ -357,6 +357,6 @@ TEST_SUITE(Result) {
 
   SIMPLE_TEST(ConstResultValue) {
     const Result<int> result = make_result::Ok(42);
-    ASSERT_EQ(result.Value(), 42);
+    ASSERT_EQ(result.ValueOrThrow(), 42);
   }
 }

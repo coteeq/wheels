@@ -188,16 +188,34 @@ class [[nodiscard]] Result {
   // Safe value getters
   // Throws if Result does not contain a value
 
+  T& ValueOrThrow()& {
+    ThrowIfError();
+    return ValueUnsafe();
+  }
+
+  const T& ValueOrThrow() const& {
+    ThrowIfError();
+    return ValueUnsafe();
+  }
+
+  T&& ValueOrThrow()&& {
+    ThrowIfError();
+    return std::move(ValueUnsafe());
+  }
+
+  [[deprecated]]
   T& Value()& {
     ThrowIfError();
     return ValueUnsafe();
   }
 
+  [[deprecated]]
   const T& Value() const& {
     ThrowIfError();
     return ValueUnsafe();
   }
 
+  [[deprecated]]
   T&& Value()&& {
     ThrowIfError();
     return std::move(ValueUnsafe());
@@ -233,7 +251,7 @@ class [[nodiscard]] Result {
   // Do we need this?
 
   operator T &&()&& {
-    return std::move(Value());
+    return std::move(ValueOrThrow());
   }
 
  private:
