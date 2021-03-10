@@ -359,4 +359,11 @@ TEST_SUITE(Result) {
     const Result<int> result = make_result::Ok(42);
     ASSERT_EQ(result.ValueOrThrow(), 42);
   }
+
+  SIMPLE_TEST(NotSupported) {
+    Result<int> result = make_result::NotSupported();
+
+    ASSERT_TRUE(result.HasError());
+    ASSERT_TRUE(result.MatchErrorCode((int)std::errc::not_supported));
+  }
 }

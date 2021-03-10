@@ -493,6 +493,9 @@ detail::Failure Throw(Args&&... args) {
   }
 }
 
+// Produce std::errc::not_supported error, for tests
+detail::Failure NotSupported();
+
 }  // namespace make_result
 
 }  // namespace wheels

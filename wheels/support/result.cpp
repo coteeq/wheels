@@ -30,6 +30,10 @@ Status ToStatus(std::error_code error) {
   }
 }
 
+detail::Failure NotSupported() {
+  return Fail(std::make_error_code(std::errc::not_supported));
+}
+
 }  // namespace make_result
 
 }  // namespace wheels
