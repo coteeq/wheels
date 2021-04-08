@@ -8,7 +8,7 @@ namespace detail {
 
 template <typename T>
 void ToVectorImpl(std::vector<T>& v, T&& value) {
-  v.emplace_back(std::move(value));
+  v.emplace_back(std::forward<T>(value));
 }
 
 template <typename T, typename... Ts>
