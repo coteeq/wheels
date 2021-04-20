@@ -203,22 +203,25 @@ class [[nodiscard]] Result {
     return std::move(ValueUnsafe());
   }
 
-  [[deprecated]]
-  T& Value()& {
+  [[deprecated]] T& Value()& {
     ThrowIfError();
     return ValueUnsafe();
   }
 
-  [[deprecated]]
-  const T& Value() const& {
+  [[deprecated]] const T& Value() const& {
     ThrowIfError();
     return ValueUnsafe();
   }
 
-  [[deprecated]]
-  T&& Value()&& {
+  [[deprecated]] T&& Value()&& {
     ThrowIfError();
     return std::move(ValueUnsafe());
+  }
+
+  // For templates:
+
+  auto Unwrap() {
+    return ValueOrThrow();
   }
 
   // operator * overloads
@@ -337,6 +340,10 @@ class [[nodiscard]] Result<void> {
 
   void Ignore() {
     // No-op
+  }
+
+  void Unwrap() const {
+    ThrowIfError();
   }
 
   const Error& GetError() const {
