@@ -13,7 +13,7 @@ void ToVectorImpl(std::vector<T>& v, T&& value) {
 
 template <typename T, typename... Ts>
 void ToVectorImpl(std::vector<T>& v, T&& first, Ts&&... rest) {
-  v.emplace_back(std::move(first));
+  v.emplace_back(std::forward<T>(first));
   ToVectorImpl(v, std::forward<Ts>(rest)...);
 }
 
