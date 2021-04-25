@@ -110,7 +110,10 @@ class IntrusiveList {
     Append(that);
   }
 
+  IntrusiveList& operator=(IntrusiveList&& that) = delete;
+
   IntrusiveList(const IntrusiveList& that) = delete;
+  IntrusiveList& operator=(const IntrusiveList& that) = delete;
 
   // linear complexity
   size_t Size() const {
