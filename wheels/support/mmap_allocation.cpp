@@ -2,11 +2,16 @@
 
 #include <wheels/support/assert.hpp>
 
+#include <cerrno>
+#include <cstring>
+
 #include <sys/mman.h>
 
 namespace wheels {
 
-#define CHECK_RESULT(ret, error) WHEELS_VERIFY(ret != -1, error)
+#define CHECK_RESULT(ret, error)                                  \
+  WHEELS_VERIFY(ret != -1, error << " (errno = " << errno << ", " \
+                                 << strerror(errno) << ")")
 
 //////////////////////////////////////////////////////////////////////
 
