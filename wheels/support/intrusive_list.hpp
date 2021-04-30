@@ -78,6 +78,7 @@ class IntrusiveList {
     return front->AsItem();
   }
 
+  // Append (= move, re-link) all nodes from `that` list to the end of this list
   void Append(IntrusiveList& that) noexcept {
     if (that.IsEmpty()) {
       return;
