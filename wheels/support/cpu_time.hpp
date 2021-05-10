@@ -38,7 +38,6 @@ class ProcessCPUTimer {
 
 }  // namespace wheels
 
-
 namespace wheels {
 
 class ThreadCPUTimer {
