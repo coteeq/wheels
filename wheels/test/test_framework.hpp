@@ -152,4 +152,4 @@ void RunTests(const TestList& tests, const GlobalOptions& options);
     return EXIT_SUCCESS;                                                   \
   }
 
-#define _ADD_SUITE_TO_LIST(s) suites.push_back(#s);
+#define _ADD_SUITE_TO_LIST(s) suites.emplace_back(#s);
