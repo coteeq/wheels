@@ -10,9 +10,9 @@ namespace wheels {
 
 // Usage: Defer defer( [this]() { CleanUp(); } );
 
+template <typename F>
 class Defer {
  public:
-  template <class F>
   Defer(F&& f) : func_(std::forward<F>(f)) {
   }
 
@@ -21,7 +21,7 @@ class Defer {
   }
 
  private:
-  std::function<void()> func_;
+  F func_;
 };
 
 }  // namespace wheels
