@@ -69,6 +69,7 @@ class IntrusiveList {
     node->LinkBefore(head_.next_);
   }
 
+  // Returns nullptr if empty
   T* PopFront() noexcept {
     if (IsEmpty()) {
       return nullptr;
@@ -78,6 +79,7 @@ class IntrusiveList {
     return front->AsItem();
   }
 
+  // Returns nullptr if empty
   T* PopBack() noexcept {
     if (IsEmpty()) {
       return nullptr;
@@ -121,8 +123,11 @@ class IntrusiveList {
     Append(that);
   }
 
+  // Intentionally disabled
+  // Be explicit: use UnlinkAll + Append
   IntrusiveList& operator=(IntrusiveList&& that) = delete;
 
+  // Non-copyable
   IntrusiveList(const IntrusiveList& that) = delete;
   IntrusiveList& operator=(const IntrusiveList& that) = delete;
 
