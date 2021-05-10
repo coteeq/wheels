@@ -69,16 +69,26 @@ class IntrusiveList {
     node->LinkBefore(head_.next_);
   }
 
-  T* PopFront() {
+  T* PopFront() noexcept {
     if (IsEmpty()) {
-      throw std::runtime_error("IntrusiveList is empty");
+      return nullptr;
     }
     Node* front = head_.next_;
     front->Unlink();
     return front->AsItem();
   }
 
+  T* PopBack() noexcept {
+    if (IsEmpty()) {
+      return nullptr;
+    }
+    Node* back = head_.prev_;
+    back->Unlink();
+    return back->AsItem();
+  }
+
   // Append (= move, re-link) all nodes from `that` list to the end of this list
+  // Post-condition: that.IsEmpty() == true
   void Append(IntrusiveList& that) noexcept {
     if (that.IsEmpty()) {
       return;
@@ -116,18 +126,27 @@ class IntrusiveList {
   IntrusiveList(const IntrusiveList& that) = delete;
   IntrusiveList& operator=(const IntrusiveList& that) = delete;
 
-  // linear complexity
+  ~IntrusiveList() {
+    WHEELS_ASSERT(IsEmpty(), "List is not empty");
+  }
+
+  // Linear complexity!
   size_t Size() const {
     return std::distance(begin(), end());
   }
 
-  void Clear() {
+  void UnlinkAll() {
     Node* current = head_.next_;
     while (current != &head_) {
       Node* next = current->next_;
       current->Unlink();
       current = next;
     }
+  }
+
+  [[deprecated]]
+  void Clear() {
+    UnlinkAll();
   }
 
   // Iteration

@@ -39,7 +39,7 @@ TEST_SUITE(IntrusiveList) {
 
     ASSERT_TRUE(items.IsEmpty());
 
-    ASSERT_THROW(items.PopFront(), std::runtime_error);
+    ASSERT_EQ(items.PopFront(), nullptr);
   }
 
   SIMPLE_TEST(Iterator) {
@@ -67,6 +67,8 @@ TEST_SUITE(IntrusiveList) {
     ++iterator;
     ++iterator;
     ASSERT_EQ(iterator, end);
+
+    items.UnlinkAll();
   }
 
   SIMPLE_TEST(RangeBasedForLoop) {
@@ -85,6 +87,8 @@ TEST_SUITE(IntrusiveList) {
     }
     std::string message = builder;
     ASSERT_EQ(message, "hello world ! ");
+
+    items.UnlinkAll();
   }
 
   SIMPLE_TEST(AppendList) {
@@ -116,6 +120,8 @@ TEST_SUITE(IntrusiveList) {
     ASSERT_EQ(items.PopFront()->data_, "!");
     ASSERT_EQ(items.PopFront()->data_, "foo");
     ASSERT_EQ(items.PopFront()->data_, "bar");
+
+    items.UnlinkAll();
   }
 
   SIMPLE_TEST(MoveCtor) {
@@ -135,5 +141,8 @@ TEST_SUITE(IntrusiveList) {
     ASSERT_TRUE(items.IsEmpty());
     items.PushBack(&third);
     ASSERT_FALSE(items.IsEmpty());
+
+    another_items.UnlinkAll();
+    items.UnlinkAll();
   }
 }
