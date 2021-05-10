@@ -20,7 +20,7 @@ void ToVectorImpl(std::vector<T>& v, T&& first, Ts&&... rest) {
 }  // namespace detail
 
 // Support move-only types
-template<typename T, typename... Ts>
+template <typename T, typename... Ts>
 std::vector<T> ToVector(T&& first, Ts&&... rest) {
   std::vector<T> v;
   detail::ToVectorImpl(v, std::forward<T>(first), std::forward<Ts>(rest)...);
