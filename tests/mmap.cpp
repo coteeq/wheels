@@ -29,4 +29,9 @@ TEST_SUITE(Mmap) {
     ASSERT_EQ(alloc.Start(), view.Data());
     ASSERT_EQ(alloc.Size(), view.Size());
   }
+
+//  SIMPLE_TEST(Errno) {
+//    MmapAllocation map;
+//    map.ProtectPages(0, 100);
+//  }
 }
