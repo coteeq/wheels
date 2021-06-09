@@ -5,11 +5,10 @@
 using namespace wheels;
 
 TEST_SUITE(IntrusiveList) {
-  struct Item
-      : public IntrusiveListNode<Item> {
-    std::string data_;
+  struct Item : IntrusiveListNode<Item> {
+    std::string data;
 
-    Item(std::string data) : data_(std::move(data)) {
+    Item(std::string _data) : data(std::move(_data)) {
     }
   };
 
@@ -28,18 +27,43 @@ TEST_SUITE(IntrusiveList) {
 
     ASSERT_FALSE(items.IsEmpty());
 
-    Item *pop_first = items.PopFront();
-    ASSERT_EQ(pop_first->data_, "hello");
+    Item* pop_first = items.PopFront();
+    ASSERT_EQ(pop_first->data, "hello");
 
-    Item *pop_second = items.PopFront();
-    ASSERT_EQ(pop_second->data_, "world");
+    Item* pop_second = items.PopFront();
+    ASSERT_EQ(pop_second->data, "world");
 
-    Item *pop_third = items.PopFront();
-    ASSERT_EQ(pop_third->data_, "!");
+    Item* pop_third = items.PopFront();
+    ASSERT_EQ(pop_third->data, "!");
 
     ASSERT_TRUE(items.IsEmpty());
 
     ASSERT_EQ(items.PopFront(), nullptr);
+  }
+
+  SIMPLE_TEST(FrontBack) {
+    IntrusiveList<Item> items;
+
+    Item a("a");
+    Item b("b");
+    Item c("c");
+    Item d("d");
+
+    items.PushBack(&a);
+    items.PushFront(&b);
+    items.PushBack(&c);
+    items.PushFront(&d);
+
+    Item* item;
+
+    item = items.PopFront();
+    ASSERT_EQ(item, &d);
+    item = items.PopBack();
+    ASSERT_EQ(item, &c);
+    item = items.PopFront();
+    ASSERT_EQ(item, &b);
+    item = items.PopFront();
+    ASSERT_EQ(item, &a);
   }
 
   SIMPLE_TEST(Iterator) {
@@ -59,7 +83,7 @@ TEST_SUITE(IntrusiveList) {
     auto end = items.end();
 
     ASSERT_NE(iterator, end);
-    ASSERT_EQ((*iterator).data_, "hello");
+    ASSERT_EQ((*iterator).data, "hello");
 
     ++iterator;
     ASSERT_NE(iterator, end);
@@ -83,7 +107,7 @@ TEST_SUITE(IntrusiveList) {
 
     wheels::StringBuilder builder;
     for (auto&& item : items) {
-      builder << item.data_ << " ";
+      builder << item.data << " ";
     }
     std::string message = builder;
     ASSERT_EQ(message, "hello world ! ");
@@ -115,11 +139,11 @@ TEST_SUITE(IntrusiveList) {
 
     ASSERT_TRUE(another_items.IsEmpty());
 
-    ASSERT_EQ(items.PopFront()->data_, "hello");
-    ASSERT_EQ(items.PopFront()->data_, "world");
-    ASSERT_EQ(items.PopFront()->data_, "!");
-    ASSERT_EQ(items.PopFront()->data_, "foo");
-    ASSERT_EQ(items.PopFront()->data_, "bar");
+    ASSERT_EQ(items.PopFront()->data, "hello");
+    ASSERT_EQ(items.PopFront()->data, "world");
+    ASSERT_EQ(items.PopFront()->data, "!");
+    ASSERT_EQ(items.PopFront()->data, "foo");
+    ASSERT_EQ(items.PopFront()->data, "bar");
 
     items.UnlinkAll();
   }
