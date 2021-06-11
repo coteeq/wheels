@@ -13,10 +13,6 @@ class Test : public ITest {
     return name_;
   }
 
-  std::string Describe() const override {
-    return name_;
-  }
-
   std::string Suite() const override {
     return suite_;
   }

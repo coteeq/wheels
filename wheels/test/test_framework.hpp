@@ -81,10 +81,7 @@ void FailTestByException();
   void TestRoutine##name();                                         \
   struct Test##name : public ::wheels::test::ITest {                \
     std::string Name() const override {                             \
-      return GetCurrentTestSuiteName() + ":" #name;                 \
-    }                                                               \
-    std::string Describe() const override {                         \
-      return #name;                                                 \
+      return #name;                 \
     }                                                               \
     std::string Suite() const override {                            \
       return GetCurrentTestSuiteName();                             \

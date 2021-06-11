@@ -16,12 +16,12 @@ class ConsoleTestReporter : public ITestReporter {
  public:
   void TestStarted(const ITestPtr& test) override {
     PrintSeparatorLine();
-    std::cout << "Test " << MAGENTA(Quoted(test->Describe())) << " from suite "
+    std::cout << "Test " << MAGENTA(Quoted(test->Name())) << " from suite "
               << CYAN(Quoted(test->Suite())) << " is running..." << std::endl;
   }
 
   void TestFailed(const ITestPtr& test, const std::string& error) override {
-    std::cout << "Test " << MAGENTA(Quoted(test->Describe())) << RED(" FAILED ")
+    std::cout << "Test " << MAGENTA(Quoted(test->Name())) << RED(" FAILED ")
               << GetFailEmoji() << ": " << error << std::endl
               << std::flush;
   }

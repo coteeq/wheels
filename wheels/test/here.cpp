@@ -69,8 +69,12 @@ class TestRunner {
     return test_;
   }
 
+  std::string FullTestName() const {
+    return test_->Suite() + ":" + test_->Name();
+  }
+
   size_t ComputeTestHash() const {
-    return std::hash<std::string>()(test_->Name());
+    return std::hash<std::string>()(FullTestName());
   }
 
   void InitTimeLimit() {
