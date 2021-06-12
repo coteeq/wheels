@@ -78,6 +78,8 @@ class [[nodiscard]] Result {
   static_assert(!std::is_reference<T>::value,
                 "Reference types are not supported");
 
+  using ValueType = T;
+
   // Static constructors
 
   template <typename... Arguments>
@@ -306,6 +308,8 @@ class [[nodiscard]] Result {
 template <>
 class [[nodiscard]] Result<void> {
  public:
+  using ValueType = void;
+
   static Result Ok() {
     return Result{};
   }
