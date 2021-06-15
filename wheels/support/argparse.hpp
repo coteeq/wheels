@@ -25,6 +25,10 @@ class ParsedArgs {
     WHEELS_PANIC("Argument " << Quoted(name) << " not found");
   }
 
+  bool Has(const std::string& name) const {
+    return flags_.count(name) > 0;
+  }
+
   bool HasFlag(const std::string& name) const {
     return flags_.count(name) > 0;
   }
@@ -51,6 +55,7 @@ struct Argument {
   bool flag{false};
   std::optional<std::string> default_value{};
   std::string value_descr{"value"};
+  bool optional{false};
   std::optional<std::string> help;
 };
 
@@ -83,6 +88,11 @@ struct ArgumentBuilder : public wheels::NonCopyable {
   Builder& ValueDescr(std::string descr) {
     WHEELS_VERIFY(!arg_.flag, "Inconsistent");
     arg_.value_descr = descr;
+    return *this;
+  }
+
+  Builder& Optional() {
+    arg_.optional = true;
     return *this;
   }
 
