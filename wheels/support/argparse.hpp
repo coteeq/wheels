@@ -26,7 +26,7 @@ class ParsedArgs {
   }
 
   bool Has(const std::string& name) const {
-    return flags_.count(name) > 0;
+    return values_.count(name) > 0;
   }
 
   bool HasFlag(const std::string& name) const {
