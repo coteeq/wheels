@@ -38,11 +38,15 @@ class ConstMemView {
   }
 
   bool IsEmpty() const noexcept {
-    return size_ > 0;
+    return size_ == 0;
+  }
+
+  bool IsValid() const noexcept {
+    return start_ != nullptr;
   }
 
   void operator += (size_t offset) noexcept {
-    WHEELS_ASSERT(offset < size_, "Out of bounds");
+    WHEELS_ASSERT(offset <= size_, "Out of bounds");
     start_ += offset;
     size_ -= offset;
   }
@@ -79,16 +83,20 @@ struct MutableMemView {
   }
 
   char* Back() const noexcept {
-    WHEELS_ASSERT(!IsEmpty(), "Empty");
+    WHEELS_ASSERT(size_ > 0, "Empty");
     return End() - 1;
   }
 
-  bool IsEmpty() const noexcept {
+  bool HasSpace() const noexcept {
     return size_ > 0;
   }
 
+  bool IsValid() const noexcept {
+    return start_ != nullptr;
+  }
+
   void operator += (size_t offset) noexcept {
-    WHEELS_ASSERT(offset < size_, "Out of bounds");
+    WHEELS_ASSERT(offset <= size_, "Out of bounds");
     start_ += offset;
     size_ -= offset;
   }
@@ -103,6 +111,13 @@ struct MutableMemView {
 };
 
 using MemSpan = MutableMemView;
+
+//////////////////////////////////////////////////////////////////////
+
+template <size_t N>
+MutableMemView ViewOf(char (&arr)[N]) {
+  return {arr, N};
+}
 
 //////////////////////////////////////////////////////////////////////
 
