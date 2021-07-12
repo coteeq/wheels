@@ -3,18 +3,67 @@
 #include <cstddef>
 #include <cstdint>
 
+#include <wheels/support/assert.hpp>
+
 namespace wheels {
 
-// View on a contiguous chunk of writeable memory
+// View on a contiguous chunk of writeable / read-only memory
 // The memory is owned by some other object and that object must maintain the
 // memory as long as the span references it.
 
-struct MemSpan {
+//////////////////////////////////////////////////////////////////////
+
+class ConstMemView {
  public:
-  MemSpan(char* start, size_t size) : start_(start), size_(size) {
+  ConstMemView(const char* start, size_t size)
+      : start_(start), size_(size) {
   }
 
-  MemSpan() : MemSpan(nullptr, 0) {
+  ConstMemView() : ConstMemView(nullptr, 0) {}
+
+  const char* Data() const noexcept {
+    return start_;
+  }
+
+  size_t Size() const noexcept {
+    return size_;
+  }
+
+  const char* Begin() const noexcept {
+    return start_;
+  }
+
+  const char* End() const noexcept {
+    return start_ + size_;
+  }
+
+  bool IsEmpty() const noexcept {
+    return size_ > 0;
+  }
+
+  void operator += (size_t offset) noexcept {
+    WHEELS_ASSERT(offset < size_, "Out of bounds");
+    start_ += offset;
+    size_ -= offset;
+  }
+
+ private:
+  const char* start_;
+  size_t size_;
+};
+
+//////////////////////////////////////////////////////////////////////
+
+struct MutableMemView {
+ public:
+  MutableMemView(char* start, size_t size) : start_(start), size_(size) {
+  }
+
+  MutableMemView() : MutableMemView(nullptr, 0) {
+  }
+
+  char* Data() const noexcept {
+    return Begin();
   }
 
   size_t Size() const noexcept {
@@ -29,17 +78,32 @@ struct MemSpan {
     return start_ + size_;
   }
 
-  char* Data() const noexcept {
-    return Begin();
+  char* Back() const noexcept {
+    WHEELS_ASSERT(!IsEmpty(), "Empty");
+    return End() - 1;
   }
 
-  char* Back() const noexcept {
-    return End() - 1;
+  bool IsEmpty() const noexcept {
+    return size_ > 0;
+  }
+
+  void operator += (size_t offset) noexcept {
+    WHEELS_ASSERT(offset < size_, "Out of bounds");
+    start_ += offset;
+    size_ -= offset;
+  }
+
+  operator ConstMemView() const noexcept {
+    return {start_, size_};
   }
 
  private:
   char* start_;
   size_t size_;
 };
+
+using MemSpan = MutableMemView;
+
+//////////////////////////////////////////////////////////////////////
 
 }  // namespace wheels

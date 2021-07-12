@@ -36,8 +36,16 @@ class MmapAllocation : public NonCopyable {
     return size_;
   }
 
-  MemSpan AsMemSpan() const {
-    return MemSpan(start_, size_);
+  ConstMemView View() const {
+    return {start_, size_};
+  }
+
+  MutableMemView View() {
+    return {start_, size_};
+  }
+
+  MemSpan AsMemSpan() {
+    return View();
   }
 
   // Protect range of pages

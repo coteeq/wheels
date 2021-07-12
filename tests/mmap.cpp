@@ -24,7 +24,7 @@ TEST_SUITE(Mmap) {
 
   SIMPLE_TEST(View) {
     auto alloc = MmapAllocation::AllocatePages(3);
-    auto view = alloc.AsMemSpan();
+    auto view = alloc.View();
 
     ASSERT_EQ(alloc.Start(), view.Data());
     ASSERT_EQ(alloc.Size(), view.Size());
