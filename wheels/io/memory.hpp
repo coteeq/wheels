@@ -15,6 +15,10 @@ class MemoryReader : public IReader {
   }
 
   size_t ReadSome(MutableMemView buffer) override {
+    return Read(buffer);
+  }
+
+  size_t Read(MutableMemView buffer) {
     size_t bytes_to_read = std::min(buffer.Size(), source_.Size());
     if (bytes_to_read > 0) {
       memcpy(buffer.Data(), source_.Data(), bytes_to_read);
