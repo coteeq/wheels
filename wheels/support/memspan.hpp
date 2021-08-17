@@ -51,6 +51,10 @@ class ConstMemView {
     size_ -= offset;
   }
 
+  std::string_view AsStringView() const noexcept {
+    return {start_, size_};
+  }
+
  private:
   const char* start_;
   size_t size_;
