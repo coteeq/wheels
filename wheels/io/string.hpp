@@ -15,7 +15,7 @@ class StringWriter : public IWriter {
   }
 
   void Write(ConstMemView data) override {
-    dest_ += data.AsStringView();
+    dest_.append(data.Begin(), data.Size());
   }
 
  private:
