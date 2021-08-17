@@ -9,26 +9,26 @@ namespace wheels {
 
 //////////////////////////////////////////////////////////////////////
 
-ConstMemView ViewOf(const char* str) {
+inline ConstMemView ViewOf(const char* str) {
   return {str, strlen(str)};
 }
 
-ConstMemView ViewOf(const std::string& str) {
+inline ConstMemView ViewOf(const std::string& str) {
   return {str.data(), str.length()};
 }
 
 //////////////////////////////////////////////////////////////////////
 
 template <size_t N>
-MutableMemView MutViewOf(char (&arr)[N]) {
+inline MutableMemView MutViewOf(char (&arr)[N]) {
   return {arr, N};
 }
 
-MutableMemView MutViewOf(std::string& str) {
+inline MutableMemView MutViewOf(std::string& str) {
   return {str.data(), str.length()};
 }
 
-MutableMemView MutViewOf(std::vector<char>& bytes) {
+inline MutableMemView MutViewOf(std::vector<char>& bytes) {
   return {&bytes[0], bytes.size()};
 }
 
