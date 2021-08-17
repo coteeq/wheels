@@ -1,5 +1,6 @@
 #include <wheels/support/mmap_allocation.hpp>
 #include <wheels/support/memspan.hpp>
+#include <wheels/support/view_util.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
@@ -7,6 +8,7 @@ using wheels::MmapAllocation;
 using wheels::MutableMemView;
 using wheels::ConstMemView;
 using wheels::ViewOf;
+using wheels::MutViewOf;
 
 TEST_SUITE(MemSpan) {
   SIMPLE_TEST(DefaultCtor) {
@@ -29,12 +31,14 @@ TEST_SUITE(MemSpan) {
     ASSERT_EQ(const_view.Begin(), alloc.Start());
     ASSERT_FALSE(const_view.IsEmpty());
   }
+}
 
-  SIMPLE_TEST(ViewOf) {
+TEST_SUITE(ViewOf) {
+  SIMPLE_TEST(ViewOfArray) {
     static const size_t kLength = 15;
     char data[kLength];
 
-    auto mut_view = wheels::ViewOf(data);
+    auto mut_view = wheels::MutViewOf(data);
     ASSERT_TRUE(mut_view.IsValid());
     ASSERT_EQ(mut_view.Data(), data);
     ASSERT_EQ(mut_view.Size(), kLength);
@@ -44,12 +48,29 @@ TEST_SUITE(MemSpan) {
     static const size_t kLength = 15;
     char data[kLength];
 
-    auto mut_view = ViewOf(data);
+    auto mut_view = MutViewOf(data);
 
     size_t bytes_read = 0;
     while (mut_view.HasSpace()) {
       mut_view += 1;  // Read some
       bytes_read += 1;
     }
+  }
+
+  SIMPLE_TEST(ViewOfStaticString) {
+    static const char* kMessage = "Hello, world!";
+
+    auto message_view = ViewOf(kMessage);
+    ASSERT_EQ(message_view.Size(), strlen(kMessage));
+  }
+
+  SIMPLE_TEST(ViewOfStdString) {
+    static const std::string kMessage = "Hello, world!";
+
+    auto message_view = ViewOf(kMessage);
+    ASSERT_EQ(message_view.Size(), kMessage.length());
+
+    std::string message_str(message_view.Data(), message_view.Size());
+    ASSERT_EQ(message_str, kMessage);
   }
 }

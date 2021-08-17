@@ -44,10 +44,6 @@ class MmapAllocation : public NonCopyable {
     return {start_, size_};
   }
 
-  MemSpan AsMemSpan() {
-    return View();
-  }
-
   // Protect range of pages
   // Protected pages cannot be read, written or executed
   void ProtectPages(size_t offset, size_t count);

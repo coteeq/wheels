@@ -110,15 +110,7 @@ struct MutableMemView {
   size_t size_;
 };
 
+// Backward compatibility
 using MemSpan = MutableMemView;
-
-//////////////////////////////////////////////////////////////////////
-
-template <size_t N>
-MutableMemView ViewOf(char (&arr)[N]) {
-  return {arr, N};
-}
-
-//////////////////////////////////////////////////////////////////////
 
 }  // namespace wheels
