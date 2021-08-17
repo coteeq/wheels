@@ -17,6 +17,10 @@ inline ConstMemView ViewOf(const std::string& str) {
   return {str.data(), str.length()};
 }
 
+inline ConstMemView ViewOf(const std::vector<char>& bytes) {
+  return {&bytes[0], bytes.size()};
+}
+
 //////////////////////////////////////////////////////////////////////
 
 template <size_t N>
