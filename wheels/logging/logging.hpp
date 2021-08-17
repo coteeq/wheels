@@ -31,16 +31,16 @@ void LogMessageSimple(std::string message);
 
 //////////////////////////////////////////////////////////////////////
 
-#define LOG_IMPL(level, expr)                                           \
+#define _LOG_IMPL(level, expr)                                           \
   do {                                                                  \
     if (wheels::LevelAccepted(level)) {                                 \
       wheels::LogMessage(WHEELS_HERE, wheels::StringBuilder() << expr); \
     }                                                                   \
   } while (false);
 
-#define LOG_DEBUG(expr) LOG_IMPL(wheels::LogLevel::Debug, expr)
-#define LOG_TRACE(expr) LOG_IMPL(wheels::LogLevel::Trace, expr)
-#define LOG_INFO(expr) LOG_IMPL(wheels::LogLevel::Info, expr)
+#define LOG_DEBUG(expr) _LOG_IMPL(wheels::LogLevel::Debug, expr)
+#define LOG_TRACE(expr) _LOG_IMPL(wheels::LogLevel::Trace, expr)
+#define LOG_INFO(expr) _LOG_IMPL(wheels::LogLevel::Info, expr)
 
 // Usage: LOG_SIMPLE("Key " << key << " not found")
 #define LOG_SIMPLE(expr) \
