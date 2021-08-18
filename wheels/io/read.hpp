@@ -6,7 +6,7 @@
 
 namespace wheels::io {
 
-size_t Read(IReader* reader, wheels::MutableMemView buffer);
+size_t Read(IReader* reader, MutableMemView buffer);
 
 std::string ReadAll(IReader* reader);
 
