@@ -2,7 +2,7 @@
 
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/argparse.hpp>
+#include <wheels/cmdline/argparse.hpp>
 #include <wheels/support/string_utils.hpp>
 
 #include <map>

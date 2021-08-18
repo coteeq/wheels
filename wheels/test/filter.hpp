@@ -2,7 +2,7 @@
 
 #include <wheels/test/test.hpp>
 
-#include <wheels/support/argparse.hpp>
+#include <wheels/cmdline/argparse.hpp>
 
 #include <memory>
 

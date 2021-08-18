@@ -1,6 +1,6 @@
 #include <wheels/test/filter.hpp>
 
-#include <wheels/support/argparse.hpp>
+#include <wheels/cmdline/argparse.hpp>
 
 #include <regex>
 
