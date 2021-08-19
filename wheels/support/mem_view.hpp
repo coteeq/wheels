@@ -55,6 +55,10 @@ class ConstMemView {
     return {start_, size_};
   }
 
+  static ConstMemView Empty() {
+    return {nullptr, 0};
+  }
+
  private:
   const char* start_;
   size_t size_;
