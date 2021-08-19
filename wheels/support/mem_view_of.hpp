@@ -9,6 +9,11 @@ namespace wheels {
 
 //////////////////////////////////////////////////////////////////////
 
+template <size_t N>
+inline ConstMemView ViewOf(char (&arr)[N]) {
+  return {arr, N};
+}
+
 inline ConstMemView ViewOf(const char* str) {
   return {str, strlen(str)};
 }
