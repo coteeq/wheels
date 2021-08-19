@@ -6,11 +6,11 @@
 
 namespace wheels::io {
 
-size_t Read(IReader* reader, MutableMemView buffer) {
+size_t Read(IReader* from, MutableMemView buffer) {
   size_t total_bytes_read = 0;
 
   while (buffer.HasSpace()) {
-    const size_t bytes_read = reader->ReadSome(buffer);
+    const size_t bytes_read = from->ReadSome(buffer);
     if (bytes_read == 0) {
       break;
     }
@@ -21,20 +21,26 @@ size_t Read(IReader* reader, MutableMemView buffer) {
   return total_bytes_read;
 }
 
-std::string ReadAll(IReader* reader) {
+size_t CopyAll(IReader* from, IWriter* to, MutableMemView buffer) {
+  size_t total = 0;
+  while (true) {
+    size_t bytes_read = from->ReadSome(buffer);
+    if (bytes_read == 0) {
+      break;
+    }
+    total += bytes_read;
+    to->Write({buffer.Begin(), bytes_read});
+  }
+  return total;
+}
+
+std::string ReadAll(IReader* from) {
   std::string all;
   StringWriter all_writer(all);
 
   char buffer[1024];
 
-  while (true) {
-    size_t bytes_read = reader->ReadSome(MutViewOf(buffer));
-    if (bytes_read == 0) {
-      break;
-    }
-    all_writer.Write({buffer, bytes_read});
-  }
-
+  CopyAll(from, /*to=*/&all_writer, MutViewOf(buffer));
   return all;
 }
 
