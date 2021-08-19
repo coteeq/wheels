@@ -1,5 +1,5 @@
 #include <wheels/support/hash.hpp>
-#include <wheels/support/view_util.hpp>
+#include <wheels/support/mem_view_of.hpp>
 
 #include <wheels/test/test_framework.hpp>
 

@@ -114,7 +114,4 @@ struct MutableMemView {
   size_t size_;
 };
 
-// Backward compatibility
-using MemSpan = MutableMemView;
-
 }  // namespace wheels

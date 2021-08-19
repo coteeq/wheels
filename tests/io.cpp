@@ -3,7 +3,7 @@
 #include <wheels/io/memory.hpp>
 #include <wheels/io/limit.hpp>
 
-#include <wheels/support/view_util.hpp>
+#include <wheels/support/mem_view_of.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
