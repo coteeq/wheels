@@ -9,7 +9,7 @@ struct IntrusiveForwardListNode {
   // Shortcut
   using Node = IntrusiveForwardListNode;
 
-  Node* next_;
+  Node* next_ = nullptr;
 
   void SetNext(Node* node) noexcept {
     next_ = node;
@@ -53,6 +53,9 @@ class IntrusiveForwardList {
 
   void PushBack(Node* node) noexcept {
     ++size_;
+
+    node->next_ = nullptr;
+
     if (IsEmpty()) {
       head_ = tail_ = node;
     } else {
@@ -100,7 +103,8 @@ class IntrusiveForwardList {
   }
 
   void Reset() noexcept {
-    head_ = tail_ = nullptr;
+    head_ = nullptr;
+    tail_ = nullptr;
     size_ = 0;
   }
 
