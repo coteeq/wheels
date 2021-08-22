@@ -32,7 +32,6 @@ template <typename T>
 class IntrusiveForwardList {
   // Node type
   using Node = IntrusiveForwardListNode<T>;
-  using List = IntrusiveList<T>;
 
  public:
   IntrusiveForwardList() = default;
