@@ -44,6 +44,16 @@ class IntrusiveForwardList {
     }
   }
 
+  void PushFront(Node* node) noexcept {
+    ++size_;
+    if (IsEmpty()) {
+      head_ = tail_ = node;
+    } else {
+      node->next_ = head_;
+      head_= node;
+    }
+  }
+
   T* PopFront() noexcept {
     if (IsEmpty()) {
       return nullptr;

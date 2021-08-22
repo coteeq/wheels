@@ -213,4 +213,24 @@ TEST_SUITE(IntrusiveForwardList) {
     Item* third = list.PopFront();
     ASSERT_EQ(third, nullptr);
   }
+
+  SIMPLE_TEST(PushFront) {
+    IntrusiveForwardList<Item> list;
+
+    Item hello("Hello");
+    Item world("World");
+
+    list.PushBack(&world);
+    list.PushFront(&hello);
+
+    ASSERT_EQ(list.Size(), 2);
+
+    Item* first = list.PopFront();
+    ASSERT_EQ(first->data, "Hello");
+    Item* second = list.PopFront();
+    ASSERT_EQ(second->data, "World");
+
+
+    ASSERT_TRUE(list.IsEmpty());
+  }
 }
