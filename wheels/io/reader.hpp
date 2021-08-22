@@ -9,6 +9,7 @@ namespace wheels::io {
 struct IReader {
   virtual ~IReader() = default;
 
+  // 0 – end of stream
   virtual size_t ReadSome(MutableMemView buffer) = 0;
 };
 
