@@ -49,7 +49,7 @@ struct IntrusiveListNode {
     next_ = prev_ = nullptr;
   }
 
-  T* AsItem() {
+  T* AsItem() noexcept {
     return static_cast<T*>(this);
   }
 };

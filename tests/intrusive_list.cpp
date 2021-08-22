@@ -1,4 +1,5 @@
 #include <wheels/intrusive/list.hpp>
+#include <wheels/intrusive/forward_list.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
@@ -168,5 +169,48 @@ TEST_SUITE(IntrusiveList) {
 
     another_items.UnlinkAll();
     items.UnlinkAll();
+  }
+}
+
+TEST_SUITE(IntrusiveForwardList) {
+  struct Item : IntrusiveForwardListNode<Item> {
+    std::string data;
+
+    Item(std::string _data) : data(std::move(_data)) {
+    }
+  };
+
+  SIMPLE_TEST(EmptyList) {
+    IntrusiveForwardList<Item> list;
+
+    ASSERT_TRUE(list.IsEmpty());
+    ASSERT_EQ(list.Size(), 0);
+  }
+
+  SIMPLE_TEST(PushPop) {
+    IntrusiveForwardList<Item> list;
+
+    Item hello("Hello");
+    Item world("World");
+
+    list.PushBack(&hello);
+
+    ASSERT_FALSE(list.IsEmpty());
+    ASSERT_EQ(list.Size(), 1);
+
+    list.PushBack(&world);
+    ASSERT_EQ(list.Size(), 2);
+
+    Item* first = list.PopFront();
+    ASSERT_EQ(list.Size(), 1);
+    ASSERT_EQ(first->data, "Hello");
+
+    Item* second = list.PopFront();
+    ASSERT_EQ(list.Size(), 0);
+    ASSERT_TRUE(list.IsEmpty());
+    ASSERT_EQ(second->data, "World");
+
+    Item* third = list.PopFront();
+    ASSERT_EQ(third, nullptr);
   }
 }
