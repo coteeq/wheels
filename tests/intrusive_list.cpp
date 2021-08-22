@@ -233,4 +233,26 @@ TEST_SUITE(IntrusiveForwardList) {
 
     ASSERT_TRUE(list.IsEmpty());
   }
+
+  SIMPLE_TEST(ForEach) {
+    IntrusiveForwardList<Item> list;
+
+    Item hello("Hello");
+    Item comma(", ");
+    Item world("World");
+
+    list.PushBack(&hello);
+    list.PushBack(&comma);
+    list.PushBack(&world);
+
+
+    std::string message;
+    list.ForEach([&message](Item* item) {
+      message += item->data;
+    });
+
+    list.Reset();
+
+    ASSERT_EQ(message, "Hello, World");
+  }
 }

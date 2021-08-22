@@ -89,6 +89,15 @@ class IntrusiveForwardList {
 
   // TODO: Iterators
 
+  template <typename F>
+  void ForEach(F&& handler) {
+    Node* iter = head_;
+    while (iter != nullptr) {
+      handler(iter->AsItem());
+      iter = iter->next_;
+    }
+  }
+
   ~IntrusiveForwardList() {
     WHEELS_ASSERT(IsEmpty(), "List is not empty");
   }
