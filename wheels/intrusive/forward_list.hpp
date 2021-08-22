@@ -32,8 +32,25 @@ template <typename T>
 class IntrusiveForwardList {
   // Node type
   using Node = IntrusiveForwardListNode<T>;
+  using List = IntrusiveList<T>;
 
  public:
+  IntrusiveForwardList() = default;
+
+  // Non-copyable
+  IntrusiveForwardList(const IntrusiveForwardList&) = delete;
+  IntrusiveForwardList& operator=(const IntrusiveForwardList&) = delete;
+
+  // Move-constructable
+  IntrusiveForwardList(IntrusiveForwardList&& that) {
+    head_ = that.head_;
+    tail_ = that.tail_;
+    size_ = that.size_;
+    that.Reset();
+  }
+
+  IntrusiveForwardList& operator=(IntrusiveForwardList&& that) = delete;
+
   void PushBack(Node* node) noexcept {
     ++size_;
     if (IsEmpty()) {

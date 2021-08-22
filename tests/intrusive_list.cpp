@@ -255,4 +255,24 @@ TEST_SUITE(IntrusiveForwardList) {
 
     ASSERT_EQ(message, "Hello, World");
   }
+
+  SIMPLE_TEST(MoveConstructable) {
+    IntrusiveForwardList<Item> list1;
+
+    Item hello("Hello");
+    Item world("World");
+
+    list1.PushBack(&hello);
+    list1.PushBack(&world);
+
+    IntrusiveForwardList<Item> list2(std::move(list1));
+
+    ASSERT_TRUE(list1.IsEmpty());
+
+    ASSERT_EQ(list2.Size(), 2);
+    Item* first = list2.PopFront();
+    ASSERT_EQ(first->data, "Hello");
+    Item* second = list2.PopFront();
+    ASSERT_EQ(second->data, "World");
+  }
 }
