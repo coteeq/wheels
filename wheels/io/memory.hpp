@@ -3,6 +3,7 @@
 #include <wheels/io/reader.hpp>
 
 #include <algorithm>
+#include <cstring>
 
 namespace wheels::io {
 
