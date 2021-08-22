@@ -2,13 +2,25 @@
 
 #include <wheels/test/test_framework.hpp>
 
+#include <atomic>
 #include <chrono>
 #include <thread>
+#include <random>
 
 using namespace std::chrono_literals;
 
 using wheels::ProcessCPUTimer;
 using wheels::ThreadCPUTimer;
+
+class Work {
+ public:
+  void Do() {
+    value_ ^= twister_();
+  }
+ private:
+  size_t value_ = 0;
+  std::mt19937 twister_;
+};
 
 TEST_SUITE(CPUTime) {
   double ToSeconds(std::chrono::nanoseconds elapsed) {
@@ -17,9 +29,9 @@ TEST_SUITE(CPUTime) {
 
   SIMPLE_TEST(Work) {
     ThreadCPUTimer timer;
-    volatile size_t count = 0;
+    Work work;
     for (size_t i = 0; i < 100000000; ++i) {
-      ++count;
+      work.Do();
     }
     ASSERT_TRUE(timer.Elapsed() > 100ms);
   }
@@ -35,9 +47,9 @@ TEST_SUITE(CPUTime) {
 
     std::thread busy([&]() {
       ThreadCPUTimer timer;
-      volatile size_t count = 0;
+      Work work;
       while (!stop_requested.load()) {
-        ++count;
+        work.Do();
       }
       auto elapsed = timer.Elapsed();
       std::cout << "Busy thread running time: " << ToSeconds(elapsed) << std::endl;

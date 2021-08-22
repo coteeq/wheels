@@ -245,13 +245,13 @@ TEST_SUITE(IntrusiveForwardList) {
     list.PushBack(&comma);
     list.PushBack(&world);
 
-
     std::string message;
     list.ForEach([&message](Item* item) {
       message += item->data;
     });
 
     list.Reset();
+    ASSERT_TRUE(list.IsEmpty());
 
     ASSERT_EQ(message, "Hello, World");
   }
