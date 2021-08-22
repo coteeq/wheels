@@ -1,4 +1,4 @@
-#include <wheels/support/intrusive_list.hpp>
+#include <wheels/intrusive/list.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
