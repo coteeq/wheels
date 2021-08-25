@@ -18,6 +18,10 @@ class StringWriter : public IWriter {
     dest_.append(data.Begin(), data.Size());
   }
 
+  void Flush() override {
+    // Nothing to do
+  }
+
  private:
   std::string& dest_;
 };
