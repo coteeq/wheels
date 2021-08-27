@@ -250,7 +250,10 @@ TEST_SUITE(IntrusiveForwardList) {
       message += item->data;
     });
 
-    list.Reset();
+    list.PopFront();
+    list.PopFront();
+    list.PopFront();
+
     ASSERT_TRUE(list.IsEmpty());
 
     ASSERT_EQ(message, "Hello, World");

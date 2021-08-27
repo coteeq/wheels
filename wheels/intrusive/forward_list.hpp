@@ -101,12 +101,6 @@ class IntrusiveForwardList {
     return size_;
   }
 
-  void Reset() noexcept {
-    head_ = nullptr;
-    tail_ = nullptr;
-    size_ = 0;
-  }
-
   // TODO: Iterators
 
   template <typename F>
@@ -120,6 +114,13 @@ class IntrusiveForwardList {
 
   ~IntrusiveForwardList() {
     WHEELS_ASSERT(IsEmpty(), "List is not empty");
+  }
+
+ private:
+  void Reset() noexcept {
+    head_ = nullptr;
+    tail_ = nullptr;
+    size_ = 0;
   }
 
  private:
