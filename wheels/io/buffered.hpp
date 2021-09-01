@@ -3,7 +3,7 @@
 #include <wheels/io/reader.hpp>
 #include <wheels/io/memory.hpp>
 
-#include <wheels/support/mem_view_of.hpp>
+#include <wheels/memory/view_of.hpp>
 
 namespace wheels::io {
 
