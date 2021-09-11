@@ -1,4 +1,4 @@
-#include <wheels/support/time.hpp>
+#include <wheels/support/stop_watch.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
@@ -9,7 +9,7 @@ using wheels::StopWatch;
 using namespace std::chrono_literals;
 using std::this_thread::sleep_for;
 
-TEST_SUITE(Time) {
+TEST_SUITE(StopWatch) {
   SIMPLE_TEST(Elapsed) {
     StopWatch stop_watch;
     sleep_for(100ms);
