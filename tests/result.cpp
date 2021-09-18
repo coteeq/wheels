@@ -93,7 +93,6 @@ TEST_SUITE(Result) {
     ASSERT_TRUE(result.IsOk());
     ASSERT_FALSE(result.HasError());
     result.ThrowIfError();  // Nothing happens
-    result.ExpectOk();  // Nothing happens
 
     ASSERT_EQ(result.ValueUnsafe().Message(), kMessage);
     ASSERT_EQ((*result).Message(), "Hello");
@@ -179,13 +178,11 @@ TEST_SUITE(Result) {
     ASSERT_FALSE(result.HasError());
     ASSERT_TRUE(result.IsOk());
     result.ThrowIfError();  // Nothing happens
-    result.ExpectOk();  // Nothing happens
     
     // Fail
     auto err_result = Result<void>::Fail(TimedOut());
     ASSERT_TRUE(err_result.HasError());
     ASSERT_THROW(err_result.ThrowIfError(), std::system_error);
-    ASSERT_THROW(err_result.ExpectOk(), std::system_error);
     auto error = err_result.GetErrorCode();
     ASSERT_EQ(error.value(), (int)std::errc::timed_out);
   }
@@ -206,9 +203,27 @@ TEST_SUITE(Result) {
     ASSERT_THROW(str = MakeError(), std::system_error);
   }
 
+  SIMPLE_TEST(ExpectOk) {
+    {
+      Result<std::vector<int>> result = MakeVector(3);
+      result.ExpectOk();
+      result.ExpectOk("=(");
+    }
+
+    {
+      Status status = MakeOkStatus();
+      status.ExpectOk();
+      status.ExpectOk("=(");
+    }
+
+    {
+      auto result = MakeError();
+      //result.ExpectOk("=(");
+    }
+  }
+
   SIMPLE_TEST(MakeOkResult) {
     auto ok = make_result::Ok();
-    ok.ExpectOk();
     ASSERT_TRUE(ok.IsOk());
 
     const size_t answer = 4;
