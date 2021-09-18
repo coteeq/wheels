@@ -18,6 +18,13 @@ struct SourceLocation {
 
   SourceLocation() : line_(0) {
   }
+
+  static SourceLocation Current(
+      const char* file = __builtin_FILE(),
+      const char* function = __builtin_FUNCTION(),
+      const int line = __builtin_LINE()) {
+    return {file, function, line};
+  }
 };
 
 std::ostream& operator<<(std::ostream& out, const SourceLocation& where);
