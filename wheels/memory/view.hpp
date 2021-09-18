@@ -15,11 +15,11 @@ namespace wheels {
 
 class ConstMemView {
  public:
-  ConstMemView(const char* start, size_t size)
-      : start_(start), size_(size) {
+  ConstMemView(const char* start, size_t size) : start_(start), size_(size) {
   }
 
-  ConstMemView() : ConstMemView(nullptr, 0) {}
+  ConstMemView() : ConstMemView(nullptr, 0) {
+  }
 
   const char* Data() const noexcept {
     return start_;
@@ -45,7 +45,7 @@ class ConstMemView {
     return start_ != nullptr;
   }
 
-  void operator += (size_t offset) noexcept {
+  void operator+=(size_t offset) noexcept {
     WHEELS_ASSERT(offset <= size_, "Out of bounds");
     start_ += offset;
     size_ -= offset;
@@ -103,7 +103,7 @@ struct MutableMemView {
     return start_ != nullptr;
   }
 
-  void operator += (size_t offset) noexcept {
+  void operator+=(size_t offset) noexcept {
     WHEELS_ASSERT(offset <= size_, "Out of bounds");
     start_ += offset;
     size_ -= offset;

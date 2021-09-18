@@ -69,7 +69,7 @@ class IntrusiveForwardList {
       head_ = tail_ = node;
     } else {
       node->next_ = head_;
-      head_= node;
+      head_ = node;
     }
   }
 

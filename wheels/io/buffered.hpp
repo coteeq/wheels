@@ -11,6 +11,7 @@ namespace wheels::io {
 
 class BufferedReader : public IReader {
   static const size_t kDefaultBufSize = 1024;
+
  public:
   BufferedReader(IReader* from, size_t buf_size = kDefaultBufSize)
       : from_(from), buf_(buf_size) {

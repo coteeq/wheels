@@ -149,8 +149,7 @@ class IntrusiveList {
     }
   }
 
-  [[deprecated]]
-  void Clear() {
+  [[deprecated]] void Clear() {
     UnlinkAll();
   }
 

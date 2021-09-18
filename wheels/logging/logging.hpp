@@ -31,7 +31,7 @@ void LogMessageSimple(std::string message);
 
 //////////////////////////////////////////////////////////////////////
 
-#define _LOG_IMPL(level, expr)                                           \
+#define _LOG_IMPL(level, expr)                                          \
   do {                                                                  \
     if (wheels::LevelAccepted(level)) {                                 \
       wheels::LogMessage(WHEELS_HERE, wheels::StringBuilder() << expr); \
