@@ -217,6 +217,12 @@ TEST_SUITE(Result) {
     }
 
     {
+      Result<std::vector<int>> result = MakeVector(3);
+      auto vector = std::move(result.ExpectValue());
+      ASSERT_EQ(vector.size(), 3);
+    }
+
+    {
       auto result = MakeError();
       //result.ExpectOk("=(");
     }
