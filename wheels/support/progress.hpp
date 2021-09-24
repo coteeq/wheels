@@ -15,10 +15,11 @@ class ProgressBar {
     bool bar;
     char fill_char;
     size_t width;
+    bool redraw;
   };
 
  public:
-  ProgressBar(const std::string& name, Options options = {true, '#', 50})
+  ProgressBar(const std::string& name, Options options = {true, '#', 50, true})
       : name_(name), options_(options) {
   }
 
@@ -60,8 +61,18 @@ class ProgressBar {
 
   void WriteProgress() {
     size_t percents = Percents(progress_, total_);
-    std::cout << '\r' << name_ << ": " << percents << '%' << " (" << progress_
+
+    if (options_.redraw) {
+      std::cout << '\r';
+    }
+
+    std::cout << name_ << ": " << percents << '%' << " (" << progress_
               << ")";
+
+    if (!options_.redraw) {
+      std::cout << std::endl;
+    }
+
     std::cout.flush();
   }
 
@@ -73,7 +84,11 @@ class ProgressBar {
 
     std::stringstream out;
 
-    out << '\r' << name_ << ": |" << std::string(fill, options_.fill_char)
+    if (options_.redraw) {
+      out << '\r';
+    }
+
+    out << name_ << ": |" << std::string(fill, options_.fill_char)
         << std::string(left, '-') << "| " << percents << "% Complete";
 
     std::cout << out.str();

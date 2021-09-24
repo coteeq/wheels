@@ -19,7 +19,7 @@ TEST_SUITE(Progress) {
 
   SIMPLE_TEST(Percents) {
     wheels::ProgressBar progress("Steps",
-      wheels::ProgressBar::Options{false, '#', 50});
+      wheels::ProgressBar::Options{false, '#', 50, false});
 
     static const size_t kSteps = 10'000'000;
 
