@@ -24,7 +24,7 @@ inline ConstMemView ViewOf(const std::string& str) {
 }
 
 inline ConstMemView ViewOf(const std::vector<char>& bytes) {
-  return {&bytes[0], bytes.size()};
+  return {bytes.data(), bytes.size()};
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ inline MutableMemView MutViewOf(std::string& str) {
 }
 
 inline MutableMemView MutViewOf(std::vector<char>& bytes) {
-  return {&bytes[0], bytes.size()};
+  return {bytes.data(), bytes.size()};
 }
 
 }  // namespace wheels
