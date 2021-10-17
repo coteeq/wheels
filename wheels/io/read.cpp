@@ -2,46 +2,62 @@
 
 #include <wheels/io/string.hpp>
 
+#include <wheels/result/make.hpp>
 #include <wheels/memory/view_of.hpp>
+
+using namespace wheels::make_result;
 
 namespace wheels::io {
 
-size_t Read(IReader* from, MutableMemView buffer) {
+Result<size_t> Read(IReader* from, MutableMemView buffer) {
   size_t total_bytes_read = 0;
 
   while (buffer.HasSpace()) {
-    const size_t bytes_read = from->ReadSome(buffer);
-    if (bytes_read == 0) {
+    const auto bytes_read = from->ReadSome(buffer);
+    if (!bytes_read.IsOk()) {
+      return PropagateError(bytes_read);
+    }
+    if (*bytes_read == 0) {
       break;
     }
-    buffer += bytes_read;
-    total_bytes_read += bytes_read;
+    buffer += *bytes_read;
+    total_bytes_read += *bytes_read;
   }
 
-  return total_bytes_read;
+  return Ok(total_bytes_read);
 }
 
-size_t CopyAll(IReader* from, IWriter* to, MutableMemView buffer) {
+Result<size_t> CopyAll(IReader* from, IWriter* to, MutableMemView buffer) {
   size_t total = 0;
   while (true) {
-    size_t bytes_read = from->ReadSome(buffer);
-    if (bytes_read == 0) {
+    auto bytes_read = from->ReadSome(buffer);
+    if (!bytes_read.IsOk()) {
+      return PropagateError(bytes_read);
+    }
+    if (*bytes_read == 0) {
       break;
     }
-    total += bytes_read;
-    to->Write({buffer.Begin(), bytes_read});
+    total += *bytes_read;
+
+    auto written = to->Write({buffer.Begin(), *bytes_read});
+    if (!written.IsOk()) {
+      return PropagateError(written);
+    }
   }
-  return total;
+  return Ok(total);
 }
 
-std::string ReadAll(IReader* from) {
+Result<std::string> ReadAll(IReader* from) {
   std::string all;
   StringWriter all_writer(all);
 
   char buffer[1024];
 
-  CopyAll(from, /*to=*/&all_writer, MutViewOf(buffer));
-  return all;
+  auto copied = CopyAll(from, /*to=*/&all_writer, MutViewOf(buffer));
+  if (!copied.IsOk()) {
+    return PropagateError(copied);
+  }
+  return Ok(all);
 }
 
 }  // namespace wheels::io

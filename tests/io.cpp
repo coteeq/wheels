@@ -19,6 +19,9 @@ using wheels::MutableMemView;
 
 using wheels::ViewOf;
 using wheels::MutViewOf;
+using wheels::Result;
+
+using namespace wheels::make_result;
 
 namespace test {
 
@@ -29,9 +32,9 @@ class ChunkedReader : public IReader {
   ChunkedReader(IReader* from, size_t chunk_size) : from_(from), chunk_size_(chunk_size) {
   }
 
-  size_t ReadSome(MutableMemView buffer) {
+  Result<size_t> ReadSome(MutableMemView buffer) {
     if (!buffer.HasSpace()) {
-      return 0;
+      return Ok<size_t>(0);
     }
     size_t bytes_to_read = BytesToRead(buffer);
     return from_->ReadSome({buffer.Data(), bytes_to_read});
@@ -58,7 +61,7 @@ class AtLeastReader : public IReader {
   AtLeastReader(IReader* from, size_t threshold) : from_(from), threshold_(threshold) {
   }
 
-  size_t ReadSome(MutableMemView buffer) override {
+  Result<size_t> ReadSome(MutableMemView buffer) override {
     WHEELS_VERIFY(buffer.Size() >= threshold_, "Too small input buffer: " << buffer.Size());
     return from_->ReadSome(buffer);
   }
@@ -78,8 +81,9 @@ class FrameReader {
   std::string NextFrame(size_t length) {
     wheels::io::LimitReader frame_reader(from_, length);
     auto frame = ReadAll(&frame_reader);
-    WHEELS_VERIFY(frame.length() == length, "Cannot read frame: expected " << length << " bytes, read " << frame.length());
-    return frame;
+    WHEELS_VERIFY(frame.IsOk(), "Error while reading next frame");
+    WHEELS_VERIFY(frame->length() == length, "Cannot read frame: expected " << length << " bytes, read " << frame->length());
+    return *frame;
   }
 
  private:
@@ -114,7 +118,7 @@ TEST_SUITE(IO) {
     wheels::io::MemoryReader mem_reader(wheels::ViewOf(kSource));
     test::ChunkedReader chunked_reader(&mem_reader, /*chunk_size=*/1);
 
-    auto dest = wheels::io::ReadAll(&chunked_reader);
+    auto dest = wheels::io::ReadAll(&chunked_reader).ValueOrThrow();
     ASSERT_EQ(dest, kSource);
   }
 
@@ -145,7 +149,7 @@ TEST_SUITE(IO) {
     wheels::io::CopyAll(
         &buffered_reader,
         &dest_writer,
-        wheels::MutViewOf(buf));
+        wheels::MutViewOf(buf)).ExpectOk();
 
     ASSERT_EQ(kSource, dest);
   }

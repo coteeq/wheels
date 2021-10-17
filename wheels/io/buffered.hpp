@@ -15,24 +15,39 @@ class BufferedReader : public IReader {
  public:
   BufferedReader(IReader* from, size_t buf_size = kDefaultBufSize)
       : from_(from), buf_(buf_size) {
-    buf_reader_.Reset(ConstMemView::Empty());
+    buf_reader_.Reset();
   }
 
-  size_t ReadSome(MutableMemView dest) override {
-    if (!buf_reader_.Exhausted() || ReFillBuffer()) {
+  Result<size_t> ReadSome(MutableMemView dest) override {
+    if (!buf_reader_.Exhausted()) {
+      return buf_reader_.Read(dest);
+    }
+
+    // Refill buffer
+    auto refilled = ReFillBuffer();
+    if (!refilled.IsOk()) {
+      return make_result::PropagateError(refilled);
+    }
+
+    if (!buf_reader_.Exhausted()) {
       return buf_reader_.Read(dest);
     } else {
-      return 0;
+      return make_result::Ok<size_t>(0);
     }
   }
 
  private:
-  bool ReFillBuffer() {
-    size_t bytes_read = from_->ReadSome(MutViewOf(buf_));
-    if (bytes_read > 0) {
-      buf_reader_.Reset({buf_.data(), bytes_read});
+  Status ReFillBuffer() {
+    auto bytes_read = from_->ReadSome(MutViewOf(buf_));
+    if (!bytes_read.IsOk()) {
+      return make_result::PropagateError(bytes_read);
     }
-    return bytes_read > 0;
+    if (*bytes_read > 0) {
+      buf_reader_.Reset({buf_.data(), *bytes_read});
+    } else {
+      buf_reader_.Reset();
+    }
+    return make_result::Ok();
   }
 
  private:
