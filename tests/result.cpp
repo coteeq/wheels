@@ -363,7 +363,7 @@ TEST_SUITE(Result) {
     }
 
     {
-      auto v = *(Result<MoveOnly>::Ok(17));
+      MoveOnly v = Result<MoveOnly>::Ok(17).ExpectValueOr("Fail");
       ASSERT_EQ(v.data, 17);
     }
   }
