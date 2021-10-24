@@ -4,6 +4,7 @@
 #include <wheels/io/writer.hpp>
 
 #include <wheels/memory/view_of.hpp>
+#include <wheels/result/make.hpp>
 
 #include <string>
 
@@ -11,15 +12,16 @@ namespace wheels::io {
 
 class StringWriter : public IWriter {
  public:
-  StringWriter(std::string& str) : dest_(str) {
+  explicit StringWriter(std::string& str) : dest_(str) {
   }
 
-  void Write(ConstMemView data) override {
+  Status Write(ConstMemView data) override {
     dest_.append(data.Begin(), data.Size());
+    return make_result::Ok();
   }
 
-  void Flush() override {
-    // Nothing to do
+  Status Flush() override {
+    return make_result::Ok();
   }
 
  private:

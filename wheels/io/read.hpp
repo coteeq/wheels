@@ -7,10 +7,10 @@
 
 namespace wheels::io {
 
-size_t Read(IReader* from, MutableMemView buffer);
+Result<size_t> Read(IReader* from, MutableMemView buffer);
 
-size_t CopyAll(IReader* from, IWriter* to, MutableMemView buffer);
+Result<size_t> CopyAll(IReader* from, IWriter* to, MutableMemView buffer);
 
-std::string ReadAll(IReader* from);
+Result<std::string> ReadAll(IReader* from);
 
 }  // namespace wheels::io
