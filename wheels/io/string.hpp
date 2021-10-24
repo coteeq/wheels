@@ -15,14 +15,14 @@ class StringWriter : public IWriter {
   explicit StringWriter(std::string& str) : dest_(str) {
   }
 
-  void JustWrite(ConstMemView data) {
+  void Append(ConstMemView data) {
     dest_.append(data.Begin(), data.Size());
   }
 
   // IWriter
 
   Status Write(ConstMemView data) override {
-    JustWrite(data);
+    Append(data);
     return make_result::Ok();
   }
 
