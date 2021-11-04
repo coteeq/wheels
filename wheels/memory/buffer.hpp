@@ -19,11 +19,11 @@ struct GrowingBuffer {
   }
 
   void Append(std::string_view data) {
-    ReserveForAppend(data.size());
-    buf_.insert(buf_.end(), data.begin(), data.end());
+    Append(ConstMemView{data.begin(), data.size()});
   }
 
   void Append(ConstMemView data) {
+    ReserveForAppend(data.Size());
     buf_.insert(buf_.end(), data.Begin(), data.End());
   }
 
