@@ -17,16 +17,16 @@ class MemoryReader : public IReader {
   }
 
   Result<size_t> ReadSome(MutableMemView buffer) override {
-    return Read(buffer);
+    return make_result::Ok(Read(buffer));
   }
 
-  Result<size_t> Read(MutableMemView buffer) {
+  size_t Read(MutableMemView buffer) {
     size_t bytes_to_read = std::min(buffer.Size(), source_.Size());
     if (bytes_to_read > 0) {
       memcpy(buffer.Data(), source_.Data(), bytes_to_read);
       source_ += bytes_to_read;
     }
-    return make_result::Ok(bytes_to_read);
+    return bytes_to_read;
   }
 
   void Reset(ConstMemView source) {
@@ -39,6 +39,10 @@ class MemoryReader : public IReader {
 
   bool Exhausted() const noexcept {
     return source_.IsEmpty();
+  }
+
+  size_t BytesLeft() const noexcept {
+    return source_.Size();
   }
 
  private:

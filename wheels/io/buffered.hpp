@@ -20,7 +20,7 @@ class BufferedReader : public IReader {
 
   Result<size_t> ReadSome(MutableMemView dest) override {
     if (!buf_reader_.Exhausted()) {
-      return buf_reader_.Read(dest);
+      return make_result::Ok(buf_reader_.Read(dest));
     }
 
     // Refill buffer
@@ -30,7 +30,7 @@ class BufferedReader : public IReader {
     }
 
     if (!buf_reader_.Exhausted()) {
-      return buf_reader_.Read(dest);
+      return make_result::Ok(buf_reader_.Read(dest));
     } else {
       return make_result::Ok<size_t>(0);
     }
