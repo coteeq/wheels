@@ -35,6 +35,10 @@ struct GrowingBuffer {
     buf_.shrink_to_fit();
   }
 
+  size_t Size() const {
+    return buf_.size();
+  }
+
  private:
   void ReserveForAppend(size_t size) {
     buf_.reserve(buf_.size() + size);
