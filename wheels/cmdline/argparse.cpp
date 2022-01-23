@@ -9,7 +9,7 @@ ArgumentBuilder::~ArgumentBuilder() {
   parser_->Add(arg_);
 }
 
-std::string ArgumentParser::WithoutDashes(const std::string argument) {
+std::string ArgumentParser::WithoutDashes(const std::string& argument) {
   return argument.substr(2, argument.length());
 }
 
