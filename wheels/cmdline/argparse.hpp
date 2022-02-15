@@ -131,7 +131,7 @@ class ArgumentParser {
   void Fail(const std::string& error);
 
   // --{name} -> {name}
-  static std::string WithoutDashes(const std::string argument);
+  static std::string WithoutDashes(const std::string& argument);
 
  private:
   std::string name_;
