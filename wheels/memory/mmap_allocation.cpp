@@ -5,6 +5,8 @@
 #include <cerrno>
 #include <cstring>
 
+#include <unistd.h>
+
 #include <sys/mman.h>
 
 namespace wheels {
@@ -15,16 +17,35 @@ namespace wheels {
 
 //////////////////////////////////////////////////////////////////////
 
-static const size_t kPageSize = 4096;
+class PageSizeDetector {
+ public:
+  PageSizeDetector() {
+    page_size_ = DetectPageSize();
+  }
+
+  size_t GetPageSize() const {
+    return page_size_;
+  }
+
+ private:
+  size_t DetectPageSize() {
+    return sysconf(_SC_PAGESIZE);
+  }
+
+ private:
+  size_t page_size_;
+};
+
+static const PageSizeDetector page_size_detector;
 
 //////////////////////////////////////////////////////////////////////
 
 static size_t PagesToBytes(size_t count) {
-  return count * kPageSize;
+  return count * page_size_detector.GetPageSize();
 }
 
 size_t MmapAllocation::PageSize() {
-  return kPageSize;
+  return page_size_detector.GetPageSize();
 }
 
 MmapAllocation MmapAllocation::AllocatePages(size_t count) {
