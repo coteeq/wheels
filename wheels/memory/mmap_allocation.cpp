@@ -36,16 +36,20 @@ class PageSizeDetector {
   size_t page_size_;
 };
 
-static const PageSizeDetector page_size_detector;
+static size_t PageSizeImpl() {
+  static PageSizeDetector page_size_detector;
+
+  return page_size_detector.GetPageSize();
+}
 
 //////////////////////////////////////////////////////////////////////
 
 static size_t PagesToBytes(size_t count) {
-  return count * page_size_detector.GetPageSize();
+  return count * PageSizeImpl();
 }
 
 size_t MmapAllocation::PageSize() {
-  return page_size_detector.GetPageSize();
+  return PageSizeImpl();
 }
 
 MmapAllocation MmapAllocation::AllocatePages(size_t count) {
