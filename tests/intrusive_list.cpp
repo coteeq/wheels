@@ -273,6 +273,47 @@ TEST_SUITE(IntrusiveForwardList) {
     }
   }
 
+  SIMPLE_TEST(AppendToEmptyList) {
+    IntrusiveForwardList<Item> list1;
+    IntrusiveForwardList<Item> list2;
+
+    Item first("first");
+    Item second("second");
+
+    list2.PushBack(&first);
+    list2.PushBack(&second);
+
+    list1.Append(std::move(list2));
+
+    ASSERT_EQ(list1.Size(), 2);
+
+    {
+      Item* item = list1.PopFront();
+      ASSERT_EQ(item->data, "first");
+    }
+    {
+      Item* item = list1.PopFront();
+      ASSERT_EQ(item->data, "second");
+    }
+  }
+
+  SIMPLE_TEST(AppendEmptyList) {
+    IntrusiveForwardList<Item> list1;
+    IntrusiveForwardList<Item> empty;
+
+    Item first("first");
+    Item second("second");
+
+    list1.PushBack(&first);
+    list1.PushBack(&second);
+
+    list1.Append(std::move(empty));
+    ASSERT_EQ(list1.Size(), 2);
+
+    list1.PopFront();
+    list1.PopFront();
+  }
+
   SIMPLE_TEST(ForEach) {
     IntrusiveForwardList<Item> list;
 
