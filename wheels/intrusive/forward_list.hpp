@@ -63,6 +63,16 @@ class IntrusiveForwardList {
     }
   }
 
+  // O(1)
+  void Append(IntrusiveForwardList<T>&& that) {
+    tail_->next_ = that.head_;
+    tail_ = that.tail_;
+    size_ += that.size_;
+
+    that.head_ = that.tail_ = nullptr;
+    that.size_ = 0;
+  }
+
   void PushFront(Node* node) noexcept {
     ++size_;
     if (IsEmpty()) {

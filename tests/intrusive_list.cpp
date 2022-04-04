@@ -234,6 +234,45 @@ TEST_SUITE(IntrusiveForwardList) {
     ASSERT_TRUE(list.IsEmpty());
   }
 
+  SIMPLE_TEST(Append) {
+    IntrusiveForwardList<Item> list1;
+
+    Item a("a");
+    Item b("b");
+    Item c("c");
+
+    list1.PushBack(&a);
+    list1.PushBack(&b);
+    list1.PushBack(&c);
+
+    ASSERT_EQ(list1.Size(), 3);
+
+    Item d("d");
+    Item e("e");
+
+    IntrusiveForwardList<Item> list2;
+    list2.PushBack(&d);
+    list2.PushBack(&e);
+
+    ASSERT_EQ(list2.Size(), 2);
+
+    list1.Append(std::move(list2));
+
+    ASSERT_EQ(list1.Size(), 5);
+    ASSERT_TRUE(list2.IsEmpty());
+
+    std::string concat;
+    list1.ForEach([&concat](Item* item) {
+      concat += item->data;
+    });
+
+    ASSERT_EQ(concat, "abcde");
+
+    while (!list1.IsEmpty()) {
+      list1.PopFront();
+    }
+  }
+
   SIMPLE_TEST(ForEach) {
     IntrusiveForwardList<Item> list;
 
