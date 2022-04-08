@@ -9,8 +9,10 @@ include(cmake/ClangFormat.cmake)
 include(cmake/ClangTidy.cmake)
 
 include(cmake/CompileOptions.cmake)
+
 include(cmake/Platform.cmake)
 include(cmake/Processor.cmake)
+include(cmake/Arch.cmake)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 

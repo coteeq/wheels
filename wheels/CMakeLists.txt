@@ -14,6 +14,8 @@ add_library(wheels STATIC ${LIB_CXX_SOURCES} ${LIB_ASM_SOURCES} ${LIB_HEADERS})
 target_include_directories(wheels PUBLIC ${LIB_INCLUDE_PATH})
 target_link_libraries(wheels PUBLIC pthread)
 
+target_compile_definitions(wheels PUBLIC wheels_arch_${WHEELS_ARCH})
+
 # --------------------------------------------------------------------
 
 # Linters
