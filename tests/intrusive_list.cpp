@@ -136,7 +136,7 @@ TEST_SUITE(IntrusiveList) {
     another_items.PushBack(&foo);
     another_items.PushBack(&bar);
 
-    items.Append(another_items);
+    items.Append(std::move(another_items));
 
     ASSERT_TRUE(another_items.IsEmpty());
 
