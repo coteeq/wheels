@@ -75,7 +75,7 @@ struct MutableMemView {
   }
 
   char* Data() const noexcept {
-    return Begin();
+    return start_;
   }
 
   size_t Size() const noexcept {
