@@ -20,9 +20,9 @@ namespace wheels {
 // https://aloiskraus.wordpress.com/2018/06/16/why-skylakex-cpus-are-sometimes-50-slower-how-intel-has-broken-existing-code/
 
 inline void SpinLockPause() {
-#if defined(wheels_arch_x86_64)
+#if defined(__wheels_arch_x86_64)
   asm volatile("pause\n" : : : "memory");
-#elif defined(wheels_arch_armv8_a_64)
+#elif defined(__wheels_arch_armv8_a_64)
   asm volatile("yield\n" : : : "memory");
 #else
   ;
