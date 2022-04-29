@@ -136,7 +136,7 @@ TEST_SUITE(IntrusiveList) {
     another_items.PushBack(&foo);
     another_items.PushBack(&bar);
 
-    items.Append(std::move(another_items));
+    items.Append(another_items);
 
     ASSERT_TRUE(another_items.IsEmpty());
 
@@ -256,7 +256,7 @@ TEST_SUITE(IntrusiveForwardList) {
 
     ASSERT_EQ(list2.Size(), 2);
 
-    list1.Append(std::move(list2));
+    list1.Append(list2);
 
     ASSERT_EQ(list1.Size(), 5);
     ASSERT_TRUE(list2.IsEmpty());
@@ -283,7 +283,7 @@ TEST_SUITE(IntrusiveForwardList) {
     list2.PushBack(&first);
     list2.PushBack(&second);
 
-    list1.Append(std::move(list2));
+    list1.Append(list2);
 
     ASSERT_EQ(list1.Size(), 2);
 
@@ -307,7 +307,7 @@ TEST_SUITE(IntrusiveForwardList) {
     list1.PushBack(&first);
     list1.PushBack(&second);
 
-    list1.Append(std::move(empty));
+    list1.Append(empty);
     ASSERT_EQ(list1.Size(), 2);
 
     list1.PopFront();

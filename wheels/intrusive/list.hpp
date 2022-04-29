@@ -91,7 +91,7 @@ class IntrusiveList {
 
   // Append (= move, re-link) all nodes from `that` list to the end of this list
   // Post-condition: that.IsEmpty() == true
-  void Append(IntrusiveList&& that) noexcept {
+  void Append(IntrusiveList& that) noexcept {
     if (that.IsEmpty()) {
       return;
     }
@@ -120,7 +120,7 @@ class IntrusiveList {
 
   IntrusiveList(IntrusiveList&& that) {
     InitEmpty();
-    Append(std::move(that));
+    Append(that);
   }
 
   // Intentionally disabled

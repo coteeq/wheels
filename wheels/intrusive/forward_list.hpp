@@ -64,7 +64,7 @@ class IntrusiveForwardList {
   }
 
   // O(1)
-  void Append(IntrusiveForwardList<T>&& that) {
+  void Append(IntrusiveForwardList<T>& that) noexcept {
     if (IsEmpty()) {
       head_ = that.head_;
       tail_ = that.tail_;
