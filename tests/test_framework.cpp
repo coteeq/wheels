@@ -2,6 +2,7 @@
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/iterate.hpp>
 #include <wheels/test/util.hpp>
+#include <wheels/test/cpu_time.hpp>
 
 #include <wheels/support/quick_exit.hpp>
 
@@ -108,5 +109,15 @@ TEST_SUITE(TestFramework) {
     while (wheels::test::KeepRunning()) {
       std::this_thread::yield();
     }
+  }
+
+  TEST(CpuTimeBudget, wheels::test::TestOptions().TimeLimit(1s)) {
+    wheels::test::CpuTimeBudgetGuard g{100ms};
+
+    while (wheels::test::KeepRunning()) {
+      std::this_thread::sleep_for(1ms);
+    }
+
+    std::cout << "Cpu time usage: " << g.Usage().count() << "us" << std::endl;
   }
 }
