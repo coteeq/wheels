@@ -2,17 +2,12 @@
 
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/io/read.hpp>
-#include <wheels/io/memory.hpp>
-
 #include <memory>
 
 TEST_SUITE(GrowingBuffer) {
   // Helper
   std::string ReadAllFrom(const wheels::GrowingBuffer& buffer) {
-    wheels::io::MemoryReader reader(buffer.View());
-    auto all = wheels::io::ReadAll(&reader);
-    return *all;
+    return std::string{buffer.View().Begin(), buffer.Size()};
   }
 
   SIMPLE_TEST(JustWorks) {
