@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include <string_view>
 
 namespace wheels {
@@ -8,8 +9,8 @@ namespace wheels {
 // Represents location in source code: file name, function name, line number
 
 struct SourceLocation {
-  std::string_view file_;
-  std::string_view function_;
+  std::string file_;
+  std::string function_;
   int line_;
 
   SourceLocation(std::string_view file, std::string_view function, int line)
