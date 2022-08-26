@@ -55,6 +55,8 @@ TEST_SUITE(ViewOf) {
       mut_view += 1;  // Read some
       bytes_read += 1;
     }
+
+    ASSERT_EQ(bytes_read, kLength);
   }
 
   SIMPLE_TEST(ViewOfStaticString) {
