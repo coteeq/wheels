@@ -1,5 +1,7 @@
 #include <wheels/memory/mmap_allocation.hpp>
 
+#include <wheels/memory/page_size.hpp>
+
 #include <wheels/support/assert.hpp>
 
 #include <cerrno>
@@ -17,39 +19,12 @@ namespace wheels {
 
 //////////////////////////////////////////////////////////////////////
 
-class PageSizeDetector {
- public:
-  PageSizeDetector() {
-    page_size_ = DetectPageSize();
-  }
-
-  size_t GetPageSize() const {
-    return page_size_;
-  }
-
- private:
-  size_t DetectPageSize() {
-    return sysconf(_SC_PAGESIZE);
-  }
-
- private:
-  size_t page_size_;
-};
-
-static size_t PageSizeImpl() {
-  static PageSizeDetector page_size_detector;
-
-  return page_size_detector.GetPageSize();
-}
-
-//////////////////////////////////////////////////////////////////////
-
 static size_t PagesToBytes(size_t count) {
-  return count * PageSizeImpl();
+  return count * PageSize();
 }
 
 size_t MmapAllocation::PageSize() {
-  return PageSizeImpl();
+  return wheels::PageSize();
 }
 
 MmapAllocation MmapAllocation::AllocatePages(size_t count) {
