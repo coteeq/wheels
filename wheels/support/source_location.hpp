@@ -8,16 +8,12 @@ namespace wheels {
 
 // Represents location in source code: file name, function name, line number
 
-struct SourceLocation {
-  std::string file_;
-  std::string function_;
-  int line_;
+class SourceLocation {
+ public:
+  SourceLocation() = default;
 
   SourceLocation(std::string_view file, std::string_view function, int line)
       : file_(file), function_(function), line_(line) {
-  }
-
-  SourceLocation() : line_(0) {
   }
 
   static SourceLocation Current(const char* file = __builtin_FILE(),
@@ -25,6 +21,23 @@ struct SourceLocation {
                                 const int line = __builtin_LINE()) {
     return {file, function, line};
   }
+
+  std::string_view File() const {
+    return file_;
+  }
+
+  std::string_view Function() const {
+    return function_;
+  }
+
+  int Line() const {
+    return line_;
+  }
+
+ private:
+  std::string file_;
+  std::string function_;
+  int line_;
 };
 
 std::ostream& operator<<(std::ostream& out, const SourceLocation& where);

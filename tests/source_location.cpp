@@ -4,7 +4,7 @@ using wheels::SourceLocation;
 
 TEST_SUITE(SourceLocation) {
   int Foo(SourceLocation loc = SourceLocation::Current()) {
-    return loc.line_;
+    return loc.Line();
   }
 
   SIMPLE_TEST(Current) {
