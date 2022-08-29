@@ -4,7 +4,7 @@
 
 namespace wheels {
 
-// Size of virtual memory page size in bytes
+// Size of virtual memory page in bytes
 size_t PageSize();
 
 }  // namespace wheels
