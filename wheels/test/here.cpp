@@ -11,6 +11,7 @@
 
 #include <any>
 #include <map>
+#include <chrono>
 
 namespace wheels::test {
 
@@ -87,20 +88,20 @@ class TestRunner {
     }
   }
 
-  Duration TimeLimit() const {
+  std::chrono::milliseconds TimeLimit() const {
     return time_limit_;
   }
 
-  Duration TimeElapsed() const {
-    return Clock::now() - start_time_;
+  std::chrono::milliseconds TimeElapsed() const {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - start_time_);
   }
 
-  Duration TimeLeft() const {
+  std::chrono::milliseconds TimeLeft() const {
     auto elapsed = TimeElapsed();
     if (elapsed < time_limit_) {
       return time_limit_ - elapsed;
     } else {
-      return Duration{0};
+      return std::chrono::milliseconds{0};
     }
   }
 
@@ -118,7 +119,7 @@ class TestRunner {
  private:
   GlobalOptions options_;
   ITestPtr test_;
-  Duration time_limit_;
+  std::chrono::milliseconds time_limit_;
   TimePoint start_time_;
   std::map<std::string, std::any> context_;
 };
@@ -132,11 +133,11 @@ void RunTestHere(const ITestPtr& test, const GlobalOptions& options) {
 
 // Current test
 
-Duration TestTimeLimit() {
+std::chrono::milliseconds TestTimeLimit() {
   return AccessTestRunner().TimeLimit();
 }
 
-Duration TestTimeLeft() {
+std::chrono::milliseconds TestTimeLeft() {
   return AccessTestRunner().TimeLeft();
 }
 

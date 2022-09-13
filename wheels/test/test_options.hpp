@@ -1,6 +1,6 @@
 #pragma once
 
-#include <wheels/support/time.hpp>
+#include <chrono>
 
 using namespace std::chrono_literals;
 
@@ -19,7 +19,7 @@ struct TestOptions {
   TestOptions() : time_limit(10s) {
   }
 
-  TestOptions& TimeLimit(wheels::Duration value) {
+  TestOptions& TimeLimit(std::chrono::milliseconds value) {
     time_limit = value;
     return *this;
   }
@@ -34,7 +34,7 @@ struct TestOptions {
     return *this;
   }
 
-  wheels::Duration time_limit;
+  std::chrono::milliseconds time_limit;
   bool adapt_time_limit_to_sanitizer_{false};
   bool force_fork_{false};
 };

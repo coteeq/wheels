@@ -11,7 +11,6 @@
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>
 #include <wheels/support/string_builder.hpp>
-#include <wheels/support/time.hpp>
 
 #include <iostream>
 #include <chrono>
@@ -112,8 +111,9 @@ const ITestPtr& CurrentTest();
 // Access only from test routine
 // Thread-safe!
 
-Duration TestTimeLimit();
-Duration TestTimeLeft();
+std::chrono::milliseconds TestTimeLimit();
+std::chrono::milliseconds TestTimeLeft();
+
 // Deterministic
 size_t TestHash();
 

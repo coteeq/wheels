@@ -1,7 +1,8 @@
 #include <wheels/support/bithacks.hpp>
-#include <wheels/support/random.hpp>
 
 #include <wheels/test/test_framework.hpp>
+
+#include <random>
 
 TEST_SUITE(Bits) {
   SIMPLE_TEST(IsPowerOfTwo) {
@@ -41,8 +42,10 @@ TEST_SUITE(Bits) {
     static const size_t kTrials = 1000;
     static const size_t kWidth = 64;
 
+    std::mt19937_64 twister{42};
+
     for (size_t i = 0; i < kTrials; ++i) {
-      size_t number = wheels::RandomUInteger((size_t)1u << 63);
+      size_t number = twister();
       for (int k = kWidth - 1; k > 0; --k) {
         if (GetBit(number, k) == 1) {
           ASSERT_EQ(MostSignificantBit(number), (size_t)1u << k);

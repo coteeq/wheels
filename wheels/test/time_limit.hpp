@@ -2,8 +2,6 @@
 
 #include <wheels/test/test_options.hpp>
 
-#include <wheels/support/time.hpp>
-
 #include <atomic>
 #include <thread>
 #include <chrono>
@@ -14,7 +12,7 @@ class TestTimeLimitWatcher {
   using Clock = std::chrono::steady_clock;
 
  public:
-  TestTimeLimitWatcher(wheels::Duration time_limit);
+  TestTimeLimitWatcher(std::chrono::milliseconds time_limit);
 
   ~TestTimeLimitWatcher() {
     Join();
@@ -25,11 +23,11 @@ class TestTimeLimitWatcher {
   void Join();
 
  private:
-  Duration time_limit_;
+  std::chrono::milliseconds time_limit_;
   std::atomic<bool> stop_requested_{false};
   std::thread watcher_thread_;
 };
 
-wheels::Duration TestTimeLimit(TestOptions options);
+std::chrono::milliseconds TestTimeLimit(TestOptions options);
 
 }  // namespace wheels::test

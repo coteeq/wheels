@@ -2,7 +2,7 @@
 
 #include <wheels/test/test.hpp>
 
-#include <wheels/support/time.hpp>
+#include <chrono>
 
 namespace wheels::test {
 
@@ -14,8 +14,8 @@ class ITestReporter {
 
   virtual void TestStarted(const ITestPtr& test) = 0;
   virtual void TestFailed(const ITestPtr& test, const std::string& error) = 0;
-  virtual void TestPassed(const ITestPtr& test, wheels::Duration elapsed) = 0;
-  virtual void AllTestsPassed(size_t test_count, wheels::Duration elapsed) = 0;
+  virtual void TestPassed(const ITestPtr& test, std::chrono::milliseconds elapsed) = 0;
+  virtual void AllTestsPassed(size_t test_count, std::chrono::milliseconds elapsed) = 0;
 };
 
 using ITestReporterPtr = std::shared_ptr<ITestReporter>;

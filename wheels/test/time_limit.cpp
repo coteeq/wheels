@@ -11,7 +11,7 @@
 
 namespace wheels::test {
 
-TestTimeLimitWatcher::TestTimeLimitWatcher(Duration time_limit)
+TestTimeLimitWatcher::TestTimeLimitWatcher(std::chrono::milliseconds time_limit)
     : time_limit_(time_limit), watcher_thread_([this]() { Watch(); }) {
 }
 
@@ -33,7 +33,7 @@ void TestTimeLimitWatcher::Join() {
   watcher_thread_.join();
 }
 
-wheels::Duration TestTimeLimit(TestOptions options) {
+std::chrono::milliseconds TestTimeLimit(TestOptions options) {
   auto time_limit = options.time_limit;
   if (options.adapt_time_limit_to_sanitizer_) {
     time_limit *= GetSanitizerSlowdown();

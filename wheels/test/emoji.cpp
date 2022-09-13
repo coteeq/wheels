@@ -1,10 +1,25 @@
 #include <wheels/test/emoji.hpp>
 
-#include <wheels/support/random.hpp>
-
 #include <vector>
+#include <random>
 
 namespace wheels::test {
+
+namespace {
+
+// Random utilities
+
+size_t RandomIndex(size_t size) {
+  static std::mt19937 twister{std::random_device{}()};
+  return twister() % size;
+}
+
+template <typename T>
+const T& PickRandom(const std::vector<T>& items) {
+  return items[RandomIndex(items.size())];
+}
+
+}  // namespace
 
 std::string_view GetSuccessEmoji() {
   static const std::vector<std::string_view> kCandidates = {
@@ -13,7 +28,8 @@ std::string_view GetSuccessEmoji() {
       "(ﾉ^_^)ﾉ",
       "~(˘▾˘~)",
   };
-  return wheels::PickRandom(kCandidates);
+
+  return PickRandom(kCandidates);
 }
 
 std::string_view GetFailEmoji() {
@@ -23,7 +39,8 @@ std::string_view GetFailEmoji() {
       "[¬º-°]¬",
       "ヽ(｀⌒´)ﾉ",
   };
-  return wheels::PickRandom(kCandidates);
+
+  return PickRandom(kCandidates);
 }
 
 }  // namespace wheels::test

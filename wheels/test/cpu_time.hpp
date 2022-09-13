@@ -9,12 +9,11 @@
 namespace wheels::test {
 
 class CpuTimeBudgetGuard {
-  using Duration = std::chrono::microseconds;
  public:
-  explicit CpuTimeBudgetGuard(Duration budget)
+  explicit CpuTimeBudgetGuard(std::chrono::milliseconds budget)
       : budget_(budget) {}
 
-  Duration Usage() const {
+  std::chrono::nanoseconds Usage() const {
     return timer_.Elapsed();
   }
 
@@ -23,7 +22,7 @@ class CpuTimeBudgetGuard {
   }
 
  private:
-  Duration budget_;
+  std::chrono::milliseconds budget_;
   ProcessCPUTimer timer_;
 };
 

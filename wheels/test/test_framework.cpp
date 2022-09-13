@@ -6,6 +6,7 @@
 #include <wheels/support/panic.hpp>
 #include <wheels/support/string_builder.hpp>
 #include <wheels/support/sanitizers.hpp>
+#include <wheels/support/stop_watch.hpp>
 
 #include <wheels/test/console_reporter.hpp>
 #include <wheels/test/run_test.hpp>
@@ -112,6 +113,10 @@ static void PrintSanitizerInfo() {
   }
 }
 
+static std::chrono::milliseconds ToMillis(std::chrono::nanoseconds ns) {
+  return std::chrono::duration_cast<std::chrono::milliseconds>(ns);
+}
+
 static void PrintTestFrameworkOptions(const GlobalOptions& options) {
   if (options.forks) {
     std::cout << "Run tests in subprocesses (set --disable-forks flag to "
@@ -140,7 +145,7 @@ static void RunTest(ITestPtr test, const GlobalOptions& options,
         "Test framework internal error: " << CurrentExceptionMessage());
   }
 
-  reporter->TestPassed(test, stop_watch.Elapsed());
+  reporter->TestPassed(test, ToMillis(stop_watch.Elapsed()));
 }
 
 TestList FilterTests(const TestList& tests, ITestFilterPtr filter) {
@@ -182,7 +187,7 @@ void RunTests(const TestList& tests, const GlobalOptions& options) {
     RunTest(test, options, reporter);
   }
 
-  reporter->AllTestsPassed(tests.size(), stop_watch.Elapsed());
+  reporter->AllTestsPassed(tests.size(), ToMillis(stop_watch.Elapsed()));
 }
 
 }  // namespace wheels::test

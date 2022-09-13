@@ -26,7 +26,7 @@ class ConsoleTestReporter : public ITestReporter {
               << std::flush;
   }
 
-  void TestPassed(const ITestPtr& /*test*/, wheels::Duration elapsed) override {
+  void TestPassed(const ITestPtr& /*test*/, std::chrono::milliseconds elapsed) override {
     static const auto kSignificantTestTime = 10ms;
 
     std::cout << GREEN("PASSED");
@@ -36,7 +36,7 @@ class ConsoleTestReporter : public ITestReporter {
     std::cout << std::endl;
   }
 
-  void AllTestsPassed(size_t test_count, wheels::Duration elapsed) override {
+  void AllTestsPassed(size_t test_count, std::chrono::milliseconds elapsed) override {
     if (test_count == 0) {
       std::cout << "NO TESTS TO RUN..." << std::endl;
       return;

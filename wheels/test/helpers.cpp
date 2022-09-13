@@ -23,11 +23,11 @@ std::string FormatStderrForErrorMessage(const std::string& stderr) {
   return std::string("\n") + stderr + "\n";
 }
 
-double ToSeconds(wheels::Duration elapsed) {
-  return std::chrono::duration<double>(elapsed).count();
+double ToSeconds(std::chrono::milliseconds d) {
+  return std::chrono::duration<double>(d).count();
 }
 
-std::string FormatSeconds(const Duration d, size_t digits) {
+std::string FormatSeconds(std::chrono::milliseconds d, size_t digits) {
   return StringBuilder() << std::fixed << std::setprecision(digits)
                          << ToSeconds(d);
 }
