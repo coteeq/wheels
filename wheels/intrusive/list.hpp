@@ -20,6 +20,14 @@ struct IntrusiveListNode {
   Node* prev_ = nullptr;
   Node* next_ = nullptr;
 
+  Node* Prev() noexcept {
+    return prev_;
+  }
+
+  Node* Next() noexcept {
+    return next_;
+  }
+
   // Links this node before next in list
 
   void LinkBefore(Node* next) noexcept {

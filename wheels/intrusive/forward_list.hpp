@@ -11,6 +11,10 @@ struct IntrusiveForwardListNode {
 
   Node* next_ = nullptr;
 
+  Node* Next() noexcept {
+    return next_;
+  }
+
   void SetNext(Node* node) noexcept {
     next_ = node;
   }
