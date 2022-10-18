@@ -1,13 +1,8 @@
 #include <wheels/test/main.hpp>
 
-#include <wheels/test/test_framework.hpp>
-
-#include <wheels/cmdline/argparse.hpp>
-#include <wheels/support/string_utils.hpp>
-
 #include <wheels/test/runtime.hpp>
 
-#include <map>
+#include <wheels/cmdline/argparse.hpp>
 
 namespace wheels::test {
 
@@ -38,7 +33,6 @@ void RunTestsMain(int argc, const char** argv) {
   const auto args = parser.Parse(argc, argv);
 
   auto filter = CreateTestFilter(args);
-
   auto options = MakeOptions(args);
 
   Runtime::Access().RunTests(filter, options);

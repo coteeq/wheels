@@ -3,11 +3,9 @@
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/fork.hpp>
 
-#include <wheels/test/fail_handler.hpp>
 #include <wheels/test/helpers.hpp>
 #include <wheels/test/here.hpp>
 #include <wheels/test/test_framework.hpp>
-
 #include <wheels/test/runtime.hpp>
 
 #include <wheels/logging/logging.hpp>
@@ -29,8 +27,8 @@ class ForkedTestFailHandler : public ITestFailHandler {
 };
 
 ITestFailHandler& ForkedFailHandler() {
-  static ForkedTestFailHandler single;
-  return single;
+  static ForkedTestFailHandler instance;
+  return instance;
 }
 
 //////////////////////////////////////////////////////////////////////

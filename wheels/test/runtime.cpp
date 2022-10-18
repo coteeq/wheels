@@ -36,8 +36,8 @@ class AbortOnFailHandler : public ITestFailHandler {
 };
 
 ITestFailHandler& AbortFailHandler() {
-  static AbortOnFailHandler single;
-  return single;
+  static AbortOnFailHandler instance;
+  return instance;
 }
 
 //////////////////////////////////////////////////////////////////////

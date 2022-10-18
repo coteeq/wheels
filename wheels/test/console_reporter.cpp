@@ -65,8 +65,8 @@ class ConsoleTestReporter : public ITestReporter {
 ////////////////////////////////////////////////////////////////////////////////
 
 ITestReporter& ConsoleReporter() {
-  static ConsoleTestReporter single;
-  return single;
+  static ConsoleTestReporter instance;
+  return instance;
 }
 
 }  // namespace wheels::test
