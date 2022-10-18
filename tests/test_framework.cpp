@@ -49,7 +49,7 @@ TEST_SUITE(TestFramework) {
   class CountingFailHandler
  : public wheels::test::ITestFailHandler {
    public:
-    void Fail(wheels::test::ITestPtr /*test*/, const std::string& /*error*/) override {
+    void Fail(const wheels::test::ITest& /*test*/, const std::string& /*error*/) override {
       ++fail_count_;
     }
 

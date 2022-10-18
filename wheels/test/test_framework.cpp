@@ -19,7 +19,7 @@ void RegisterTest(ITestPtr test) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const ITestPtr& CurrentTest() {
+const ITest& CurrentTest() {
   return Runtime::Access().CurrentTest();
 }
 

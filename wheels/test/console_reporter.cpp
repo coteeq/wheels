@@ -14,19 +14,19 @@ namespace wheels::test {
 
 class ConsoleTestReporter : public ITestReporter {
  public:
-  void TestStarted(const ITestPtr& test) override {
+  void TestStarted(const ITest& test) override {
     PrintSeparatorLine();
-    std::cout << "Test " << MAGENTA(Quoted(test->Name())) << " from suite "
-              << CYAN(Quoted(test->Suite())) << " is running..." << std::endl;
+    std::cout << "Test " << MAGENTA(Quoted(test.Name())) << " from suite "
+              << CYAN(Quoted(test.Suite())) << " is running..." << std::endl;
   }
 
-  void TestFailed(const ITestPtr& test, const std::string& error) override {
-    std::cout << "Test " << MAGENTA(Quoted(test->Name())) << RED(" FAILED ")
+  void TestFailed(const ITest& test, const std::string& error) override {
+    std::cout << "Test " << MAGENTA(Quoted(test.Name())) << RED(" FAILED ")
               << GetFailEmoji() << ": " << error << std::endl
               << std::flush;
   }
 
-  void TestPassed(const ITestPtr& /*test*/, std::chrono::milliseconds elapsed) override {
+  void TestPassed(const ITest& /*test*/, std::chrono::milliseconds elapsed) override {
     static const auto kSignificantTestTime = 10ms;
 
     std::cout << GREEN("PASSED");

@@ -12,7 +12,7 @@ class ITestFailHandler {
  public:
   virtual ~ITestFailHandler() = default;
 
-  virtual void Fail(ITestPtr test, const std::string& error) = 0;
+  virtual void Fail(const ITest& test, const std::string& error) = 0;
 };
 
 using ITestFailHandlerPtr = std::shared_ptr<ITestFailHandler>;

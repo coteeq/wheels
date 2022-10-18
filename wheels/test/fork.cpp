@@ -17,8 +17,7 @@ namespace wheels::test {
 
 class ForkedTestFailHandler : public ITestFailHandler {
  public:
-  void Fail(ITestPtr test, const std::string& error) override {
-    WHEELS_UNUSED(test);
+  void Fail(const ITest&, const std::string& error) override {
     FlushPendingLogMessages();
     std::cerr << error << std::endl << std::flush;
     std::abort();

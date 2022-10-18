@@ -28,7 +28,7 @@ Runtime& Runtime::Access() {
 
 class AbortOnFailHandler : public ITestFailHandler {
  public:
-  void Fail(ITestPtr test, const std::string& error) override {
+  void Fail(const ITest& test, const std::string& error) override {
     wheels::FlushPendingLogMessages();
     Runtime::Access().GetReporter()->TestFailed(test, error);
     std::abort();
@@ -125,9 +125,9 @@ static std::chrono::milliseconds ToMillis(std::chrono::nanoseconds ns) {
 
 //////////////////////////////////////////////////////////////////////
 
-const ITestPtr& Runtime::CurrentTest() {
+const ITest& Runtime::CurrentTest() {
   WHEELS_VERIFY(current_test_, "Not in test context");
-  return current_test_;
+  return *current_test_;
 }
 
 void Runtime::FailCurrentTest(const std::string& reason) {
@@ -135,7 +135,7 @@ void Runtime::FailCurrentTest(const std::string& reason) {
 
   std::lock_guard<std::mutex> locked(mutex);
 
-  GetTestFailHandler()->Fail(current_test_, reason);
+  GetTestFailHandler()->Fail(*current_test_, reason);
 }
 
 void Runtime::RunTestImpl(ITestPtr test) {
@@ -147,7 +147,7 @@ void Runtime::RunTestImpl(ITestPtr test) {
 }
 
 void Runtime::RunTest(ITestPtr test) {
-  reporter_->TestStarted(test);
+  reporter_->TestStarted(*test);
 
   wheels::StopWatch stop_watch;
 
@@ -160,7 +160,7 @@ void Runtime::RunTest(ITestPtr test) {
         "Test framework internal error: " << CurrentExceptionMessage());
   }
 
-  reporter_->TestPassed(test, ToMillis(stop_watch.Elapsed()));
+  reporter_->TestPassed(*test, ToMillis(stop_watch.Elapsed()));
 }
 
 void Runtime::RunTests(TestList tests, GlobalOptions options) {

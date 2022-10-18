@@ -36,7 +36,7 @@ class Runtime {
     return reporter_;
   }
 
-  const ITestPtr& CurrentTest();
+  const ITest& CurrentTest();
 
   void FailCurrentTest(const std::string& reason);
 

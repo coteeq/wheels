@@ -6,9 +6,7 @@
 
 namespace wheels::test {
 
-// Current test
-
-const ITestPtr& CurrentTest();
+const ITest& CurrentTest();
 
 // Access only from test routine
 // Thread-safe!
