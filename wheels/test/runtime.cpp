@@ -37,12 +37,6 @@ class AbortOnFailHandler : public ITestFailHandler {
 
 //////////////////////////////////////////////////////////////////////
 
-Runtime::Runtime() {
-  Initialize();
-}
-
-//////////////////////////////////////////////////////////////////////
-
 // Setup
 
 void Runtime::DisableStdoutBuffering() {
@@ -144,22 +138,22 @@ void Runtime::FailCurrentTest(const std::string& reason) {
   GetTestFailHandler()->Fail(current_test_, reason);
 }
 
-void Runtime::RunTestImpl(ITestPtr test, GlobalOptions options) {
-  if (options.forks || test->Options().force_fork_) {
-    RunTestWithFork(std::move(test), options);
+void Runtime::RunTestImpl(ITestPtr test) {
+  if (options_.forks || test->Options().force_fork_) {
+    RunTestWithFork(std::move(test), options_);
   } else {
-    RunTestHere(std::move(test), options);
+    RunTestHere(std::move(test), options_);
   }
 }
 
-void Runtime::RunTest(ITestPtr test, GlobalOptions options) {
+void Runtime::RunTest(ITestPtr test) {
   reporter_->TestStarted(test);
 
   wheels::StopWatch stop_watch;
 
   try {
     current_test_ = test;
-    RunTestImpl(test, options);
+    RunTestImpl(test);
     current_test_ = nullptr;
   } catch (...) {
     WHEELS_PANIC(
@@ -177,8 +171,10 @@ void Runtime::RunTests(TestList tests, GlobalOptions options) {
 
   wheels::StopWatch stop_watch;
 
+  options_ = options;
+
   for (auto&& test : tests) {
-    RunTest(test, options);
+    RunTest(test);
   }
 
   reporter_->AllTestsPassed(tests.size(), ToMillis(stop_watch.Elapsed()));

@@ -10,7 +10,9 @@ namespace wheels::test {
 
 class Runtime {
  public:
-  Runtime();
+  Runtime() {
+    Initialize();
+  }
 
   static Runtime& Access();
 
@@ -54,14 +56,16 @@ class Runtime {
   TestList FilterTests(ITestFilterPtr filter);
   TestList FilterSuites(std::vector<std::string> names);
 
-  void RunTestImpl(ITestPtr test, GlobalOptions options);
+  void RunTestImpl(ITestPtr test);
+  void RunTest(ITestPtr test);
 
-  void RunTest(ITestPtr test, GlobalOptions options);
   void RunTests(TestList tests, GlobalOptions options);
 
  private:
   // Repository
   std::vector<ITestPtr> tests_;
+
+  GlobalOptions options_;
 
   ITestFailHandlerPtr fail_handler_;
   ITestReporterPtr reporter_;
