@@ -2,7 +2,6 @@
 
 #include <wheels/test/assert_failure.hpp>
 #include <wheels/test/test.hpp>
-#include <wheels/test/registry.hpp>
 #include <wheels/test/main.hpp>
 #include <wheels/test/test_options.hpp>
 #include <wheels/test/context.hpp>
@@ -63,6 +62,10 @@ void FailTestByException();
 
 #define FAIL_TEST(error) \
   ::wheels::test::FailTest(::wheels::StringBuilder() << error)
+
+////////////////////////////////////////////////////////////////////////////////
+
+void RegisterTest(ITestPtr test);
 
 ////////////////////////////////////////////////////////////////////////////////
 
