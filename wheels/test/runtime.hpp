@@ -10,9 +10,7 @@ namespace wheels::test {
 
 class Runtime {
  public:
-  Runtime() {
-    Initialize();
-  }
+  Runtime();
 
   static Runtime& Access();
 
@@ -24,16 +22,16 @@ class Runtime {
     return tests_;
   }
 
-  void InstallFailHandler(ITestFailHandlerPtr handler) {
-    fail_handler_ = handler;
+  void InstallFailHandler(ITestFailHandler& handler) {
+    fail_handler_ = &handler;
   }
 
-  const ITestFailHandlerPtr& GetFailHandler() {
-    return fail_handler_;
+  ITestFailHandler& FailHandler() {
+    return *fail_handler_;
   }
 
-  const ITestReporterPtr& GetReporter() {
-    return reporter_;
+  ITestReporter& Reporter() {
+    return *reporter_;
   }
 
   const ITest& CurrentTest();
@@ -67,8 +65,8 @@ class Runtime {
 
   GlobalOptions options_;
 
-  ITestFailHandlerPtr fail_handler_;
-  ITestReporterPtr reporter_;
+  ITestFailHandler* fail_handler_;
+  ITestReporter* reporter_;
 
   ITestPtr current_test_;
 };

@@ -30,23 +30,31 @@ class AbortOnFailHandler : public ITestFailHandler {
  public:
   void Fail(const ITest& test, const std::string& error) override {
     wheels::FlushPendingLogMessages();
-    Runtime::Access().GetReporter()->TestFailed(test, error);
+    Runtime::Access().Reporter().TestFailed(test, error);
     std::abort();
   }
 };
 
+ITestFailHandler& AbortFailHandler() {
+  static AbortOnFailHandler single;
+  return single;
+}
+
 //////////////////////////////////////////////////////////////////////
 
 // Setup
+
+Runtime::Runtime()
+    : fail_handler_(&AbortFailHandler()),
+      reporter_(&ConsoleReporter()) {
+  Initialize();
+}
 
 void Runtime::DisableStdoutBuffering() {
   std::cout.setf(std::ios::unitbuf);
 }
 
 void Runtime::Initialize() {
-  fail_handler_ = std::make_shared<AbortOnFailHandler>();
-  reporter_ = GetConsoleReporter();
-
   DisableStdoutBuffering();
 }
 
@@ -133,9 +141,10 @@ const ITest& Runtime::CurrentTest() {
 void Runtime::FailCurrentTest(const std::string& reason) {
   static std::mutex mutex;
 
-  std::lock_guard<std::mutex> locked(mutex);
-
-  GetTestFailHandler()->Fail(*current_test_, reason);
+  {
+    std::lock_guard locker(mutex);
+    FailHandler().Fail(CurrentTest(), reason);
+  }
 }
 
 void Runtime::RunTestImpl(ITestPtr test) {

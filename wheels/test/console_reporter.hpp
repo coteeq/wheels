@@ -4,6 +4,6 @@
 
 namespace wheels::test {
 
-ITestReporterPtr GetConsoleReporter();
+ITestReporter& ConsoleReporter();
 
 }  // namespace wheels::test

@@ -61,17 +61,17 @@ TEST_SUITE(TestFramework) {
     size_t fail_count_ = 0;
   };
 
-  SIMPLE_TEST(FiredAsserts) {
-    auto counting_fail_handler = std::make_shared<CountingFailHandler>();
-
-    wheels::test::FailHandlerSwitcher switcher(counting_fail_handler);
-
-    ASSERT_TRUE(false);
-    ASSERT_EQ(counting_fail_handler->FailCount(), 1);
-
-    ASSERT_EQ(1, 2);
-    ASSERT_EQ(counting_fail_handler->FailCount(), 2);
-  }
+//  SIMPLE_TEST(FiredAsserts) {
+//    auto counting_fail_handler = std::make_shared<CountingFailHandler>();
+//
+//    wheels::test::FailHandlerSwitcher switcher(counting_fail_handler);
+//
+//    ASSERT_TRUE(false);
+//    ASSERT_EQ(counting_fail_handler->FailCount(), 1);
+//
+//    ASSERT_EQ(1, 2);
+//    ASSERT_EQ(counting_fail_handler->FailCount(), 2);
+//  }
 
   /*
   TEST(TimeLimit, wheels::test::TestOptions().TimeLimit(12s)) {

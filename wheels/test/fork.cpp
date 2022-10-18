@@ -5,8 +5,10 @@
 
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/helpers.hpp>
-#include <wheels/test/test_framework.hpp>
 #include <wheels/test/here.hpp>
+#include <wheels/test/test_framework.hpp>
+
+#include <wheels/test/runtime.hpp>
 
 #include <wheels/logging/logging.hpp>
 
@@ -14,6 +16,8 @@
 #include <unistd.h>
 
 namespace wheels::test {
+
+//////////////////////////////////////////////////////////////////////
 
 class ForkedTestFailHandler : public ITestFailHandler {
  public:
@@ -24,8 +28,15 @@ class ForkedTestFailHandler : public ITestFailHandler {
   }
 };
 
+ITestFailHandler& ForkedFailHandler() {
+  static ForkedTestFailHandler single;
+  return single;
+}
+
+//////////////////////////////////////////////////////////////////////
+
 static void InstallForkedTestFailHandler() {
-  InstallTestFailHandler(std::make_shared<ForkedTestFailHandler>());
+  Runtime::Access().InstallFailHandler(ForkedFailHandler());
 }
 
 static void RunTestInChildProcess(ITestPtr test, const GlobalOptions& options) {

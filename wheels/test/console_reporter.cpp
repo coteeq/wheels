@@ -64,9 +64,9 @@ class ConsoleTestReporter : public ITestReporter {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ITestReporterPtr GetConsoleReporter() {
-  static const auto instance = std::make_shared<ConsoleTestReporter>();
-  return instance;
+ITestReporter& ConsoleReporter() {
+  static ConsoleTestReporter single;
+  return single;
 }
 
 }  // namespace wheels::test
