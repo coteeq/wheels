@@ -20,8 +20,8 @@ namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void FailTest(const std::string& error_message);
-void FailTestByAssert(const AssertionFailure& assert_failure);
+void FailTest(const std::string& reason);
+void FailTestByAssert(const AssertionFailure& failure);
 void FailTestByException();
 
 ////////////////////////////////////////////////////////////////////////////////

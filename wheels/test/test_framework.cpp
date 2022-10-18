@@ -1,11 +1,7 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/compiler.hpp>
 #include <wheels/support/exception.hpp>
-#include <wheels/support/panic.hpp>
 #include <wheels/support/string_builder.hpp>
-
-#include <wheels/test/helpers.hpp>
 
 #include <wheels/test/runtime.hpp>
 
@@ -23,12 +19,12 @@ const ITestPtr& CurrentTest() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void FailTest(const std::string& error_message) {
-  Runtime::Access().FailCurrentTest(error_message);
+void FailTest(const std::string& reason) {
+  Runtime::Access().FailCurrentTest(reason);
 }
 
-void FailTestByAssert(const AssertionFailure& assert_failure) {
-  FailTest(assert_failure.ToString());
+void FailTestByAssert(const AssertionFailure& failure) {
+  FailTest(failure.ToString());
 }
 
 static std::string FormatCurrentExceptionMessage() {
