@@ -1,20 +1,15 @@
 #include <wheels/test/fail_handler.hpp>
 
-#include <wheels/support/panic.hpp>
+#include <wheels/test/runtime.hpp>
 
 namespace wheels::test {
 
-static ITestFailHandlerPtr handler = nullptr;
-
-void InstallTestFailHandler(ITestFailHandlerPtr h) {
-  handler = h;
+void InstallTestFailHandler(ITestFailHandlerPtr handler) {
+  Runtime::Access().InstallFailHandler(std::move(handler));
 }
 
 ITestFailHandlerPtr GetTestFailHandler() {
-  if (!handler) {
-    WHEELS_PANIC("Test fail handler not installed");
-  }
-  return handler;
+  return Runtime::Access().GetFailHandler();
 }
 
 }  // namespace wheels::test

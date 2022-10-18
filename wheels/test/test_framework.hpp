@@ -3,10 +3,10 @@
 #include <wheels/test/assert_failure.hpp>
 #include <wheels/test/test.hpp>
 #include <wheels/test/registry.hpp>
-#include <wheels/test/filter.hpp>
 #include <wheels/test/main.hpp>
 #include <wheels/test/test_options.hpp>
 #include <wheels/test/context.hpp>
+#include <wheels/test/current.hpp>
 
 #include <wheels/support/nullptr.hpp>
 #include <wheels/support/preprocessor.hpp>
@@ -104,49 +104,10 @@ void FailTestByException();
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Current test
-
-const ITestPtr& CurrentTest();
-
-// Access only from test routine
-// Thread-safe!
-
-std::chrono::milliseconds TestTimeLimit();
-std::chrono::milliseconds TestTimeLeft();
-
-// Deterministic
-size_t TestHash();
-
-////////////////////////////////////////////////////////////////////////////////
-
-TestList FilterTests(const TestList& tests, ITestFilterPtr filter);
-TestList FilterTestSuites(const TestList& tests,
-                          std::vector<std::string> suites);
-
-void RunTests(const TestList& tests, const GlobalOptions& options);
-
-////////////////////////////////////////////////////////////////////////////////
-
 }  // namespace wheels::test
 
 #define RUN_ALL_TESTS()                                \
   int main(int argc, const char** argv) {              \
-    auto all_tests = wheels::test::ListAllTests();     \
-    wheels::test::RunTestsMain(all_tests, argc, argv); \
+    wheels::test::RunTestsMain(argc, argv);            \
     return EXIT_SUCCESS;                               \
   }
-
-// Run test suites (from different translation units) in specified order
-// Usage: RUN_TEST_SUITES(Unit, Error, Result)
-
-#define RUN_TEST_SUITES(...)                                               \
-  int main(int argc, const char** argv) {                                  \
-    std::vector<std::string> suites;                                       \
-    MAP(_ADD_SUITE_TO_LIST, __VA_ARGS__)                                   \
-    auto all_tests = wheels::test::ListAllTests();                         \
-    auto suites_tests = wheels::test::FilterTestSuites(all_tests, suites); \
-    wheels::test::RunTestsMain(suites_tests, argc, argv);                  \
-    return EXIT_SUCCESS;                                                   \
-  }
-
-#define _ADD_SUITE_TO_LIST(s) suites.emplace_back(#s);

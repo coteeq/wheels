@@ -1,24 +1,15 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/assert.hpp>
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/exception.hpp>
 #include <wheels/support/panic.hpp>
 #include <wheels/support/string_builder.hpp>
-#include <wheels/support/sanitizers.hpp>
-#include <wheels/support/stop_watch.hpp>
 
-#include <wheels/test/console_reporter.hpp>
-#include <wheels/test/run_test.hpp>
-#include <wheels/test/fail_handler.hpp>
 #include <wheels/test/helpers.hpp>
 
-#include <wheels/logging/logging.hpp>
+#include <wheels/test/runtime.hpp>
 
-#include <chrono>
 #include <cstdlib>
-#include <mutex>
-#include <sstream>
 #include <string>
 #include <thread>
 
@@ -26,47 +17,14 @@ namespace wheels::test {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static ITestPtr current_test;
-
-struct TestScope {
-  TestScope(ITestPtr test) {
-    current_test = test;
-  }
-  ~TestScope() {
-    current_test.reset();
-  }
-};
-
 const ITestPtr& CurrentTest() {
-  WHEELS_VERIFY(current_test, "Not in test context");
-  return current_test;
+  return Runtime::Access().CurrentTest();
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-ITestReporterPtr GetReporter() {
-  return GetConsoleReporter();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-class AbortOnFailHandler : public ITestFailHandler {
- public:
-  void Fail(ITestPtr test, const std::string& error) override {
-    wheels::FlushPendingLogMessages();
-    GetReporter()->TestFailed(test, error);
-    std::abort();
-  }
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void FailTest(const std::string& error_message) {
-  static std::mutex mutex;
-
-  std::lock_guard<std::mutex> locked(mutex);
-
-  GetTestFailHandler()->Fail(CurrentTest(), error_message);
+  Runtime::Access().FailCurrentTest(error_message);
 }
 
 void FailTestByAssert(const AssertionFailure& assert_failure) {
@@ -81,113 +39,6 @@ static std::string FormatCurrentExceptionMessage() {
 
 void FailTestByException() {
   FailTest(FormatCurrentExceptionMessage());
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-static void DisableStdoutBuffering() {
-  std::cout.setf(std::ios::unitbuf);
-}
-
-static void PrintCompilerVersion() {
-  std::cout << "Compiler: " __VERSION__ << std::endl;
-}
-
-static void PrintSanitizerInfo() {
-#if __has_feature(address_sanitizer)
-  std::cout << "Sanitizer: Address "
-               "(https://clang.llvm.org/docs/AddressSanitizer.html)"
-            << std::endl;
-#elif __has_feature(thread_sanitizer)
-  std::cout
-      << "Sanitizer: Thread (https://clang.llvm.org/docs/ThreadSanitizer.html)"
-      << std::endl;
-#else
-  // Do not care
-#endif
-
-  int sanitizer_slowdown = GetSanitizerSlowdown();
-  if (sanitizer_slowdown != 1) {
-    std::cout << "Expected slowdown introduced by sanitizer: x"
-              << sanitizer_slowdown << std::endl;
-  }
-}
-
-static std::chrono::milliseconds ToMillis(std::chrono::nanoseconds ns) {
-  return std::chrono::duration_cast<std::chrono::milliseconds>(ns);
-}
-
-static void PrintTestFrameworkOptions(const GlobalOptions& options) {
-  if (options.forks) {
-    std::cout << "Run tests in subprocesses (set --disable-forks flag to "
-                 "disable forks)"
-              << std::endl;
-  } else {
-    std::cout << "Forks disabled" << std::endl;
-  }
-
-  if (options.disable_time_limits) {
-    std::cout << "Test time limits disabled" << std::endl;
-  }
-}
-
-static void RunTest(ITestPtr test, const GlobalOptions& options,
-                    ITestReporterPtr reporter) {
-  reporter->TestStarted(test);
-
-  wheels::StopWatch stop_watch;
-
-  try {
-    TestScope scope{test};
-    RunTest(test, options);
-  } catch (...) {
-    WHEELS_PANIC(
-        "Test framework internal error: " << CurrentExceptionMessage());
-  }
-
-  reporter->TestPassed(test, ToMillis(stop_watch.Elapsed()));
-}
-
-TestList FilterTests(const TestList& tests, ITestFilterPtr filter) {
-  TestList selected_tests;
-  for (const auto& test : tests) {
-    if (filter->Accept(test)) {
-      selected_tests.push_back(test);
-    }
-  }
-  return selected_tests;
-}
-
-TestList FilterTestSuites(const TestList& tests,
-                          std::vector<std::string> suites) {
-  TestList result;
-  for (const auto& suite : suites) {
-    for (const auto& test : tests) {
-      if (test->Suite() == suite) {
-        result.push_back(test);
-      }
-    }
-  }
-  return result;
-}
-
-void RunTests(const TestList& tests, const GlobalOptions& options) {
-  DisableStdoutBuffering();
-  PrintCompilerVersion();
-  PrintSanitizerInfo();
-  PrintTestFrameworkOptions(options);
-
-  InstallTestFailHandler(std::make_shared<AbortOnFailHandler>());
-
-  auto reporter = GetReporter();
-
-  wheels::StopWatch stop_watch;
-
-  for (auto&& test : tests) {
-    RunTest(test, options, reporter);
-  }
-
-  reporter->AllTestsPassed(tests.size(), ToMillis(stop_watch.Elapsed()));
 }
 
 }  // namespace wheels::test

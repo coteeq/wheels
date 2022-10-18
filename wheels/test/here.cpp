@@ -2,7 +2,6 @@
 
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/time_limit.hpp>
-#include <wheels/test/run_test.hpp>
 
 #include <wheels/support/compiler.hpp>
 #include <wheels/support/assert.hpp>

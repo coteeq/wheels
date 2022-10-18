@@ -9,6 +9,8 @@
 
 namespace wheels::test {
 
+//////////////////////////////////////////////////////////////////////
+
 class ITest {
  public:
   virtual ~ITest() = default;
@@ -22,6 +24,8 @@ class ITest {
     return {};  // defaults
   }
 };
+
+//////////////////////////////////////////////////////////////////////
 
 using ITestPtr = std::shared_ptr<ITest>;
 
