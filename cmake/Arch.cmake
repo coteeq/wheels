@@ -1,4 +1,4 @@
-message(STATUS "Host system processor: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+ProjectLog("Host system processor: ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 if(
   (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64") 

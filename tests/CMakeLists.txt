@@ -1,4 +1,4 @@
-message(STATUS "Wheels tests")
+ProjectLog("Tests")
 
 # List sources
 

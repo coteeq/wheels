@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.14)
-
 project(wheels)
+
+include(cmake/Logging.cmake)
 
 option(WHEELS_TESTS "Enable wheels tests" OFF)
 option(WHEELS_DEVELOPER "Wheels development mode" OFF)
-
-include(cmake/ClangFormat.cmake)
-include(cmake/ClangTidy.cmake)
 
 include(cmake/CompileOptions.cmake)
 
