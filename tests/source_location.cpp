@@ -3,11 +3,12 @@
 using wheels::SourceLocation;
 
 TEST_SUITE(SourceLocation) {
-  int Foo(SourceLocation loc = SourceLocation::Current()) {
-    return loc.Line();
+  SIMPLE_TEST(Here) {
+    ASSERT_EQ(wheels::Here().Line(), 7);
+    ASSERT_TRUE(wheels::Here().File().ends_with("/source_location.cpp"));
   }
 
-  SIMPLE_TEST(Current) {
-    ASSERT_EQ(Foo(), 11);
+  SIMPLE_TEST(OutOperator) {
+    std::cout << "Here = " << wheels::Here() << std::endl;
   }
 }

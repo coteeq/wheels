@@ -35,12 +35,16 @@ class SourceLocation {
   }
 
  private:
-  std::string file_;
-  std::string function_;
+  std::string_view file_;
+  std::string_view function_;
   int line_;
 };
 
 std::ostream& operator<<(std::ostream& out, const SourceLocation& where);
+
+inline SourceLocation Here(SourceLocation loc = SourceLocation::Current()) {
+  return loc;
+}
 
 }  // namespace wheels
 
