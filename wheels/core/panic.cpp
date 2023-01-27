@@ -1,5 +1,6 @@
 #include <wheels/core/panic.hpp>
 
+#include <iostream>
 #include <mutex>
 
 namespace wheels {

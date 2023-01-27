@@ -1,7 +1,5 @@
 #include <wheels/test/runtime.hpp>
 
-#include <cassert>
-
 #include <wheels/test/console_reporter.hpp>
 
 #include <wheels/test/here.hpp>
@@ -13,6 +11,8 @@
 
 #include <wheels/logging/logging.hpp>
 
+#include <cassert>
+#include <iostream>
 #include <mutex>
 
 namespace wheels::test {

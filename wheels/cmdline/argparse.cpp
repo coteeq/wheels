@@ -3,6 +3,8 @@
 #include <wheels/support/string_utils.hpp>
 #include <wheels/core/assert.hpp>
 
+#include <iostream>
+
 namespace wheels {
 
 ArgumentBuilder::~ArgumentBuilder() {
