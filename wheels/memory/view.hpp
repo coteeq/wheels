@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <cstdlib>
 
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 namespace wheels {
 

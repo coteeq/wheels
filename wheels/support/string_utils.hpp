@@ -1,6 +1,6 @@
 #pragma once
 
-#include <wheels/support/noncopyable.hpp>
+#include <wheels/core/noncopyable.hpp>
 
 #include <string>
 #include <string_view>

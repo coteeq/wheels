@@ -1,7 +1,7 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/exception.hpp>
-#include <wheels/support/string_builder.hpp>
+#include <wheels/core/exception.hpp>
+#include <wheels/core/string_builder.hpp>
 
 #include <wheels/test/runtime.hpp>
 

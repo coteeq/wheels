@@ -1,10 +1,10 @@
 #pragma once
 
-#include <wheels/support/string_builder.hpp>
+#include <wheels/core/string_builder.hpp>
+#include <wheels/core/assert.hpp>
+#include <wheels/core/noncopyable.hpp>
 
-#include <wheels/support/assert.hpp>
 #include <wheels/support/string_utils.hpp>
-#include <wheels/support/noncopyable.hpp>
 
 #include <string>
 #include <vector>

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
+
 #include <wheels/support/string_utils.hpp>
 
 #include <string>

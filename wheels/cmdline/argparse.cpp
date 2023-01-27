@@ -1,7 +1,7 @@
 #include <wheels/cmdline/argparse.hpp>
 
 #include <wheels/support/string_utils.hpp>
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 namespace wheels {
 

@@ -1,7 +1,7 @@
 #include <wheels/support/fork.hpp>
 
-#include <wheels/support/compiler.hpp>
-#include <wheels/support/string_builder.hpp>
+#include <wheels/core/compiler.hpp>
+#include <wheels/core/string_builder.hpp>
 
 #include <array>
 #include <chrono>

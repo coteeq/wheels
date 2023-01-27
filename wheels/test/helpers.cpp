@@ -1,6 +1,6 @@
 #include <wheels/test/helpers.hpp>
 
-#include <wheels/support/string_builder.hpp>
+#include <wheels/core/string_builder.hpp>
 
 #include <algorithm>
 #include <iomanip>

@@ -1,6 +1,7 @@
 #include <wheels/test/fork.hpp>
 
-#include <wheels/support/compiler.hpp>
+#include <wheels/core/compiler.hpp>
+
 #include <wheels/support/fork.hpp>
 
 #include <wheels/test/helpers.hpp>

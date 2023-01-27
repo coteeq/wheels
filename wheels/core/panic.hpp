@@ -1,7 +1,7 @@
 #pragma once
 
-#include <wheels/support/source_location.hpp>
-#include <wheels/support/string_builder.hpp>
+#include <wheels/core/source_location.hpp>
+#include <wheels/core/string_builder.hpp>
 
 namespace wheels {
 

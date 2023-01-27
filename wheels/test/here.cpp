@@ -3,10 +3,10 @@
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/time_limit.hpp>
 
-#include <wheels/support/compiler.hpp>
-#include <wheels/support/assert.hpp>
-#include <wheels/support/panic.hpp>
-#include <wheels/support/exception.hpp>
+#include <wheels/core/compiler.hpp>
+#include <wheels/core/assert.hpp>
+#include <wheels/core/panic.hpp>
+#include <wheels/core/exception.hpp>
 
 #include <any>
 #include <map>

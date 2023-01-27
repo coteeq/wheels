@@ -1,4 +1,4 @@
-#include <wheels/support/panic.hpp>
+#include <wheels/core/panic.hpp>
 
 #include <mutex>
 

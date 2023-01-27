@@ -1,7 +1,7 @@
 #pragma once
 
 #include <wheels/memory/view.hpp>
-#include <wheels/support/noncopyable.hpp>
+#include <wheels/core/noncopyable.hpp>
 
 namespace wheels {
 

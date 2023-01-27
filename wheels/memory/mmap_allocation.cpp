@@ -2,7 +2,7 @@
 
 #include <wheels/memory/page_size.hpp>
 
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 #include <cerrno>
 #include <cstring>

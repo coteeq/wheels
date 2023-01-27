@@ -1,4 +1,4 @@
-#include <wheels/support/defer.hpp>
+#include <wheels/core/defer.hpp>
 
 #include <wheels/test/test_framework.hpp>
 

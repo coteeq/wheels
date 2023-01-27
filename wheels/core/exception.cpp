@@ -1,6 +1,6 @@
-#include <wheels/support/exception.hpp>
+#include <wheels/core/exception.hpp>
 
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 #include <stdexcept>
 

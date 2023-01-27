@@ -7,9 +7,9 @@
 #include <wheels/test/context.hpp>
 #include <wheels/test/current.hpp>
 
-#include <wheels/support/nullptr.hpp>
-#include <wheels/support/preprocessor.hpp>
-#include <wheels/support/string_builder.hpp>
+#include <wheels/core/nullptr.hpp>
+#include <wheels/core/preprocessor.hpp>
+#include <wheels/core/string_builder.hpp>
 
 #include <iostream>
 #include <chrono>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 #include <cstddef>
 #include <stdexcept>

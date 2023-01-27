@@ -1,7 +1,7 @@
 #pragma once
 
-#include <wheels/support/preprocessor.hpp>
-#include <wheels/support/source_location.hpp>
+#include <wheels/core/preprocessor.hpp>
+#include <wheels/core/source_location.hpp>
 
 #include <sstream>
 #include <string>

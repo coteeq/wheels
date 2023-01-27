@@ -1,4 +1,4 @@
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 #include <wheels/test/test_framework.hpp>
 

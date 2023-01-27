@@ -1,6 +1,6 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/singleton.hpp>
+#include <wheels/core/singleton.hpp>
 
 TEST_SUITE(Singleton) {
   struct Box {

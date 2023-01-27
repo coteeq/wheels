@@ -1,8 +1,8 @@
-#include <wheels/support/noncopyable.hpp>
+#include <wheels/core/noncopyable.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/compiler.hpp>
+#include <wheels/core/compiler.hpp>
 
 #include <type_traits>
 

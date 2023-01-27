@@ -1,7 +1,7 @@
 #pragma once
 
-#include <wheels/support/compiler.hpp>
-#include <wheels/support/panic.hpp>
+#include <wheels/core/compiler.hpp>
+#include <wheels/core/panic.hpp>
 
 /* Use-cases:
  * 1) Contract violations
