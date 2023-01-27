@@ -9,7 +9,7 @@
 
 #include <wheels/support/sanitizers.hpp>
 #include <wheels/core/exception.hpp>
-#include <wheels/support/stop_watch.hpp>
+#include <wheels/core/stop_watch.hpp>
 
 #include <wheels/logging/logging.hpp>
 

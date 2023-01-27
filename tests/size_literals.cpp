@@ -1,4 +1,4 @@
-#include <wheels/support/size_literals.hpp>
+#include <wheels/core/size_literals.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
