@@ -122,6 +122,10 @@ class IntrusiveList {
     return head_.next_ == &head_;
   }
 
+  bool HasItems() const noexcept {
+    return !IsEmpty();
+  }
+
   IntrusiveList() {
     InitEmpty();
   }

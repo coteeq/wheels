@@ -115,6 +115,10 @@ class IntrusiveForwardList {
     return head_ == nullptr;
   }
 
+  bool HasItems() const noexcept {
+    return !IsEmpty();
+  }
+
   // O(1) worst case
   size_t Size() const noexcept {
     return size_;

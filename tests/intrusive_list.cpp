@@ -170,6 +170,22 @@ TEST_SUITE(IntrusiveList) {
     another_items.UnlinkAll();
     items.UnlinkAll();
   }
+
+  SIMPLE_TEST(HasItems) {
+    IntrusiveList<Item> list;
+
+    ASSERT_TRUE(list.IsEmpty());
+    ASSERT_FALSE(list.HasItems());
+
+    Item hello("Hello");
+
+    list.PushBack(&hello);
+
+    ASSERT_FALSE(list.IsEmpty());
+    ASSERT_TRUE(list.HasItems());
+
+    list.PopFront();
+  }
 }
 
 TEST_SUITE(IntrusiveForwardList) {
@@ -357,5 +373,21 @@ TEST_SUITE(IntrusiveForwardList) {
     ASSERT_EQ(first->data, "Hello");
     Item* second = list2.PopFront();
     ASSERT_EQ(second->data, "World");
+  }
+
+  SIMPLE_TEST(HasItems) {
+    IntrusiveForwardList<Item> list;
+
+    ASSERT_TRUE(list.IsEmpty());
+    ASSERT_FALSE(list.HasItems());
+
+    Item hello("Hello");
+
+    list.PushBack(&hello);
+
+    ASSERT_FALSE(list.IsEmpty());
+    ASSERT_TRUE(list.HasItems());
+
+    list.PopFront();
   }
 }
