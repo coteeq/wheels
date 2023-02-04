@@ -2,7 +2,7 @@
 #include <wheels/test/fail_handler.hpp>
 #include <wheels/test/iterate.hpp>
 #include <wheels/test/util.hpp>
-#include <wheels/test/cpu_time.hpp>
+#include <wheels/test/util/cpu_time_budget.hpp>
 
 #include <wheels/system/quick_exit.hpp>
 

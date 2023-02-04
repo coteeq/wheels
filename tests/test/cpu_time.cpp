@@ -1,4 +1,4 @@
-#include <wheels/test/support/cpu_time.hpp>
+#include <wheels/test/util/cpu_timer.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
