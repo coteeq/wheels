@@ -1,4 +1,4 @@
-#include <wheels/test/support/quick_exit.hpp>
+#include <wheels/system/quick_exit.hpp>
 
 #include <cstdlib>
 
@@ -13,5 +13,6 @@ void QuickExit(int exit_code) {
 #error "QuickExit is not supported"
 #endif
 }
+
 
 }  // namespace wheels
