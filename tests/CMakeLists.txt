@@ -2,7 +2,7 @@ ProjectLog("Tests")
 
 # List sources
 
-file(GLOB TEST_SOURCES "./*.cpp")
+file(GLOB_RECURSE TEST_SOURCES "./*.cpp")
 
 # All tests target
 
