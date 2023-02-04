@@ -46,7 +46,7 @@ class MmapAllocation : public NonCopyable {
 
   // Protect range of pages
   // Protected pages cannot be read, written or executed
-  void ProtectPages(size_t offset, size_t count);
+  void ProtectPages(size_t start_index, size_t count);
 
   void Release();
 

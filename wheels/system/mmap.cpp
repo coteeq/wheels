@@ -40,12 +40,12 @@ MmapAllocation MmapAllocation::AllocatePages(size_t count) {
   return MmapAllocation{(char*)start, size};
 }
 
-void MmapAllocation::ProtectPages(size_t offset, size_t count) {
-  int ret = mprotect(/*addr=*/(void*)(start_ + PagesToBytes(offset)),
+void MmapAllocation::ProtectPages(size_t start_index, size_t count) {
+  int ret = mprotect(/*addr=*/(void*)(start_ + PagesToBytes(start_index)),
                      /*len=*/PagesToBytes(count),
                      /*prot=*/PROT_NONE);
   CHECK_RESULT(
-      ret, "Cannot protect pages [" << offset << ", " << offset + count << ")");
+      ret, "Cannot protect pages [" << start_index << ", " << start_index + count << ")");
 }
 
 MmapAllocation::MmapAllocation(MmapAllocation&& that) {
