@@ -1,7 +1,6 @@
 #include <wheels/logging/logging.hpp>
 
-#include <wheels/support/sanitizers.hpp>
-#include <wheels/support/sync_output.hpp>
+#include <wheels/core/sanitizers.hpp>
 
 #include <atomic>
 #include <chrono>
@@ -222,7 +221,7 @@ class Logger {
   }
 
   void Write(LogEvent* events) {
-    SyncCout() << Format(events) << std::flush;
+    std::cout << Format(events) << std::flush;
     Release(events);
   }
 
@@ -274,12 +273,6 @@ void LogMessage(SourceLocation where, std::string message) {
 
 void FlushPendingLogMessages() {
   GetLogger()->SynchronousFlush();
-}
-
-//////////////////////////////////////////////////////////////////////
-
-void LogMessageSimple(std::string message) {
-  SyncCout() << message << std::endl;
 }
 
 //////////////////////////////////////////////////////////////////////

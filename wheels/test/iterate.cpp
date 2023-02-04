@@ -2,7 +2,7 @@
 
 #include <wheels/test/helpers.hpp>
 
-#include <wheels/support/hash.hpp>
+#include <wheels/core/hash.hpp>
 
 #include <chrono>
 #include <iostream>

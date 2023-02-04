@@ -1,6 +1,6 @@
 #pragma once
 
-#include <wheels/support/cpu_time.hpp>
+#include <wheels/test/support/cpu_time.hpp>
 
 #include <wheels/test/test_framework.hpp>
 

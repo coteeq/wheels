@@ -1,4 +1,4 @@
-#include <wheels/support/terminal.hpp>
+#include <wheels/test/support/terminal.hpp>
 
 #include <unistd.h>
 

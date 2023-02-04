@@ -1,4 +1,4 @@
-#include <wheels/support/sync_output.hpp>
+#include <wheels/test/support/sync_output.hpp>
 
 #include <wheels/test/test_framework.hpp>
 

@@ -4,7 +4,7 @@
 #include <wheels/test/util.hpp>
 #include <wheels/test/cpu_time.hpp>
 
-#include <wheels/support/quick_exit.hpp>
+#include <wheels/test/support/quick_exit.hpp>
 
 #include <thread>
 

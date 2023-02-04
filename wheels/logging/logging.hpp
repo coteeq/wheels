@@ -42,8 +42,4 @@ void LogMessageSimple(std::string message);
 #define LOG_TRACE(expr) _LOG_IMPL(wheels::LogLevel::Trace, expr)
 #define LOG_INFO(expr) _LOG_IMPL(wheels::LogLevel::Info, expr)
 
-// Usage: LOG_SIMPLE("Key " << key << " not found")
-#define LOG_SIMPLE(expr) \
-  wheels::LogMessageSimple(wheels::StringBuilder() << expr);
-
 }  // namespace wheels

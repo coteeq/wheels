@@ -5,7 +5,7 @@
 #include <wheels/test/here.hpp>
 #include <wheels/test/fork.hpp>
 
-#include <wheels/support/sanitizers.hpp>
+#include <wheels/test/support/sanitizers.hpp>
 #include <wheels/core/exception.hpp>
 #include <wheels/core/stop_watch.hpp>
 

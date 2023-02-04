@@ -4,7 +4,7 @@
 
 #include <wheels/test/helpers.hpp>
 
-#include <wheels/support/sanitizers.hpp>
+#include <wheels/test/support/sanitizers.hpp>
 
 #include <thread>
 #include <chrono>

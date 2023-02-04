@@ -3,8 +3,8 @@
 #include <wheels/test/emoji.hpp>
 #include <wheels/test/helpers.hpp>
 
-#include <wheels/support/terminal.hpp>
-#include <wheels/support/string_utils.hpp>
+#include <wheels/test/support/terminal.hpp>
+#include <wheels/core/string_utils.hpp>
 
 #include <iostream>
 

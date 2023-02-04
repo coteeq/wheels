@@ -2,7 +2,7 @@
 
 #include <wheels/core/compiler.hpp>
 
-#include <wheels/support/fork.hpp>
+#include <wheels/test/support/fork.hpp>
 
 #include <wheels/test/helpers.hpp>
 #include <wheels/test/here.hpp>

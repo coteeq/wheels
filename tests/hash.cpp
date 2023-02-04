@@ -1,4 +1,4 @@
-#include <wheels/support/hash.hpp>
+#include <wheels/core/hash.hpp>
 #include <wheels/memory/view_of.hpp>
 
 #include <wheels/test/test_framework.hpp>

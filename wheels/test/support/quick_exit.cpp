@@ -1,4 +1,4 @@
-#include <wheels/support/quick_exit.hpp>
+#include <wheels/test/support/quick_exit.hpp>
 
 #include <cstdlib>
 
