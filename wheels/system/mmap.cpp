@@ -40,6 +40,11 @@ MmapAllocation MmapAllocation::AllocatePages(size_t count) {
   return MmapAllocation{(char*)start, size};
 }
 
+MmapAllocation MmapAllocation::From(MutableMemView view) {
+  // TODO: check size and alignment
+  return MmapAllocation{view.Data(), view.Size()};
+}
+
 void MmapAllocation::ProtectPages(size_t start_index, size_t count) {
   int ret = mprotect(/*addr=*/(void*)(start_ + PagesToBytes(start_index)),
                      /*len=*/PagesToBytes(count),
@@ -69,6 +74,12 @@ void MmapAllocation::Deallocate() {
 
   int ret = munmap((void*)start_, size_);
   CHECK_RESULT(ret, "Cannot unmap allocated pages");
+}
+
+MutableMemView MmapAllocation::Release() {
+  auto view = MutView();
+  Reset();
+  return view;
 }
 
 void MmapAllocation::Reset() {

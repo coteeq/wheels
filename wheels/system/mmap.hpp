@@ -51,6 +51,8 @@ class MmapAllocation : public NonCopyable {
 
   void Deallocate();
 
+  MutableMemView Release();
+
  private:
   MmapAllocation(char* start, size_t size) : start_(start), size_(size) {
   }
