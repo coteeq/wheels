@@ -40,7 +40,7 @@ MmapAllocation MmapAllocation::AllocatePages(size_t count) {
   return MmapAllocation{(char*)start, size};
 }
 
-MmapAllocation MmapAllocation::From(MutableMemView view) {
+MmapAllocation MmapAllocation::Acquire(MutableMemView view) {
   // TODO: check size and alignment
   return MmapAllocation{view.Data(), view.Size()};
 }

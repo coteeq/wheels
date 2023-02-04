@@ -15,7 +15,7 @@ class MmapAllocation : public NonCopyable {
 
   // Allocate `count` pages of zeroed memory
   static MmapAllocation AllocatePages(size_t count);
-  static MmapAllocation From(MutableMemView view);
+  static MmapAllocation Acquire(MutableMemView view);
 
   // Moving
   MmapAllocation(MmapAllocation&& that);
