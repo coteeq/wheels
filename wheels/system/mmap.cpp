@@ -1,6 +1,6 @@
-#include <wheels/memory/mmap_allocation.hpp>
+#include <wheels/system/mmap.hpp>
 
-#include <wheels/memory/page_size.hpp>
+#include <wheels/system/page_size.hpp>
 
 #include <wheels/core/assert.hpp>
 

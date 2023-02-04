@@ -1,4 +1,4 @@
-#include <wheels/memory/page_size.hpp>
+#include <wheels/system/page_size.hpp>
 
 #include <unistd.h>
 
