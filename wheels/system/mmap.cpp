@@ -55,14 +55,14 @@ MmapAllocation::MmapAllocation(MmapAllocation&& that) {
 }
 
 MmapAllocation& MmapAllocation::operator=(MmapAllocation&& that) {
-  Release();
+  Deallocate();
   start_ = that.start_;
   size_ = that.size_;
   that.Reset();
   return *this;
 }
 
-void MmapAllocation::Release() {
+void MmapAllocation::Deallocate() {
   if (start_ == nullptr) {
     return;
   }

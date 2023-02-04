@@ -15,13 +15,14 @@ class MmapAllocation : public NonCopyable {
 
   // Allocate `count` pages of zeroed memory
   static MmapAllocation AllocatePages(size_t count);
+  static MmapAllocation From(MutableMemView view);
 
   // Moving
   MmapAllocation(MmapAllocation&& that);
   MmapAllocation& operator=(MmapAllocation&& that);
 
   ~MmapAllocation() {
-    Release();
+    Deallocate();
   }
 
   char* Start() const {
@@ -40,7 +41,7 @@ class MmapAllocation : public NonCopyable {
     return {start_, size_};
   }
 
-  MutableMemView View() {
+  MutableMemView MutView() {
     return {start_, size_};
   }
 
@@ -48,7 +49,7 @@ class MmapAllocation : public NonCopyable {
   // Protected pages cannot be read, written or executed
   void ProtectPages(size_t start_index, size_t count);
 
-  void Release();
+  void Deallocate();
 
  private:
   MmapAllocation(char* start, size_t size) : start_(start), size_(size) {
