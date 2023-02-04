@@ -3,7 +3,7 @@
 #include <wheels/memory/view.hpp>
 #include <wheels/memory/view_of.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 using wheels::MmapAllocation;
 using wheels::MutableMemView;

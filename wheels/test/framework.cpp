@@ -1,4 +1,4 @@
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <wheels/core/exception.hpp>
 #include <wheels/core/string_builder.hpp>

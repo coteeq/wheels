@@ -6,7 +6,7 @@
 
 #include <wheels/test/helpers.hpp>
 #include <wheels/test/here.hpp>
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 #include <wheels/test/runtime.hpp>
 
 #include <wheels/logging/logging.hpp>

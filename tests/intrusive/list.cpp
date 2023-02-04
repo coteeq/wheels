@@ -1,6 +1,6 @@
 #include <wheels/intrusive/list.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 using namespace wheels;
 

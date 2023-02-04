@@ -1,6 +1,6 @@
 #include <wheels/system/env.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <iostream>
 
