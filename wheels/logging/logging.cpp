@@ -1,6 +1,6 @@
 #include <wheels/logging/logging.hpp>
 
-#include <wheels/core/sanitizers.hpp>
+#include <wheels/support/leaks.hpp>
 
 #include <atomic>
 #include <chrono>

@@ -1,12 +1,10 @@
 #pragma once
 
+#if __has_feature(address_sanitizer)
+
 #include <sanitizer/lsan_interface.h>
 
 namespace wheels {
-
-// Leaks
-
-#if __has_feature(address_sanitizer)
 
 // Mark intentional memory leak
 // The heap object referenced by pointer 'ptr' will be annotated as a leak.
@@ -17,7 +15,11 @@ inline void MarkLeakingObjectPtr(void* ptr) {
 
 using LeaksScope = __lsan::ScopedDisabler;
 
+}  // namespace wheels
+
 #else
+
+namespace wheels {
 
 inline void MarkLeakingObjectPtr(void*) {
 }
@@ -29,6 +31,6 @@ struct LeaksScope {
   }
 };
 
-#endif
-
 }  // namespace wheels
+
+#endif
