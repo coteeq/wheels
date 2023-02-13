@@ -191,18 +191,18 @@ TEST_SUITE(IntrusiveForwardList) {
     ASSERT_EQ(second->data, "World");
   }
 
-  SIMPLE_TEST(HasItems) {
+  SIMPLE_TEST(NonEmpty) {
     IntrusiveForwardList<Item> list;
 
     ASSERT_TRUE(list.IsEmpty());
-    ASSERT_FALSE(list.HasItems());
+    ASSERT_FALSE(list.NonEmpty());
 
     Item hello("Hello");
 
     list.PushBack(&hello);
 
     ASSERT_FALSE(list.IsEmpty());
-    ASSERT_TRUE(list.HasItems());
+    ASSERT_TRUE(list.NonEmpty());
 
     list.PopFront();
   }
