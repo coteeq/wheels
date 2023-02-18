@@ -4,7 +4,6 @@
 #include <mutex>
 
 namespace wheels {
-namespace detail {
 
 static std::mutex mutex;
 
@@ -17,5 +16,4 @@ void Panic(SourceLocation where, const std::string& error) {
   std::abort();
 }
 
-}  // namespace detail
 }  // namespace wheels
