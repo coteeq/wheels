@@ -1,6 +1,5 @@
 #include <wheels/test/framework.hpp>
 #include <wheels/test/fail_handler.hpp>
-#include <wheels/test/iterate.hpp>
 #include <wheels/test/util.hpp>
 #include <wheels/test/util/cpu_time_budget.hpp>
 
@@ -92,13 +91,6 @@ TEST_SUITE(TestFramework) {
       // KeepRunning
       std::this_thread::sleep_for(10ms);
     }
-  }
-
-  ITERATE_TEST(Iterations, 3s) {
-    std::this_thread::sleep_for(50ms);
-    std::cout << "Iteration: " <<
-              wheels::test::TestIteration() << std::endl;
-    std::cout << "Hash: " << wheels::test::TestIterationHash() << std::endl;
   }
 
   TEST(ForceFork, wheels::test::TestOptions().ForceFork()) {
