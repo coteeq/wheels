@@ -1,11 +1,14 @@
 #include <wheels/test/framework.hpp>
 #include <wheels/test/fail_handler.hpp>
-#include <wheels/test/util.hpp>
 #include <wheels/test/util/cpu_time_budget.hpp>
 
 #include <wheels/system/quick_exit.hpp>
 
+#include <wheels/core/stop_watch.hpp>
+
 #include <thread>
+
+using namespace std::chrono_literals;
 
 class Registrar {
  public:
@@ -97,16 +100,11 @@ TEST_SUITE(TestFramework) {
     wheels::QuickExit(0);
   }
 
-  TEST(KeepRunning, wheels::test::TestOptions().TimeLimit(1s)) {
-    while (wheels::test::KeepRunning()) {
-      std::this_thread::yield();
-    }
-  }
-
   TEST(CpuTimeBudget, wheels::test::TestOptions().TimeLimit(1s)) {
     wheels::test::CpuTimeBudgetGuard g{100ms};
 
-    while (wheels::test::KeepRunning()) {
+    wheels::StopWatch stop_watch;
+    while (stop_watch.Elapsed() < 256ms) {
       std::this_thread::sleep_for(1ms);
     }
 
