@@ -9,7 +9,6 @@ option(WHEELS_DEVELOPER "Wheels development mode" OFF)
 include(cmake/CompileOptions.cmake)
 
 include(cmake/Platform.cmake)
-include(cmake/Processor.cmake)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 
