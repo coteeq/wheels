@@ -201,7 +201,7 @@ class Logger {
   void AwaitFlush() {
     size_t write_count = write_count_.load();
 
-    while (write_count_.load() >= write_count + 2) {
+    while (write_count_.load() < write_count + 2) {
       std::this_thread::yield();
     }
   }
@@ -215,6 +215,7 @@ class Logger {
         Write(events);
         ++write_count_;
       } else {
+        ++write_count_;
         std::this_thread::sleep_for(kPollPeriod);
       }
     }
