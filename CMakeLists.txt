@@ -6,8 +6,9 @@ include(cmake/Logging.cmake)
 option(WHEELS_TESTS "Enable wheels tests" OFF)
 option(WHEELS_DEVELOPER "Wheels development mode" OFF)
 
-include(cmake/CompileOptions.cmake)
+add_subdirectory(third_party)
 
+include(cmake/CompileOptions.cmake)
 include(cmake/Platform.cmake)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")

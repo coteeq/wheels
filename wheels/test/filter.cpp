@@ -1,7 +1,5 @@
 #include <wheels/test/filter.hpp>
 
-#include <wheels/cmdline/argparse.hpp>
-
 #include <regex>
 
 namespace wheels::test {
@@ -22,10 +20,7 @@ class RegexTestFilter : public ITestFilter {
   std::regex test_;
 };
 
-ITestFilterPtr CreateTestFilter(const ParsedArgs& args) {
-  const auto suite = args.Get("suite");
-  const auto test = args.Get("test");
-
+ITestFilterPtr CreateTestFilter(std::string suite, std::string test) {
   return std::make_shared<RegexTestFilter>(suite, test);
 }
 

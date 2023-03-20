@@ -6,6 +6,8 @@
 #include <wheels/test/fork.hpp>
 
 #include <wheels/test/support/sanitizers.hpp>
+
+#include <wheels/core/assert.hpp>
 #include <wheels/core/exception.hpp>
 #include <wheels/core/stop_watch.hpp>
 
@@ -88,7 +90,7 @@ void Runtime::PrintSanitizerInfo() {
 
 void Runtime::PrintTestFrameworkOptions(const GlobalOptions& options) {
   if (options.forks) {
-    std::cout << "Run tests in subprocesses (set --disable-forks flag to "
+    std::cout << "Run tests in subprocesses (set --disable_forks flag to "
                  "disable forks)"
               << std::endl;
   } else {

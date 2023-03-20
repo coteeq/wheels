@@ -2,38 +2,27 @@
 
 #include <wheels/test/runtime.hpp>
 
-#include <wheels/cmdline/argparse.hpp>
+#include <gflags/gflags.h>
 
 namespace wheels::test {
 
-static GlobalOptions MakeOptions(const ParsedArgs& args) {
+static GlobalOptions MakeOptions(bool forks, bool no_time_limits) {
   GlobalOptions options;
-  options.forks = !args.HasFlag("disable-forks");
-  options.disable_time_limits = args.HasFlag("disable-time-limits");
+  options.forks = forks;
+  options.disable_time_limits = no_time_limits;
   return options;
 }
 
-static void CLI(ArgumentParser& parser) {
-  parser.AddHelpFlag();
-  // Filter
-  parser.Add("suite").ValueDescr("REGEXP").WithDefault(".*").Help(
-      "Test suite name filter");
-  parser.Add("test").ValueDescr("REGEXP").WithDefault(".*").Help(
-      "Test name filter");
-  parser.Add("disable-forks")
-      .Flag()
-      .Help("Do not execute tests in subprocesses");
-  parser.Add("disable-time-limits").Flag();
-}
+DEFINE_string(suite, ".*", "Regexp for test suite name");
+DEFINE_string(test, ".*", "Regexp for test name");
+DEFINE_bool(disable_forks, false, "Do not fork tests");
+DEFINE_bool(disable_time_limits, false, "Disable time limits (for debugging)");
 
-void RunTestsMain(int argc, const char** argv) {
-  ArgumentParser parser{"Wheels test runner"};
-  CLI(parser);
+void RunTestsMain(int argc, char** argv) {
+  gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-  const auto args = parser.Parse(argc, argv);
-
-  auto filter = CreateTestFilter(args);
-  auto options = MakeOptions(args);
+  auto filter = CreateTestFilter(FLAGS_suite, FLAGS_test);
+  auto options = MakeOptions(!FLAGS_disable_forks, FLAGS_disable_time_limits);
 
   Runtime::Access().RunTests(filter, options);
 }

@@ -110,7 +110,7 @@ void RegisterTest(ITestPtr test);
 }  // namespace wheels::test
 
 #define RUN_ALL_TESTS()                                \
-  int main(int argc, const char** argv) {              \
+  int main(int argc, char** argv) {                    \
     wheels::test::RunTestsMain(argc, argv);            \
     return EXIT_SUCCESS;                               \
   }

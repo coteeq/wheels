@@ -2,6 +2,6 @@
 
 namespace wheels::test {
 
-void RunTestsMain(int argc, const char** argv);
+void RunTestsMain(int argc, char** argv);
 
 }  // namespace wheels::test

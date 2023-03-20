@@ -2,8 +2,6 @@
 
 #include <wheels/test/test.hpp>
 
-#include <wheels/cmdline/argparse.hpp>
-
 #include <memory>
 
 namespace wheels::test {
@@ -17,6 +15,6 @@ class ITestFilter {
 
 using ITestFilterPtr = std::shared_ptr<ITestFilter>;
 
-ITestFilterPtr CreateTestFilter(const ParsedArgs& args);
+ITestFilterPtr CreateTestFilter(std::string suite, std::string test);
 
 }  // namespace wheels::test
