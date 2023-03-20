@@ -12,8 +12,13 @@ class ProcessCPUTimer {
     Reset();
   }
 
+  std::chrono::microseconds Spent() const {
+    return std::chrono::microseconds(SpentMicros());
+  }
+
+  // Backward compatibility
   std::chrono::microseconds Elapsed() const {
-    return std::chrono::microseconds(ElapsedMicros());
+    return Spent();
   }
 
   void Reset() {
@@ -21,7 +26,7 @@ class ProcessCPUTimer {
   }
 
  private:
-  size_t ElapsedMicros() const {
+  size_t SpentMicros() const {
     const size_t clocks = std::clock() - start_ts_;
     return ClocksToMicros(clocks);
   }
@@ -44,8 +49,13 @@ class ThreadCPUTimer {
     Reset();
   }
 
+  std::chrono::nanoseconds Spent() const {
+    return std::chrono::nanoseconds(SpentNanos());
+  }
+
+  // Backward compatibility
   std::chrono::nanoseconds Elapsed() const {
-    return std::chrono::nanoseconds(ElapsedNanos());
+    return Spent();
   }
 
   void Reset() {
@@ -53,7 +63,7 @@ class ThreadCPUTimer {
   }
 
  private:
-  uint64_t ElapsedNanos() const {
+  uint64_t SpentNanos() const {
     struct timespec now;
     clock_gettime(CLOCK_THREAD_CPUTIME_ID, &now);
 

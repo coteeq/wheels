@@ -14,11 +14,11 @@ class CpuTimeBudgetGuard {
       : budget_(budget) {}
 
   std::chrono::nanoseconds Usage() const {
-    return timer_.Elapsed();
+    return timer_.Spent();
   }
 
   ~CpuTimeBudgetGuard() {
-    ASSERT_TRUE(timer_.Elapsed() < budget_);
+    ASSERT_TRUE(timer_.Spent() < budget_);
   }
 
  private:
