@@ -4,6 +4,11 @@
 
 #include <gflags/gflags.h>
 
+DEFINE_string(suite, ".*", "Regexp for test suite name");
+DEFINE_string(test, ".*", "Regexp for test name");
+DEFINE_bool(disable_forks, false, "Do not fork tests");
+DEFINE_bool(disable_time_limits, false, "Disable time limits (for debugging)");
+
 namespace wheels::test {
 
 static GlobalOptions MakeOptions(bool forks, bool no_time_limits) {
@@ -12,11 +17,6 @@ static GlobalOptions MakeOptions(bool forks, bool no_time_limits) {
   options.disable_time_limits = no_time_limits;
   return options;
 }
-
-DEFINE_string(suite, ".*", "Regexp for test suite name");
-DEFINE_string(test, ".*", "Regexp for test name");
-DEFINE_bool(disable_forks, false, "Do not fork tests");
-DEFINE_bool(disable_time_limits, false, "Disable time limits (for debugging)");
 
 void RunTestsMain(int argc, char** argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
