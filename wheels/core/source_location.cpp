@@ -5,8 +5,7 @@ namespace wheels {
 // Format: {file}:{function}[Line {line_number}]
 
 std::ostream& operator<<(std::ostream& out, const SourceLocation& where) {
-  out << where.File() << ":" << where.Function() << "[Line " << where.Line()
-      << "]";
+  out << where.File() << ":" << where.Line() << " at " << where.Function();
   return out;
 }
 

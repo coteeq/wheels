@@ -8,6 +8,9 @@
 #include <mutex>
 #include <sstream>
 #include <thread>
+#include <time.h>
+#include <fmt/format.h>
+#include <fmt/chrono.h>
 
 #include <pthread.h>
 
@@ -23,9 +26,24 @@ struct LogEvent {
   std::thread::id thread_id_;
   SourceLocation where_;
   std::string message_;
+  struct timespec timestamp_;
+  LogLevel level_;
 
   std::atomic<LogEvent*> next_;
 };
+
+#define CASE(level) case LogLevel::level: { return (#level)[0]; }
+char ToChar(LogLevel level) {
+  switch (level) {
+    CASE(Trace)
+    CASE(Debug)
+    CASE(Info)
+    CASE(Warning)
+    CASE(Error)
+    CASE(Critical)
+  }
+}
+#undef CASE
 
 //////////////////////////////////////////////////////////////////////
 
@@ -157,13 +175,15 @@ class Logger {
     writer_thread_ = std::thread([this]() { WriteLoop(); });
   }
 
-  void Append(SourceLocation&& where, std::string&& message) {
+  void Append(SourceLocation&& where, LogLevel level, std::string&& message) {
     auto* event = AllocateEvent();
 
     // fill log event
     event->where_ = where;
     event->message_ = std::move(message);
     event->thread_id_ = std::this_thread::get_id();
+    clock_gettime(CLOCK_REALTIME_COARSE, &event->timestamp_);
+    event->level_ = level;
 
     pending_events_.Enqueue(event);
   }
@@ -222,7 +242,7 @@ class Logger {
   }
 
   void Write(LogEvent* events) {
-    std::cout << Format(events) << std::flush;
+    std::cerr << Format(events) << std::flush;
     Release(events);
   }
 
@@ -239,7 +259,14 @@ class Logger {
   }
 
   static void Format(const LogEvent& event, std::stringstream& out) {
-    out << "[T " << event.thread_id_ << "]\t" << event.message_ << std::endl;
+    out << fmt::format(
+      "{:%H:%M:%S}.{:03d}\t{}\t{}",
+      fmt::localtime(event.timestamp_.tv_sec),
+      event.timestamp_.tv_nsec / 1'000'000,
+      ToChar(event.level_),
+      event.message_
+    );
+    out << std::endl;
   }
 
  private:
@@ -268,8 +295,8 @@ bool LevelAccepted(LogLevel level) {
   return GetLogger()->Accepted(level);
 }
 
-void LogMessage(SourceLocation where, std::string message) {
-  GetLogger()->Append(std::move(where), std::move(message));
+void LogMessage(SourceLocation where, LogLevel level, std::string message) {
+  GetLogger()->Append(std::move(where), level, std::move(message));
 }
 
 void FlushPendingLogMessages() {
