@@ -31,12 +31,17 @@ void FlushPendingLogMessages();
 
 void LogMessageSimple(std::string message);
 
+inline void FlushMaybe() {
+  // FlushPendingLogMessages();
+}
+
 //////////////////////////////////////////////////////////////////////
 
-#define _LOG_IMPL(level, ...)                                                 \
+#define _LOG_IMPL(level, ...)                                                  \
   do {                                                                         \
     if (wheels::LevelAccepted(level)) {                                        \
-      wheels::LogMessage(WHEELS_HERE, level, fmt::format(__VA_ARGS__)); \
+      wheels::LogMessage(WHEELS_HERE, level, fmt::format(__VA_ARGS__));        \
+      wheels::FlushMaybe();                                                    \
     }                                                                          \
   } while (false);
 
